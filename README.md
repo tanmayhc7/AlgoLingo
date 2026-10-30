@@ -1,4 +1,4 @@
-# Python & DSA, Visually
+# DSA Visualizer
 
 An interactive way to learn Python and data structures and algorithms, built for someone coming from C. Each lesson pairs the code with a step-by-step visual, a one-line explanation per step, and a look at what happens in memory underneath.
 
