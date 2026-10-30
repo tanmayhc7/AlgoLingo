@@ -1,5 +1,9 @@
 # DSA Visualizer
 
+**Live site: https://tanmayhc7.github.io/dsa-visualizer/**
+
+Open it in any browser, phone included. Code questions in the chapter quizzes run real Python in the browser.
+
 An interactive way to learn Python and data structures and algorithms, built for someone coming from C. Each lesson pairs the code with a step-by-step visual, a one-line explanation per step, and a look at what happens in memory underneath.
 
 ## Status
