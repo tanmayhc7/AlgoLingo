@@ -45,20 +45,22 @@
     },
     {
       title: 'Memory and arrays',
+      quiz: 'quizzes/chapter-5.html',
       blurb: 'How memory holds an array, then lists and tuples.',
       lessons: [
-        { id: 'array-memory', title: 'How memory holds an array' },
-        { id: 'lists', title: 'Lists' },
-        { id: 'tuples', title: 'Tuples' },
+        { id: 'array-memory', title: 'How memory holds an array', href: 'lessons/array-memory.html' },
+        { id: 'lists', title: 'Lists', href: 'lessons/lists.html' },
+        { id: 'tuples', title: 'Tuples', href: 'lessons/tuples.html' },
       ],
     },
     {
       title: 'Hashing',
+      quiz: 'quizzes/chapter-6.html',
       blurb: 'Hash tables built by hand, then dicts and sets.',
       lessons: [
-        { id: 'hashing', title: 'Hashing' },
-        { id: 'dicts', title: 'Dicts' },
-        { id: 'sets', title: 'Sets' },
+        { id: 'hashing', title: 'Hashing', href: 'lessons/hashing.html' },
+        { id: 'dicts', title: 'Dicts', href: 'lessons/dicts.html' },
+        { id: 'sets', title: 'Sets', href: 'lessons/sets.html' },
       ],
     },
     {
