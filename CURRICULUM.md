@@ -2,7 +2,7 @@
 
 Who this is for: an engineer who thinks in C and is learning Python's idioms and data structures from scratch. Where C makes you build things by hand, Python hands you a built-in. Every lesson shows what the built-in does for you and what it costs underneath.
 
-Status: planning only. No page has been built yet. Tick boxes as modules are agreed or finished, and tell me what to add, cut or reorder.
+Status: Phase 1 is built (22 lessons, 7 chapter quizzes). The checkboxes below are the original plan; every item is now a lesson page. Phase 2 is next.
 
 ## How every lesson is built
 

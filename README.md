@@ -8,7 +8,7 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-The step-through engine is built, with five lessons: **Compiled versus interpreted**, **Running Python programs**, **Variables and names**, **Loops** and **Comprehensions** (Python and C side by side). Chapters 1, 3 and 4 each have a **chapter quiz** (five questions: multiple choice, write, complete and debug). The full Phase 1 plan is in [CURRICULUM.md](CURRICULUM.md).
+Phase 1 is complete: all 22 lessons across 7 chapters are built, each with Python and C side by side, and every chapter ends with a **chapter quiz** (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md). Next up is Phase 2, classes and the DSA topics themselves.
 
 ## Run it
 
@@ -21,7 +21,7 @@ Controls: Step, Back, Play and Reset, or the left and right arrow keys. Dummy me
 - **Stage 1A, language basics:** compiled versus interpreted (C versus Python), variables, numbers, strings, conditions, loops, functions, shorthands, comprehensions, errors
 - **Stage 1B, collections and hashing:** how memory holds an array, lists, tuples, hashing, dicts, sets, sorting helpers, `collections`
 
-## Layout (planned)
+## Layout
 
 ```
 index.html               module map
