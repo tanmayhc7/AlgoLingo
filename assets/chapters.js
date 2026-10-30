@@ -6,10 +6,11 @@
   var CHAPTERS = [
     {
       title: 'Getting started',
+      quiz: 'quizzes/chapter-1.html',
       blurb: 'How the two languages run, and what a variable really is.',
       lessons: [
-        { id: 'compiled-vs-interpreted', title: 'Compiled versus interpreted: how C and Python run' },
-        { id: 'running-python', title: 'Running Python programs' },
+        { id: 'compiled-vs-interpreted', title: 'Compiled versus interpreted: how C and Python run', href: 'lessons/compiled-vs-interpreted.html' },
+        { id: 'running-python', title: 'Running Python programs', href: 'lessons/running-python.html' },
         { id: 'variables', title: 'Variables and names', href: 'lessons/variables.html' },
       ],
     },
@@ -23,20 +24,22 @@
     },
     {
       title: 'Control flow',
+      quiz: 'quizzes/chapter-3.html',
       blurb: 'Decisions, loops that walk over things, and reading errors.',
       lessons: [
         { id: 'conditions', title: 'Conditions' },
-        { id: 'loops', title: 'Loops' },
+        { id: 'loops', title: 'Loops', href: 'lessons/loops.html' },
         { id: 'errors', title: 'Errors and tracebacks' },
       ],
     },
     {
       title: 'Functions and shorthands',
+      quiz: 'quizzes/chapter-4.html',
       blurb: 'Functions, the idioms that replace C boilerplate, and comprehensions.',
       lessons: [
         { id: 'functions', title: 'Functions' },
         { id: 'shorthands', title: 'Shorthands and idioms' },
-        { id: 'comprehensions', title: 'Comprehensions' },
+        { id: 'comprehensions', title: 'Comprehensions', href: 'lessons/comprehensions.html' },
       ],
     },
     {
@@ -117,6 +120,11 @@
       if (!l.href) pill.appendChild(el('span', 'sr', ' (planned)'));
       list.appendChild(pill);
     });
+    if (c.quiz) {
+      var q = el('a', 'pill quiz', 'Chapter quiz');
+      q.href = base + c.quiz;
+      list.appendChild(q);
+    }
     body.appendChild(list);
     sec.appendChild(body);
     return sec;

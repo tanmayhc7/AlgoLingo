@@ -89,6 +89,7 @@
 
     steps.forEach(function (step) {
       st.err = null;
+      st.perr = null;
       st.flash = [];
       st.cflash = [];
 
@@ -112,6 +113,17 @@
           });
         } else if (kind === 'flash') {
           st.flash = op.slice(1);
+        } else if (kind === 'hold') {
+          /* kept alive by something that is not a tag, such as a list element */
+          st.objs.forEach(function (o) {
+            if (o.id === op[1]) o.held = true;
+          });
+        } else if (kind === 'release') {
+          st.objs.forEach(function (o) {
+            if (o.id === op[1]) o.held = false;
+          });
+        } else if (kind === 'err') {
+          st.perr = op[1];
         }
       });
 
@@ -142,10 +154,10 @@
         refs[n.to] = (refs[n.to] || 0) + 1;
       });
       st.objs = st.objs.filter(function (o) {
-        return refs[o.id];
+        return refs[o.id] || o.held;
       });
       st.objs.forEach(function (o) {
-        o.refs = refs[o.id];
+        o.refs = refs[o.id] || 0;
       });
 
       snaps.push(JSON.parse(JSON.stringify(st)));
@@ -247,7 +259,7 @@
     svgEl('path', { class: 'hd hd-' + kind, d: 'M0,22 V12 Q0,0 12,0 H' + (W - 12) + ' Q' + W + ',0 ' + W + ',12 V22 Z' }, e.body);
     svgEl('text', { class: 'obj-type', x: 12, y: 16 }, e.body).textContent = o.type;
     svgEl('text', { class: 'addr addr-ink', x: 56, y: 16 }, e.body).textContent = '@ ' + o.addr;
-    svgEl('text', { class: 'obj-refs', x: W - 12, y: 16, 'text-anchor': 'end' }, e.body).textContent = o.refs + (o.refs === 1 ? ' tag' : ' tags');
+    svgEl('text', { class: 'obj-refs', x: W - 12, y: 16, 'text-anchor': 'end' }, e.body).textContent = o.refs ? o.refs + (o.refs === 1 ? ' tag' : ' tags') : o.type === 'list' ? 'being built' : 'in a list';
     if (Array.isArray(o.val)) {
       o.val.forEach(function (v, i) {
         var x = 12 + i * 35;
@@ -575,6 +587,8 @@
     };
 
     $('title').textContent = L.title;
+    document.title = L.title + ' | DSA Visualizer';
+    if (L.builtinsTitle) $('api-h').textContent = L.builtinsTitle;
     $('lede').textContent = L.lede;
 
     function panel(lang, name, sub) {
@@ -661,7 +675,9 @@
       [].forEach.call(cp.code.children, function (li, n) {
         li.classList.toggle('on', n === step.cl);
       });
-      pp.cap.textContent = step.say;
+      pp.cap.textContent = '';
+      if (s.perr) pp.cap.appendChild(h('span', { class: 'err', text: s.perr }));
+      pp.cap.appendChild(document.createTextNode(step.say));
       cp.cap.textContent = '';
       if (s.err) cp.cap.appendChild(h('span', { class: 'err', text: s.err }));
       cp.cap.appendChild(document.createTextNode(step.csay));

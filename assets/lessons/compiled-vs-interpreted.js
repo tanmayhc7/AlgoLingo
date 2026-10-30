@@ -1,0 +1,145 @@
+/* Lesson data: Compiled versus interpreted. Op lists are documented at the top of variables.js.
+   Python ops can also carry ['err', message], shown above the narration. */
+window.LESSON = {
+  id: 'compiled-vs-interpreted',
+  title: 'Compiled versus interpreted',
+  builtinsTitle: 'The tradeoffs, and tools to look underneath',
+  lede:
+    'C is translated to machine code once, before the program runs. Python is translated to bytecode, and a program called the virtual machine then reads that bytecode one instruction at a time while your program runs. Everything else follows from that.',
+  scenes: [
+    {
+      id: 'add',
+      title: 'One addition, two paths',
+      blurb: 'The same x = a + b. The captions show what the machine actually does.',
+      trap: 'Python is compiled too, to bytecode. The real difference is what the type knowledge is used for: C settles types before the run, Python checks them on every instruction during the run.',
+      pyCode: ['a = 2', 'b = 3', 'x = a + b'],
+      cCode: ['int a = 2;', 'int b = 3;', 'int x = a + b;'],
+      predict: {
+        q: 'Which one has to check at run time that <code>a</code> and <code>b</code> can be added?',
+        options: ['C', 'Python'],
+        answer: 1,
+        why: 'The C compiler already saw that both are ints and emitted a plain integer add. In Python, a and b are only tags, so BINARY_OP looks at the objects each time to decide how to add them.',
+      },
+      steps: [
+        {
+          pl: -1, cl: -1,
+          say: 'Before anything runs, Python compiled this file to bytecode in memory. The virtual machine is about to read it.',
+          csay: 'Before anything runs, the compiler turned this file into machine code. The CPU is about to run it directly.',
+        },
+        {
+          pl: 0, cl: 0,
+          say: 'Bytecode: LOAD_CONST 2, STORE_NAME a. Push the object 2, then tag it a.',
+          csay: 'Machine code: one move instruction, store 2 at the address of a.',
+          py: [['obj', 'o2', 'int', '2'], ['bind', 'a', 'o2']],
+          c: [['var', 'a', 'int', '2']],
+        },
+        {
+          pl: 1, cl: 1,
+          say: 'Bytecode: LOAD_CONST 3, STORE_NAME b.',
+          csay: 'One more move instruction.',
+          py: [['obj', 'o3', 'int', '3'], ['bind', 'b', 'o3']],
+          c: [['var', 'b', 'int', '3']],
+        },
+        {
+          pl: 2, cl: 2,
+          say: 'Bytecode: LOAD_NAME a, LOAD_NAME b, BINARY_OP +, STORE_NAME x. The + looks at both objects, sees two ints, and builds a new int. Four VM instructions, each one looked up and dispatched.',
+          csay: 'Machine code: load a, add b, store x. About three CPU instructions, and no type check, because the compiler already knows these are ints.',
+          py: [['obj', 'o5', 'int', '5'], ['bind', 'x', 'o5']],
+          c: [['var', 'x', 'int', '5']],
+        },
+      ],
+    },
+    {
+      id: 'typo',
+      title: 'A mistake that has not run yet',
+      blurb: 'The branch on line 2 never executes. See who notices the mistake inside it.',
+      trap: 'In Python, a typo in code that has not run yet is invisible until the day it does. Tests and linters (pyflakes, mypy) are how you catch these early.',
+      pyCode: ['a = 5', 'if a > 10:', '    print(undefined_name)', 'print(a)'],
+      cCode: ['int a = 5;', 'if (a > 10) {', '    printf("%d", undefined_name);', '}'],
+      predict: {
+        q: 'You run the Python file. What happens?',
+        options: ['NameError before anything prints', 'It prints 5 and finishes normally'],
+        answer: 1,
+        why: 'Python only looks up undefined_name when line 3 runs, and a > 10 is false, so line 3 never runs. The C compiler checks every line before producing a program.',
+      },
+      steps: [
+        {
+          pl: -1, cl: -1,
+          say: 'Python compiled the file to bytecode. It did not check whether undefined_name exists. That lookup happens only if line 3 runs.',
+          csay: 'The C compiler reads every line, including the branch that will never run.',
+          c: [['err', 'error: use of undeclared identifier undefined_name']],
+        },
+        {
+          pl: 0, cl: -1,
+          say: 'a = 5 runs. There is nothing to compare with in C: the build failed, so there is no program to run at all.',
+          csay: 'The build stops. No executable is produced, and nothing runs. You fix the typo first.',
+          py: [['obj', 'o5', 'int', '5'], ['bind', 'a', 'o5']],
+        },
+        {
+          pl: 1, cl: -1,
+          say: 'a > 10 is false, so the body is skipped. The typo is never looked at.',
+          csay: 'If you fix the typo and rebuild, this test is false for the same reason.',
+          py: [['flash', 'o5']],
+        },
+        {
+          pl: 3, cl: -1,
+          say: 'print(a) shows 5. The program finishes with the mistake still in it. If a ever reaches 11, line 3 raises NameError, in front of a user.',
+          csay: 'Fixed and rebuilt, the same program prints nothing here: the condition is false.',
+          py: [['flash', 'o5']],
+        },
+      ],
+    },
+    {
+      id: 'wrong-type',
+      title: 'Adding the wrong kinds',
+      blurb: 'The same line on a number and a string. Each language reacts at a different time, in a different way.',
+      trap: 'C will often accept a mixed-type expression and quietly give you a number you did not mean. Python refuses, but only when the line runs. Neither one is safer in every case.',
+      pyCode: ['a = 5', 'b = "5"', 'c = a + b'],
+      cCode: ['int a = 5;', "char b = '5';", 'int c = a + b;'],
+      predict: {
+        q: 'What does the C version store in <code>c</code>?',
+        options: ['10', '58'],
+        answer: 1,
+        why: "'5' is a character, which is just a small integer: its ASCII code is 53. So c is 5 + 53 = 58. C compiles it without complaint.",
+      },
+      steps: [
+        {
+          pl: -1, cl: -1,
+          say: 'Bytecode is ready. It has no idea yet whether the + on line 3 will work.',
+          csay: 'The compiler checks types. It sees an int plus a char, and knows how to add those.',
+        },
+        {
+          pl: 0, cl: 0,
+          say: 'a = 5.',
+          csay: 'a holds 5.',
+          py: [['obj', 'o5', 'int', '5'], ['bind', 'a', 'o5']],
+          c: [['var', 'a', 'int', '5']],
+        },
+        {
+          pl: 1, cl: 1,
+          say: 'b = "5" tags a string object. It looks like a digit but it is text.',
+          csay: "A char is one byte. '5' is the byte 53, the ASCII code for the digit.",
+          py: [['obj', 's5', 'str', '"5"'], ['bind', 'b', 's5']],
+          c: [['var', 'b', 'char', '53']],
+        },
+        {
+          pl: 2, cl: 2,
+          say: 'BINARY_OP + looks at an int and a str and finds no way to add them. Python stops here.',
+          csay: 'Compiles without a warning. 5 + 53 is 58, so c holds 58. Valid C, probably not what you meant.',
+          py: [['err', "TypeError: unsupported operand type(s) for +: 'int' and 'str'"], ['flash', 'o5', 's5']],
+          c: [['var', 'c', 'int', '58']],
+        },
+      ],
+    },
+  ],
+  builtins: [
+    ['speed', 'C is usually much faster in tight loops: no bytecode dispatch, no type checks. Python code that spends its time inside NumPy or other C libraries gets most of that speed back.'],
+    ['startup and build', 'C needs a build step before every run. Python runs the file directly, which makes experiments quick.'],
+    ['when errors appear', 'C finds type and spelling mistakes at build time. Python finds them when the line runs.'],
+    ['portability', 'A C executable is tied to one kind of CPU and OS. A .py file runs anywhere there is a Python.'],
+    ['memory use', 'A C int is 4 bytes. A Python int is a full object with a header, about 28 bytes, plus the tag that points at it.'],
+    ['import dis; dis.dis(f)', 'Prints the bytecode of a function, so you can see the LOAD and STORE instructions yourself.'],
+    ['__pycache__/*.pyc', 'Where CPython saves compiled bytecode, so the next import skips the compile step.'],
+    ['PyPy, Cython, Numba', 'PyPy compiles hot loops while the program runs. Cython and Numba compile the code you mark. All three narrow the speed gap.'],
+  ],
+};

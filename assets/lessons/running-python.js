@@ -1,0 +1,133 @@
+/* Lesson data: Running Python programs. Op lists are documented at the top of variables.js. */
+window.LESSON = {
+  id: 'running-python',
+  title: 'Running Python programs',
+  builtinsTitle: 'Everyday commands and built-ins',
+  lede:
+    'No main function is required, no braces, no semicolons and no build step. A Python file is a list of statements that run from the top. This lesson covers how to run one and what the layout rules are.',
+  scenes: [
+    {
+      id: 'hello',
+      title: 'Hello, name',
+      blurb: 'The smallest useful program in each language.',
+      trap: 'There is no int main and no #include. The file starts running at its first line. print adds a newline by itself and puts a space between its arguments.',
+      pyCode: ['name = "Ada"', 'print("hello", name)'],
+      cCode: ['char *name = "Ada";', 'printf("hello %s\\n", name);'],
+      predict: {
+        q: 'What does <code>print("hello", name)</code> write?',
+        options: ['hello Ada', 'helloAda'],
+        answer: 0,
+        why: 'print puts a space between its arguments by default. Change it with sep="" or end="" if you want no space or no newline.',
+      },
+      steps: [
+        { pl: -1, cl: -1, say: 'Run it with python3 hello.py, or type the lines into the REPL one at a time.', csay: 'Run it after gcc hello.c -o hello, then ./hello.' },
+        {
+          pl: 0, cl: 0,
+          say: 'A string object is built and tagged name. Strings are objects like everything else.',
+          csay: 'name is a pointer. The characters sit elsewhere in the program, and name holds the address of the first one.',
+          py: [['obj', 's1', 'str', '"Ada"'], ['bind', 'name', 's1']],
+          c: [['arr', 'text', 'char', ['A', 'd', 'a', '\\0']], ['ptr', 'name', 'text']],
+        },
+        {
+          pl: 1, cl: 1,
+          say: 'print writes "hello Ada" and a newline. The two arguments are joined with a space.',
+          csay: 'printf needs the format %s and an explicit \\n.',
+          py: [['flash', 's1']],
+          c: [['flash', 'text']],
+        },
+      ],
+    },
+    {
+      id: 'indentation',
+      title: 'Indentation is the braces',
+      blurb: 'The block under an if is whatever is indented under it. A colon opens it, and going back to the margin closes it.',
+      trap: 'Mix tabs and spaces and Python refuses to run the file. Use four spaces everywhere and let your editor do it. A line that is indented by accident becomes part of the block.',
+      pyCode: ['n = 3', 'if n > 2:', '    print("big")', 'print("done")'],
+      cCode: ['int n = 3;', 'if (n > 2) {', '    printf("big\\n");', '}', 'printf("done\\n");'],
+      predict: {
+        q: 'If <code>print("done")</code> were indented four spaces, when would it run?',
+        options: ['Always', 'Only when n > 2'],
+        answer: 1,
+        why: 'Indentation decides which block a line belongs to. Indented under the if, it is inside the block, like putting it between the braces in C.',
+      },
+      steps: [
+        { pl: -1, cl: -1, say: 'The four spaces on line 3 are part of the program.', csay: 'Braces mark the block. The indent is only for readers.' },
+        {
+          pl: 0, cl: 0,
+          say: 'n = 3.',
+          csay: 'n holds 3.',
+          py: [['obj', 'n3', 'int', '3'], ['bind', 'n', 'n3']],
+          c: [['var', 'n', 'int', '3']],
+        },
+        {
+          pl: 1, cl: 1,
+          say: 'if n > 2 followed by a colon. 3 > 2 is true, so the indented block runs. The colon is required.',
+          csay: 'The test is in parentheses, and the block opens with a brace.',
+          py: [['flash', 'n3']],
+          c: [['flash', 'n']],
+        },
+        {
+          pl: 2, cl: 2,
+          say: 'Inside the block: print("big").',
+          csay: 'Inside the braces: printf.',
+        },
+        {
+          pl: 3, cl: 4,
+          say: 'Back at the margin, the block is over. print("done") always runs.',
+          csay: 'After the closing brace, printf("done") always runs.',
+        },
+      ],
+    },
+    {
+      id: 'main-guard',
+      title: 'Scripts and the main guard',
+      blurb: 'Python has no required main. The guard if __name__ == "__main__" is how a file says "run this only when I am the program, not when I am imported".',
+      trap: 'Without the guard, importing the file from another file runs your whole program. Put the entry point under the guard, or in main(), from the start.',
+      pyCode: ['def main():', '    print("hi")', 'if __name__ == "__main__":', '    main()'],
+      cCode: ['void run(void) { puts("hi"); }', 'int main(void) {', '    run();', '}'],
+      predict: {
+        q: 'You <code>import</code> this file from another file. What prints?',
+        options: ['hi', 'Nothing'],
+        answer: 1,
+        why: 'When a file is imported its __name__ is the module name, not "__main__". The guard is false, so main() is not called. It runs only with python3 file.py.',
+      },
+      steps: [
+        { pl: -1, cl: -1, say: 'A def statement runs, like any other line. It builds a function object and tags it.', csay: 'C knows main by name. The program starts there.' },
+        {
+          pl: 0, cl: 0,
+          say: 'def main builds a function object and tags it main. The body is not run yet.',
+          csay: 'The helper function is compiled. It is not run yet.',
+          py: [['obj', 'f1', 'func', 'main()'], ['bind', 'main', 'f1']],
+        },
+        {
+          pl: 2, cl: 1,
+          say: 'Python sets __name__ to "__main__" because this file is the one you ran. The test is true.',
+          csay: 'The operating system calls main. That is the entry point.',
+          py: [['obj', 'nm', 'str', '"__main__"'], ['bind', '__name__', 'nm']],
+        },
+        {
+          pl: 3, cl: 2,
+          say: 'main() runs the function you tagged earlier.',
+          csay: 'main calls run.',
+          py: [['flash', 'f1']],
+        },
+        {
+          pl: 1, cl: 0,
+          say: 'The body runs and prints hi.',
+          csay: 'run prints hi.',
+        },
+      ],
+    },
+  ],
+  builtins: [
+    ['python3 file.py', 'Runs a script from the top. Add -i to stay in the REPL afterwards, with the script’s names still defined.'],
+    ['python3', 'Starts the REPL: type a line, see the result at once. The fastest way to try an idea.'],
+    ['# comment', 'Everything after # is ignored. There is no /* */ block comment. A string in triple quotes at the top of a function is its docstring.'],
+    ['print(a, b, sep="-", end="")', 'sep is placed between the arguments and end is written at the finish. The defaults are a space and a newline.'],
+    ['input("prompt")', 'Reads one line from the keyboard as a string. Wrap it in int() for a number.'],
+    ['type(x)', 'Tells you what kind of object x points at.'],
+    ['dir(x)', 'Lists everything x can do. Works on any object, module or type.'],
+    ['help(x)', 'Prints the documentation for x, right in the terminal. Press q to leave.'],
+    ['pass', 'A line that does nothing. A block cannot be empty, so use pass as a placeholder.'],
+  ],
+};

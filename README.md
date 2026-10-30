@@ -4,7 +4,7 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-The step-through engine is built, with one lesson so far: **Variables and names** (four scenes, Python and C side by side). The full Phase 1 plan is in [CURRICULUM.md](CURRICULUM.md).
+The step-through engine is built, with five lessons: **Compiled versus interpreted**, **Running Python programs**, **Variables and names**, **Loops** and **Comprehensions** (Python and C side by side). Chapters 1, 3 and 4 each have a **chapter quiz** (five questions: multiple choice, write, complete and debug). The full Phase 1 plan is in [CURRICULUM.md](CURRICULUM.md).
 
 ## Run it
 
@@ -32,3 +32,7 @@ CURRICULUM.md            what each lesson covers and the open decisions
 ## Adding a lesson
 
 Copy `lessons/variables.html` and `assets/lessons/variables.js`. A lesson is plain data: for each scene, the Python and C code and a list of steps. Each step names the highlighted lines, one sentence of narration per language, and the memory changes (the op list is documented at the top of the data file). The engine handles stepping back, freeing unreferenced objects and the animation.
+
+## Chapter quizzes
+
+Each quiz is a page in `quizzes/` with its questions in `assets/quizzes/chapter-N.js`. Question types: `mcq`, `write`, `complete` (with `___` blanks) and `debug` (buggy starter code). Code answers are run in the browser with Pyodide (loaded from a CDN the first time you press Check) against the test list in the data file, so a syntax error shows up as the real Python error, and a loop that never ends is stopped. Progress is remembered on the device. Needs an internet connection for the code questions. Add a quiz by copying `quizzes/chapter-1.html` and its data file, then set `quiz:` on the chapter in `assets/chapters.js`.
