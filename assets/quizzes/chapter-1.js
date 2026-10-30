@@ -2,7 +2,7 @@
 window.QUIZ = {
   chapter: 1,
   title: 'Getting started',
-  lede: 'Covers lessons 1.1 to 1.3: how the two languages run, running Python, and names versus boxes. Two multiple choice, two debugging and one write-it-yourself.',
+  lede: 'Covers lessons 1.1 to 1.3: how the two languages run, running Python, and names versus boxes. Three multiple choice, two debugging and one write-it-yourself.',
   questions: [
     {
       type: 'mcq',
@@ -17,6 +17,13 @@ window.QUIZ = {
       options: ['Before the program starts, like a C compiler', 'Only if that line actually runs', 'Never, because Python ignores unknown names'],
       answer: 1,
       why: 'Python compiles to bytecode without looking names up. A name is looked up when its line runs, so the NameError appears only then. (Real syntax errors, like a missing colon, are caught before the program starts.)',
+    },
+    {
+      type: 'mcq',
+      q: 'A C program calls <code>p = malloc(4)</code> and later runs <code>p = malloc(4)</code> again, without ever calling <code>free</code>. What happened to the first block?',
+      options: ['It was freed automatically when p moved', 'It stays allocated but nothing can reach it: a leak', 'It was moved to the stack'],
+      answer: 1,
+      why: 'C never frees anything for you. The only pointer to the first block was overwritten, so the block stays allocated, unreachable, until the program ends. Python frees an object as soon as its last tag moves away.',
     },
     {
       type: 'debug',

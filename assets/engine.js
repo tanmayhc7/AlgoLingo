@@ -76,10 +76,13 @@
     function hex(n) {
       return '0x' + n.toString(16);
     }
-    function alloc(size, align) {
-      cursor = Math.ceil(cursor / align) * align;
-      var a = cursor;
-      cursor += size;
+    var cursors = { stack: 0x1000, static: 0x4000, heap: 0x8000 };
+    function alloc(size, align, region) {
+      var k = region || 'stack';
+      if (k === 'heap') align = Math.max(align, 16);
+      cursors[k] = Math.ceil(cursors[k] / align) * align;
+      var a = cursors[k];
+      cursors[k] += size;
       return hex(a);
     }
     function row(name) {
@@ -132,15 +135,34 @@
         var r = op[1] && row(op[1]);
         if (kind === 'var') {
           if (r) r.val = op[3];
-          else st.rows.push({ name: op[1], kind: 'var', type: op[2], val: op[3], addr: alloc(4, 4) });
+          else st.rows.push({ name: op[1], kind: 'var', type: op[2], val: op[3], region: op[4] || 'stack', addr: alloc(4, 4, op[4]) });
         } else if (kind === 'setv') {
           r.val = op[2];
         } else if (kind === 'arr') {
-          st.rows.push({ name: op[1], kind: 'arr', type: op[2], vals: op[3].slice(), addr: alloc(op[3].length * 4, 4) });
+          st.rows.push({ name: op[1], kind: 'arr', type: op[2], vals: op[3].slice(), region: op[4] || 'stack', addr: alloc(op[3].length * 4, 4, op[4]) });
         } else if (kind === 'seti') {
           r.vals[op[2]] = op[3];
         } else if (kind === 'ptr') {
-          st.rows.push({ name: op[1], kind: 'ptr', type: 'int', to: op[2], addr: alloc(8, 8) });
+          /* ['ptr', name, target, region?]: makes the pointer, or points an existing one somewhere else */
+          if (r) {
+            r.to = op[2];
+            r.freed = null;
+          } else st.rows.push({ name: op[1], kind: 'ptr', type: 'int', to: op[2], region: op[3] || 'stack', addr: alloc(8, 8, op[3]) });
+        } else if (kind === 'null') {
+          r.to = null;
+          r.freed = null;
+        } else if (kind === 'drop') {
+          /* free(): the block goes away, and any pointer to it keeps the old address, now dangling */
+          var gone = r;
+          st.rows = st.rows.filter(function (x) {
+            return x.name !== op[1];
+          });
+          st.rows.forEach(function (x) {
+            if (x.kind === 'ptr' && x.to === op[1]) {
+              x.to = null;
+              x.freed = gone.addr;
+            }
+          });
         } else if (kind === 'err') {
           st.err = op[1];
         } else if (kind === 'flash') {
@@ -445,7 +467,7 @@
             return x.name === r.to;
           })[0]
         : null;
-    var sig = JSON.stringify([r.kind, r.val, r.vals, target && target.addr]);
+    var sig = JSON.stringify([r.kind, r.val, r.vals, target && target.addr, r.region, r.freed, r.to]);
     if (e.sig === sig) return;
     var changed = e.sig !== null;
     e.sig = sig;
@@ -466,7 +488,10 @@
       width = r.vals.length * C.CELL;
     } else if (r.kind === 'ptr') {
       crate(e.body, 0, 150, 8, 'c-box-ptr');
-      svgEl('text', { class: 'c-text', x: 75, y: 46, 'text-anchor': 'middle' }, e.body).textContent = target ? target.addr : '0x0';
+      svgEl('text', { class: 'c-text' + (r.freed ? ' c-bad' : ''), x: 75, y: 46, 'text-anchor': 'middle' }, e.body).textContent = target
+        ? target.addr
+        : r.freed || 'NULL';
+      if (r.freed) svgEl('text', { class: 'c-region r-bad', x: 150, y: 12, 'text-anchor': 'end' }, e.body).textContent = 'dangling';
       svgEl('text', { class: 'addr', x: 0, y: 76 }, e.body).textContent = '@ ' + r.addr;
       width = 150;
     } else {
@@ -475,12 +500,16 @@
       svgEl('text', { class: 'addr', x: 0, y: 76 }, e.body).textContent = '@ ' + r.addr;
       width = 118;
     }
+    if (r.region && r.region !== 'stack') {
+      svgEl('text', { class: 'c-region r-' + r.region, x: width, y: 12, 'text-anchor': 'end' }, e.body).textContent = r.region;
+    }
     e.width = width;
     if (changed) restart(e.body, 'bump');
   };
 
   CStage.prototype.apply = function (st) {
     var self = this;
+    this.root.setAttribute('viewBox', '0 0 ' + C.W + ' ' + Math.max(C.H, 16 + st.rows.length * C.GAP));
     var live = {};
     st.rows.forEach(function (r) {
       live[r.name] = true;
