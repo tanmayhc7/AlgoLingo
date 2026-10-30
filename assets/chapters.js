@@ -87,28 +87,34 @@
     return out;
   }
 
-  /* One chapter as a card with its lessons. `base` is '' on the home page and '../' inside lessons/. */
+  /* One chapter as a row: a big number, the title, and a pill per lesson.
+     `base` is '' on the home page and '../' inside lessons/. */
   function chapterCard(c, ci, base, currentId) {
-    var sec = el('section', 'card chapter');
-    sec.appendChild(el('h2', '', 'Chapter ' + (ci + 1) + ': ' + c.title));
-    sec.appendChild(el('p', 'sub', c.blurb));
-    var ol = el('ol');
+    var sec = el('section', 'chapter');
+    sec.appendChild(el('div', 'chapter-num', String(ci + 1)));
+    var body = el('div', 'chapter-body');
+    body.appendChild(el('h2', '', c.title));
+    body.appendChild(el('p', 'sub', c.blurb));
+    var list = el('div', 'lessons');
     c.lessons.forEach(function (l, li) {
-      var item = el('li');
-      item.appendChild(el('span', 'num', ci + 1 + '.' + (li + 1)));
-      var title;
-      if (l.href && l.id !== currentId) {
-        title = el('a', '', l.title);
-        title.href = base + l.href;
+      var pill;
+      var n = el('span', 'n', ci + 1 + '.' + (li + 1));
+      if (l.id === currentId) {
+        pill = el('span', 'pill here');
+        pill.setAttribute('aria-current', 'page');
+      } else if (l.href) {
+        pill = el('a', 'pill ready');
+        pill.href = base + l.href;
       } else {
-        title = el('span', l.id === currentId ? 'here' : '', l.title);
-        if (l.id === currentId) title.setAttribute('aria-current', 'page');
+        pill = el('span', 'pill');
       }
-      item.appendChild(title);
-      item.appendChild(el('span', 'chip' + (l.href ? ' ready' : ''), l.href ? (l.id === currentId ? 'You are here' : 'Ready') : 'Planned'));
-      ol.appendChild(item);
+      pill.appendChild(n);
+      pill.appendChild(document.createTextNode(l.title));
+      if (!l.href) pill.appendChild(el('span', 'sr', ' (planned)'));
+      list.appendChild(pill);
     });
-    sec.appendChild(ol);
+    body.appendChild(list);
+    sec.appendChild(body);
     return sec;
   }
 

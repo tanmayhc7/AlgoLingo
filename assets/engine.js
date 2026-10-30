@@ -7,7 +7,6 @@
 
   var NS = 'http://www.w3.org/2000/svg';
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var EASE = reduce ? 1 : 0.2;
 
   /* ---------- small helpers ---------- */
 
@@ -51,6 +50,18 @@
     });
   }
 
+  /* Restart a one-shot CSS animation class. */
+  function restart(el, cls, ms) {
+    el.classList.remove(cls);
+    void el.getBoundingClientRect();
+    el.classList.add(cls);
+    if (ms) {
+      setTimeout(function () {
+        el.classList.remove(cls);
+      }, ms);
+    }
+  }
+
   /* ---------- steps -> snapshots ---------- */
 
   function buildSnapshots(steps) {
@@ -71,7 +82,6 @@
       cursor += size;
       return hex(a);
     }
-
     function row(name) {
       for (var i = 0; i < st.rows.length; i++) if (st.rows[i].name === name) return st.rows[i];
       return null;
@@ -85,13 +95,7 @@
       (step.py || []).forEach(function (op) {
         var kind = op[0];
         if (kind === 'obj') {
-          st.objs.push({
-            id: op[1],
-            type: op[2],
-            val: op[3],
-            refs: 0,
-            addr: hex(0x2000 + objCount++ * 0x20),
-          });
+          st.objs.push({ id: op[1], type: op[2], val: op[3], refs: 0, addr: hex(0x2000 + objCount++ * 0x20) });
         } else if (kind === 'bind') {
           var t = st.names.filter(function (n) {
             return n.name === op[1];
@@ -116,34 +120,15 @@
         var r = op[1] && row(op[1]);
         if (kind === 'var') {
           if (r) r.val = op[3];
-          else
-            st.rows.push({
-              name: op[1],
-              kind: 'var',
-              type: op[2],
-              val: op[3],
-              addr: alloc(4, 4),
-            });
+          else st.rows.push({ name: op[1], kind: 'var', type: op[2], val: op[3], addr: alloc(4, 4) });
         } else if (kind === 'setv') {
           r.val = op[2];
         } else if (kind === 'arr') {
-          st.rows.push({
-            name: op[1],
-            kind: 'arr',
-            type: op[2],
-            vals: op[3].slice(),
-            addr: alloc(op[3].length * 4, 4),
-          });
+          st.rows.push({ name: op[1], kind: 'arr', type: op[2], vals: op[3].slice(), addr: alloc(op[3].length * 4, 4) });
         } else if (kind === 'seti') {
           r.vals[op[2]] = op[3];
         } else if (kind === 'ptr') {
-          st.rows.push({
-            name: op[1],
-            kind: 'ptr',
-            type: 'int',
-            to: op[2],
-            addr: alloc(8, 8),
-          });
+          st.rows.push({ name: op[1], kind: 'ptr', type: 'int', to: op[2], addr: alloc(8, 8) });
         } else if (kind === 'err') {
           st.err = op[1];
         } else if (kind === 'flash') {
@@ -168,7 +153,7 @@
     return snaps;
   }
 
-  /* ---------- animation loop shared by both stages ---------- */
+  /* ---------- animation loop shared by every stage ---------- */
 
   var stages = [];
   var raf = 0;
@@ -185,14 +170,23 @@
     if (!raf) raf = requestAnimationFrame(tick);
   }
 
-  function ease(e, key, target) {
+  /* A spring: things overshoot a little and settle, which makes a tag swinging to a new object read as physical. */
+  function spring(e, key, target) {
+    var vk = 'v_' + key;
     var d = target - e[key];
-    if (Math.abs(d) > 0.3) {
-      e[key] += d * EASE;
-      return true;
+    if (reduce) {
+      e[key] = target;
+      e[vk] = 0;
+      return false;
     }
-    e[key] = target;
-    return false;
+    e[vk] = ((e[vk] || 0) + d * 0.14) * 0.76;
+    e[key] += e[vk];
+    if (Math.abs(d) < 0.15 && Math.abs(e[vk]) < 0.15) {
+      e[key] = target;
+      e[vk] = 0;
+      return false;
+    }
+    return true;
   }
 
   function leave(e) {
@@ -200,21 +194,6 @@
     setTimeout(function () {
       e.g.remove();
     }, 520);
-  }
-
-  function flashEl(el) {
-    el.classList.remove('flash');
-    void el.getBoundingClientRect();
-    el.classList.add('flash');
-    setTimeout(function () {
-      el.classList.remove('flash');
-    }, 950);
-  }
-
-  function bumpEl(el) {
-    el.classList.remove('bump');
-    void el.getBoundingClientRect();
-    el.classList.add('bump');
   }
 
   function marker(root, id, cls) {
@@ -227,17 +206,19 @@
     svgEl('path', { d: 'M0,0 L10,5 L0,10 z', class: cls }, m);
   }
 
-  /* ---------- Python stage: tags, objects, arrows ---------- */
+  /* ---------- Python stage: tags, objects, strings ---------- */
 
-  var P = { W: 420, H: 250, TAG_X: 10, TAG_W: 112, TAG_H: 44, OBJ_X: 236, OBJ_W: 174, OBJ_H: 58, GAP: 80, TAG_GAP: 76 };
+  var P = { W: 420, H: 262, TAG_X: 10, TAG_W: 112, TAG_H: 44, OBJ_X: 236, OBJ_W: 174, OBJ_H: 62, GAP: 84, TAG_GAP: 80 };
 
   function PyStage(root) {
     this.root = root;
     root.setAttribute('viewBox', '0 0 ' + P.W + ' ' + P.H);
-    marker(root, 'ah-py', 'ah');
+    marker(root, 'ah-py-' + stages.length, 'ah');
+    this.markerId = 'ah-py-' + stages.length;
     this.la = svgEl('g', {}, root);
     this.lo = svgEl('g', {}, root);
     this.lt = svgEl('g', {}, root);
+    this.lf = svgEl('g', {}, root);
     this.objs = new Map();
     this.tags = new Map();
     this.arrows = new Map();
@@ -248,6 +229,7 @@
     this.la.textContent = '';
     this.lo.textContent = '';
     this.lt.textContent = '';
+    this.lf.textContent = '';
     this.objs.clear();
     this.tags.clear();
     this.arrows.clear();
@@ -258,26 +240,48 @@
     if (e.sig === sig) return;
     var changed = e.sig !== null;
     e.sig = sig;
+    var W = P.OBJ_W;
     e.body.textContent = '';
-    svgEl('rect', { class: 'obj-box', width: P.OBJ_W, height: P.OBJ_H, rx: 10 }, e.body);
-    var t = svgEl('text', { class: 'obj-type', x: 12, y: 18 }, e.body);
-    t.textContent = o.type;
-    var r = svgEl('text', { class: 'obj-refs', x: P.OBJ_W - 12, y: 18, 'text-anchor': 'end' }, e.body);
-    r.textContent = o.refs + (o.refs === 1 ? ' tag' : ' tags');
+    svgEl('rect', { class: 'obj-card', width: W, height: P.OBJ_H, rx: 12 }, e.body);
+    var kind = { int: 'int', str: 'str', list: 'list' }[o.type] || 'int';
+    svgEl('path', { class: 'hd hd-' + kind, d: 'M0,22 V12 Q0,0 12,0 H' + (W - 12) + ' Q' + W + ',0 ' + W + ',12 V22 Z' }, e.body);
+    svgEl('text', { class: 'obj-type', x: 12, y: 16 }, e.body).textContent = o.type;
+    svgEl('text', { class: 'addr addr-ink', x: 56, y: 16 }, e.body).textContent = '@ ' + o.addr;
+    svgEl('text', { class: 'obj-refs', x: W - 12, y: 16, 'text-anchor': 'end' }, e.body).textContent = o.refs + (o.refs === 1 ? ' tag' : ' tags');
     if (Array.isArray(o.val)) {
       o.val.forEach(function (v, i) {
         var x = 12 + i * 35;
-        svgEl('rect', { class: 'cell', x: x, y: 25, width: 32, height: 26, rx: 6 }, e.body);
-        var ct = svgEl('text', { class: 'cell-text', x: x + 16, y: 43, 'text-anchor': 'middle' }, e.body);
-        ct.textContent = v;
+        svgEl('rect', { class: 'cell', x: x, y: 30, width: 32, height: 26, rx: 7 }, e.body);
+        svgEl('text', { class: 'cell-text', x: x + 16, y: 48, 'text-anchor': 'middle' }, e.body).textContent = v;
       });
     } else {
-      var v = svgEl('text', { class: 'obj-val', x: 12, y: 47 }, e.body);
-      v.textContent = o.val;
+      svgEl('text', { class: 'obj-val', x: 12, y: 54 }, e.body).textContent = o.val;
     }
-    var a = svgEl('text', { class: 'addr', x: 54, y: 18 }, e.body);
-    a.textContent = '@ ' + o.addr;
-    if (changed) bumpEl(e.body);
+    if (changed) restart(e.body, 'bump');
+  };
+
+  PyStage.prototype.burst = function (e) {
+    if (reduce) return;
+    var cx = e.x + P.OBJ_W / 2;
+    var cy = e.y + P.OBJ_H / 2;
+    var lf = this.lf;
+    function gone(n, ms) {
+      setTimeout(function () {
+        n.remove();
+      }, ms);
+    }
+    for (var i = 0; i < 10; i++) {
+      var ang = (i / 10) * Math.PI * 2;
+      var dist = 46 + (i % 3) * 16;
+      var c = svgEl('circle', { class: 'puff', cx: cx, cy: cy, r: 3 + (i % 3) }, lf);
+      c.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+      c.style.setProperty('--dy', Math.sin(ang) * dist + 'px');
+      c.style.fill = i % 2 ? '#ffffff' : '#ffd23f';
+      gone(c, 750);
+    }
+    var t = svgEl('text', { class: 'freed-text', x: cx, y: cy + 4, 'text-anchor': 'middle' }, lf);
+    t.textContent = 'freed';
+    gone(t, 950);
   };
 
   PyStage.prototype.apply = function (st) {
@@ -288,6 +292,7 @@
     });
     this.objs.forEach(function (e, id) {
       if (!liveObjs[id]) {
+        self.burst(e);
         leave(e);
         self.objs.delete(id);
       }
@@ -298,13 +303,13 @@
       if (!e) {
         var g = svgEl('g', { transform: 'translate(' + P.OBJ_X + ',' + ty + ')' }, self.lo);
         var inner = svgEl('g', { class: 'pop' }, g);
-        var body = svgEl('g', {}, inner);
+        var body = svgEl('g', { class: 'card-g' }, inner);
         e = { g: g, inner: inner, body: body, x: P.OBJ_X, y: ty, ty: ty, sig: null };
         self.objs.set(o.id, e);
       }
       e.ty = ty;
       self.drawObj(e, o);
-      if (st.flash.indexOf(o.id) >= 0) flashEl(e.inner);
+      if (st.flash.indexOf(o.id) >= 0) restart(e.inner, 'flash', 950);
     });
 
     var liveNames = {};
@@ -318,14 +323,9 @@
         var a = self.arrows.get(name);
         if (a) {
           a.path.classList.add('leave');
-          setTimeout(
-            (function (p) {
-              return function () {
-                p.remove();
-              };
-            })(a.path),
-            520
-          );
+          setTimeout(function () {
+            a.path.remove();
+          }, 520);
           self.arrows.delete(name);
         }
       }
@@ -335,22 +335,21 @@
       var e = self.tags.get(n.name);
       if (!e) {
         var g = svgEl('g', { transform: 'translate(' + P.TAG_X + ',' + ty + ')' }, self.lt);
-        var inner = svgEl('g', { class: 'pop' }, g);
-        var w = P.TAG_W,
-          hh = P.TAG_H;
+        var inner = svgEl('g', { class: 'pop-tag' }, g);
+        var w = P.TAG_W;
+        var hh = P.TAG_H;
+        var body = svgEl('g', { class: 'tag-g' }, inner);
         svgEl(
           'path',
           {
             class: 'tag-shape',
-            d: 'M6,0 H' + (w - 14) + ' L' + w + ',' + hh / 2 + ' L' + (w - 14) + ',' + hh + ' H6 Q0,' + hh + ' 0,' + (hh - 6) + ' V6 Q0,0 6,0 Z',
+            d: 'M8,0 H' + (w - 16) + ' L' + w + ',' + hh / 2 + ' L' + (w - 16) + ',' + hh + ' H8 Q0,' + hh + ' 0,' + (hh - 8) + ' V8 Q0,0 8,0 Z',
           },
-          inner
+          body
         );
-        svgEl('circle', { class: 'tag-hole', cx: w - 12, cy: hh / 2, r: 3.2 }, inner);
-        var tx = svgEl('text', { class: 'tag-text', x: 12, y: 20 }, inner);
-        tx.textContent = n.name;
-        var ta = svgEl('text', { class: 'tag-addr', x: 12, y: 36 }, inner);
-        ta.textContent = '@ ' + n.addr;
+        svgEl('circle', { class: 'tag-hole', cx: w - 14, cy: hh / 2, r: 3.4 }, body);
+        svgEl('text', { class: 'tag-text', x: 14, y: 20 }, body).textContent = n.name;
+        svgEl('text', { class: 'tag-addr', x: 14, y: 36 }, body).textContent = '@ ' + n.addr;
         e = { g: g, inner: inner, x: P.TAG_X, y: ty, ty: ty };
         self.tags.set(n.name, e);
       }
@@ -358,14 +357,16 @@
 
       var target = self.objs.get(n.to);
       var a = self.arrows.get(n.name);
-      var tyEnd = target.ty + P.OBJ_H / 2;
       if (!a) {
-        var path = svgEl('path', { class: 'arrow', 'marker-end': 'url(#ah-py)' }, self.la);
-        a = { path: path, ex: P.TAG_X + P.TAG_W - 12, ey: ty + P.TAG_H / 2, tx: 0, ty: 0 };
+        var path = svgEl('path', { class: 'arrow', 'marker-end': 'url(#' + self.markerId + ')' }, self.la);
+        a = { path: path, to: n.to, ex: P.TAG_X + P.TAG_W - 14, ey: ty + P.TAG_H / 2, tx: 0, ty: 0 };
         self.arrows.set(n.name, a);
+      } else if (a.to !== n.to) {
+        a.to = n.to;
+        restart(e.inner, 'wiggle', 700);
       }
       a.tx = P.OBJ_X - 5;
-      a.ty = tyEnd;
+      a.ty = target.ty + P.OBJ_H / 2;
     });
     this.step();
     kick();
@@ -375,33 +376,33 @@
     var moving = false;
     var self = this;
     function slide(e) {
-      var m = ease(e, 'y', e.ty);
+      if (spring(e, 'y', e.ty)) moving = true;
       e.g.setAttribute('transform', 'translate(' + e.x + ',' + e.y + ')');
-      if (m) moving = true;
     }
     this.objs.forEach(slide);
     this.tags.forEach(slide);
     this.arrows.forEach(function (a, name) {
       var tag = self.tags.get(name);
       if (!tag) return;
-      var sx = P.TAG_X + P.TAG_W - 12;
+      var sx = P.TAG_X + P.TAG_W - 14;
       var sy = tag.y + P.TAG_H / 2;
-      if (ease(a, 'ex', a.tx)) moving = true;
-      if (ease(a, 'ey', a.ty)) moving = true;
+      if (spring(a, 'ex', a.tx)) moving = true;
+      if (spring(a, 'ey', a.ty)) moving = true;
       var bend = Math.max(40, (a.ex - sx) * 0.55);
       a.path.setAttribute('d', 'M' + sx + ' ' + sy + ' C' + (sx + bend) + ' ' + sy + ' ' + (a.ex - bend) + ' ' + a.ey + ' ' + a.ex + ' ' + a.ey);
     });
     return moving;
   };
 
-  /* ---------- C stage: boxes in a row of stack memory ---------- */
+  /* ---------- C stage: crates in a strip of memory ---------- */
 
-  var C = { W: 420, H: 250, X: 10, GAP: 80, BOX_H: 40, CELL: 50 };
+  var C = { W: 420, H: 262, X: 10, GAP: 84, BOX_H: 40, CELL: 50 };
 
   function CStage(root) {
     this.root = root;
     root.setAttribute('viewBox', '0 0 ' + C.W + ' ' + C.H);
-    marker(root, 'ah-c', 'ah-c');
+    this.markerId = 'ah-c-' + stages.length;
+    marker(root, this.markerId, 'ah-c');
     this.lr = svgEl('g', {}, root);
     this.la = svgEl('g', {}, root);
     this.rows = new Map();
@@ -416,46 +417,54 @@
     this.arrows.clear();
   };
 
+  /* A crate is drawn as its bytes: an int is 4 thin slots, a pointer is 8. */
+  function crate(parent, x, w, slots, cls) {
+    svgEl('rect', { class: 'c-box ' + (cls || ''), x: x, y: 20, width: w, height: C.BOX_H, rx: 9 }, parent);
+    for (var i = 1; i < slots; i++) {
+      var lx = x + (w * i) / slots;
+      svgEl('line', { class: 'c-div', x1: lx, x2: lx, y1: 26, y2: 54 }, parent);
+    }
+  }
+
   CStage.prototype.drawRow = function (e, r, all) {
-    var target = r.kind === 'ptr' ? all.filter(function (x) { return x.name === r.to; })[0] : null;
+    var target =
+      r.kind === 'ptr'
+        ? all.filter(function (x) {
+            return x.name === r.to;
+          })[0]
+        : null;
     var sig = JSON.stringify([r.kind, r.val, r.vals, target && target.addr]);
-    if (e.sig === sig) return false;
+    if (e.sig === sig) return;
     var changed = e.sig !== null;
     e.sig = sig;
     e.body.textContent = '';
 
     var label = r.type + ' ' + (r.kind === 'ptr' ? '*' : '') + r.name + (r.kind === 'arr' ? '[' + r.vals.length + ']' : '');
-    var lt = svgEl('text', { class: 'c-label', x: 0, y: 12 }, e.body);
-    lt.textContent = label;
+    svgEl('text', { class: 'c-label', x: 0, y: 12 }, e.body).textContent = label;
 
     var width;
     if (r.kind === 'arr') {
       r.vals.forEach(function (v, i) {
-        svgEl('rect', { class: 'c-box', x: i * C.CELL, y: 20, width: C.CELL - 4, height: C.BOX_H, rx: 8 }, e.body);
-        var t = svgEl('text', { class: 'c-text', x: i * C.CELL + (C.CELL - 4) / 2, y: 46, 'text-anchor': 'middle' }, e.body);
-        t.textContent = v;
-        var ca = svgEl('text', { class: 'addr', x: i * C.CELL + (C.CELL - 4) / 2, y: 74, 'text-anchor': 'middle' }, e.body);
-        ca.textContent = '0x' + (parseInt(r.addr, 16) + i * 4).toString(16);
+        var x = i * C.CELL;
+        crate(e.body, x, C.CELL - 4, 4);
+        svgEl('text', { class: 'c-text', x: x + (C.CELL - 4) / 2, y: 46, 'text-anchor': 'middle' }, e.body).textContent = v;
+        svgEl('text', { class: 'addr', x: x + (C.CELL - 4) / 2, y: 76, 'text-anchor': 'middle' }, e.body).textContent =
+          '0x' + (parseInt(r.addr, 16) + i * 4).toString(16);
       });
       width = r.vals.length * C.CELL;
     } else if (r.kind === 'ptr') {
-      svgEl('rect', { class: 'c-box', x: 0, y: 20, width: 150, height: C.BOX_H, rx: 8 }, e.body);
-      var pt = svgEl('text', { class: 'c-ptr', x: 75, y: 45, 'text-anchor': 'middle' }, e.body);
-      pt.textContent = target ? target.addr : '0x0';
+      crate(e.body, 0, 150, 8, 'c-box-ptr');
+      svgEl('text', { class: 'c-text', x: 75, y: 46, 'text-anchor': 'middle' }, e.body).textContent = target ? target.addr : '0x0';
+      svgEl('text', { class: 'addr', x: 0, y: 76 }, e.body).textContent = '@ ' + r.addr;
       width = 150;
     } else {
-      svgEl('rect', { class: 'c-box', x: 0, y: 20, width: 118, height: C.BOX_H, rx: 8 }, e.body);
-      var vt = svgEl('text', { class: 'c-text', x: 59, y: 46, 'text-anchor': 'middle' }, e.body);
-      vt.textContent = r.val;
+      crate(e.body, 0, 118, 4);
+      svgEl('text', { class: 'c-text', x: 59, y: 46, 'text-anchor': 'middle' }, e.body).textContent = r.val;
+      svgEl('text', { class: 'addr', x: 0, y: 76 }, e.body).textContent = '@ ' + r.addr;
       width = 118;
     }
-    if (r.kind !== 'arr') {
-      var at = svgEl('text', { class: 'addr', x: 0, y: 74 }, e.body);
-      at.textContent = '@ ' + r.addr;
-    }
     e.width = width;
-    if (changed) bumpEl(e.body);
-    return true;
+    if (changed) restart(e.body, 'bump');
   };
 
   CStage.prototype.apply = function (st) {
@@ -476,7 +485,7 @@
       if (!e) {
         var g = svgEl('g', { transform: 'translate(' + C.X + ',' + ty + ')' }, self.lr);
         var inner = svgEl('g', { class: 'pop' }, g);
-        var body = svgEl('g', {}, inner);
+        var body = svgEl('g', { class: 'crate-g' }, inner);
         e = { g: g, inner: inner, body: body, x: C.X, y: ty, ty: ty, sig: null, width: 0, kind: r.kind, to: r.to };
         self.rows.set(r.name, e);
       }
@@ -484,9 +493,9 @@
       e.kind = r.kind;
       e.to = r.to;
       self.drawRow(e, r, st.rows);
-      if (st.cflash.indexOf(r.name) >= 0) flashEl(e.inner);
+      if (st.cflash.indexOf(r.name) >= 0) restart(e.inner, 'flash-c', 950);
       if (r.kind === 'ptr' && !self.arrows.has(r.name)) {
-        self.arrows.set(r.name, svgEl('path', { class: 'c-arrow draw', 'marker-end': 'url(#ah-c)' }, self.la));
+        self.arrows.set(r.name, svgEl('path', { class: 'c-arrow draw', 'marker-end': 'url(#' + self.markerId + ')' }, self.la));
       }
     });
     this.step();
@@ -497,7 +506,7 @@
     var moving = false;
     var self = this;
     this.rows.forEach(function (e) {
-      if (ease(e, 'y', e.ty)) moving = true;
+      if (spring(e, 'y', e.ty)) moving = true;
       e.g.setAttribute('transform', 'translate(' + e.x + ',' + e.y + ')');
     });
     this.arrows.forEach(function (path, name) {
@@ -518,6 +527,39 @@
     return moving;
   };
 
+  /* ---------- home page hero: a tiny looping demo ---------- */
+
+  function hero(svgRoot, codeList, lines, steps) {
+    var stage = new PyStage(svgRoot);
+    var snaps = buildSnapshots(steps);
+    codeList.textContent = '';
+    lines.forEach(function (line, i) {
+      codeList.appendChild(h('li', { html: '<span class="no">' + (i + 1) + '</span><span>' + highlight(line) + '</span>' }));
+    });
+    var i = 0;
+    function show() {
+      stage.apply(snaps[i]);
+      [].forEach.call(codeList.children, function (li, n) {
+        li.classList.toggle('on', n === steps[i].pl);
+      });
+    }
+    if (reduce) {
+      i = snaps.length - 1;
+      return show();
+    }
+    function next() {
+      if (i >= snaps.length) {
+        i = 0;
+        stage.reset();
+      }
+      show();
+      var last = i === snaps.length - 1;
+      i++;
+      setTimeout(next, last ? 2800 : 1700);
+    }
+    next();
+  }
+
   /* ---------- lesson page ---------- */
 
   function mount(L) {
@@ -535,10 +577,9 @@
     $('title').textContent = L.title;
     $('lede').textContent = L.lede;
 
-    /* panels */
     function panel(lang, name, sub) {
       var code = h('ol', { class: 'code', 'aria-label': name + ' code' });
-      var svg = svgEl('svg', { class: 'stage', role: 'img', 'aria-label': name + ' memory' });
+      var svg = svgEl('svg', { class: 'stage show-addr', role: 'img', 'aria-label': name + ' memory' });
       var cap = h('p', { class: 'caption', 'aria-live': 'polite' });
       var el = h('article', { class: 'panel', 'data-lang': lang }, [
         h('header', {}, [h('h2', { text: name }), h('p', { text: sub })]),
@@ -555,28 +596,27 @@
     var py = new PyStage(pp.svg);
     var cs = new CStage(cp.svg);
 
-    /* controls */
-    var bReset = h('button', { class: 'btn', type: 'button', text: 'Reset', onclick: function () { go(0); } });
+    /* dock controls */
+    var bReset = h('button', { class: 'btn ghost', type: 'button', text: 'Reset', onclick: function () { stop(); go(0); } });
     var bBack = h('button', { class: 'btn', type: 'button', text: 'Back', onclick: function () { stop(); go(idx - 1); } });
     var bStep = h('button', { class: 'btn primary', type: 'button', text: 'Step', onclick: function () { stop(); go(idx + 1); } });
     var bPlay = h('button', { class: 'btn', type: 'button', text: 'Play', onclick: toggle });
     var dots = h('div', { class: 'dots', role: 'group', 'aria-label': 'Steps' });
     var count = h('span', { class: 'count' });
-    var addr = h('input', { type: 'checkbox', id: 'addr', checked: 'checked' });
-    var speedSel = h('select', { id: 'speed', 'aria-label': 'Play speed' }, [
-      h('option', { value: '2400', text: 'Slow' }),
-      h('option', { value: '1500', text: 'Normal', selected: 'selected' }),
-      h('option', { value: '800', text: 'Fast' }),
-    ]);
-    speedSel.value = '1500';
     $('controls').appendChild(h('div', { class: 'btns' }, [bReset, bBack, bStep, bPlay]));
     $('controls').appendChild(dots);
     $('controls').appendChild(count);
-    $('controls').appendChild(
-      h('div', { class: 'opts-inline' }, [h('label', { for: 'addr' }, [addr, document.createTextNode('Show addresses')]), speedSel])
-    );
-    pp.svg.classList.add('show-addr');
-    cp.svg.classList.add('show-addr');
+
+    /* options above the screens */
+    var addr = h('input', { type: 'checkbox', id: 'addr', checked: 'checked' });
+    var speedSel = h('select', { id: 'speed', 'aria-label': 'Play speed' }, [
+      h('option', { value: '2400', text: 'Slow' }),
+      h('option', { value: '1500', text: 'Normal' }),
+      h('option', { value: '800', text: 'Fast' }),
+    ]);
+    speedSel.value = '1500';
+    $('opts').appendChild(h('label', { for: 'addr' }, [addr, document.createTextNode('Show addresses')]));
+    $('opts').appendChild(h('label', { for: 'speed' }, [document.createTextNode('Speed'), speedSel]));
     addr.addEventListener('change', function () {
       pp.svg.classList.toggle('show-addr', addr.checked);
       cp.svg.classList.toggle('show-addr', addr.checked);
@@ -625,6 +665,10 @@
       cp.cap.textContent = '';
       if (s.err) cp.cap.appendChild(h('span', { class: 'err', text: s.err }));
       cp.cap.appendChild(document.createTextNode(step.csay));
+      if (!reduce) {
+        restart(pp.cap, 'swap', 500);
+        restart(cp.cap, 'swap', 500);
+      }
 
       [].forEach.call(dots.children, function (d, n) {
         d.classList.toggle('now', n === i);
@@ -638,18 +682,18 @@
       bReset.disabled = i === 0;
     }
 
-    /* scene tabs, predict, trap */
     var tabs = $('scenes');
-    scenes.forEach(function (sc, n) {
-      var b = h('button', { class: 'scene-tab', type: 'button', role: 'tab', id: 'tab-' + sc.id, text: sc.title, onclick: function () { location.hash = sc.id; } });
-      tabs.appendChild(b);
+    scenes.forEach(function (sc) {
+      tabs.appendChild(
+        h('button', { class: 'scene-tab', type: 'button', role: 'tab', id: 'tab-' + sc.id, text: sc.title, onclick: function () { location.hash = sc.id; } })
+      );
     });
 
     function renderPredict(sc) {
       var box = $('predict-body');
       box.textContent = '';
       box.appendChild(h('p', { class: 'q', html: sc.predict.q }));
-      var why = h('p', { class: 'why', hidden: 'hidden', text: sc.predict.why });
+      var why = h('p', { class: 'why', hidden: 'hidden' });
       var row = h('div', { class: 'choices' });
       sc.predict.options.forEach(function (o, n) {
         var b = h('button', { class: 'choice', type: 'button', text: o });
@@ -669,7 +713,10 @@
     }
 
     function select(id) {
-      var sc = scenes.filter(function (s) { return s.id === id; })[0] || scenes[0];
+      var sc =
+        scenes.filter(function (s) {
+          return s.id === id;
+        })[0] || scenes[0];
       stop();
       cur = sc;
       [].forEach.call(tabs.children, function (t, n) {
@@ -684,13 +731,14 @@
       cs.reset();
       dots.textContent = '';
       sc.steps.forEach(function (_, n) {
-        dots.appendChild(h('button', { class: 'dot', type: 'button', 'aria-label': n === 0 ? 'Start' : 'Go to step ' + n, onclick: function () { stop(); go(n); } }));
+        dots.appendChild(
+          h('button', { class: 'dot', type: 'button', 'aria-label': n === 0 ? 'Start' : 'Go to step ' + n, onclick: function () { stop(); go(n); } })
+        );
       });
       renderPredict(sc);
       go(0);
     }
 
-    /* builtins table */
     var tb = $('builtins');
     L.builtins.forEach(function (r) {
       tb.appendChild(h('tr', {}, [h('th', { html: '<code>' + esc(r[0]) + '</code>' }), h('td', { text: r[1] })]));
@@ -702,13 +750,26 @@
     document.addEventListener('keydown', function (e) {
       var tag = (e.target && e.target.tagName) || '';
       if (tag === 'INPUT' || tag === 'SELECT' || e.metaKey || e.ctrlKey || e.altKey) return;
-      if (e.key === 'ArrowRight') { stop(); go(idx + 1); }
-      else if (e.key === 'ArrowLeft') { stop(); go(idx - 1); }
+      if (e.key === 'ArrowRight') {
+        stop();
+        go(idx + 1);
+      } else if (e.key === 'ArrowLeft') {
+        stop();
+        go(idx - 1);
+      }
     });
 
     select(location.hash.slice(1));
-    window.__dsav = { go: go, snaps: function () { return snaps; }, index: function () { return idx; } };
+    window.__dsav = {
+      go: go,
+      snaps: function () {
+        return snaps;
+      },
+      index: function () {
+        return idx;
+      },
+    };
   }
 
-  window.DSAV = { mount: mount, buildSnapshots: buildSnapshots };
+  window.DSAV = { mount: mount, hero: hero, buildSnapshots: buildSnapshots };
 })();

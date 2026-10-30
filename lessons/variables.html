@@ -6,17 +6,15 @@
 <title>Variables and names | DSA Visualizer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&display=swap">
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/style.css">
 <script src="../assets/site.js"></script>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="../index.html">
-      <svg viewBox="0 0 30 22" aria-hidden="true"><path d="M3 1h15l8 10-8 10H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" fill="currentColor" style="color:var(--name)"/><circle cx="20" cy="11" r="2" fill="var(--bg)"/></svg>
-      DSA Visualizer
-    </a>
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="">DSA Visualizer</a>
     <button class="tool" id="theme" type="button">Dark mode</button>
   </header>
 
@@ -26,11 +24,15 @@
     <p class="lede" id="lede"></p>
   </section>
 
-  <div class="scenes" id="scenes" role="tablist" aria-label="Scenes"></div>
-  <p class="scene-blurb" id="blurb"></p>
-
-  <div class="controls" id="controls"></div>
-  <div class="panels" id="panels"></div>
+  <div class="bench">
+    <div class="bench-bar">
+      <div class="seg" id="scenes" role="tablist" aria-label="Scenes"></div>
+      <div class="opts" id="opts"></div>
+    </div>
+    <p class="scene-blurb" id="blurb"></p>
+    <div class="panels" id="panels"></div>
+    <div class="dock" id="controls"></div>
+  </div>
 
   <div class="below">
     <section class="card" aria-labelledby="predict-h">
