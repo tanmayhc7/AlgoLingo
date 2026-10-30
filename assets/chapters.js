@@ -65,13 +65,14 @@
     },
     {
       title: 'Toolbox',
+      quiz: 'quizzes/chapter-7.html',
       blurb: 'The standard-library pieces and patterns you will reach for in problems.',
       lessons: [
-        { id: 'sorting-helpers', title: 'Sorting and searching helpers' },
-        { id: 'collections', title: 'collections and friends' },
-        { id: 'choosing', title: 'Choosing a container' },
-        { id: 'patterns', title: 'Patterns you will reuse' },
-        { id: 'survival-kit', title: 'Python survival kit for coding problems' },
+        { id: 'sorting-helpers', title: 'Sorting and searching helpers', href: 'lessons/sorting-helpers.html' },
+        { id: 'collections', title: 'collections and friends', href: 'lessons/collections.html' },
+        { id: 'choosing', title: 'Choosing a container', href: 'lessons/choosing.html' },
+        { id: 'patterns', title: 'Patterns you will reuse', href: 'lessons/patterns.html' },
+        { id: 'survival-kit', title: 'Python survival kit for coding problems', href: 'lessons/survival-kit.html' },
       ],
     },
   ];
