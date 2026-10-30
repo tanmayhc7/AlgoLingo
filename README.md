@@ -10,7 +10,7 @@ The step-through engine is built, with one lesson so far: **Variables and names*
 
 No build step. Open `index.html` in a browser (double-click it, or run `open index.html` on a Mac). Fonts load from Google Fonts and fall back to system fonts when offline.
 
-Controls: Step, Back, Play and Reset, or the left and right arrow keys. Turn on "Show addresses" to see where each object and box lives.
+Controls: Step, Back, Play and Reset, or the left and right arrow keys. Dummy memory addresses are shown for names, objects and variables. Untick "Show addresses" to hide them.
 
 ## Phase 1 at a glance
 
@@ -22,6 +22,7 @@ Controls: Step, Back, Play and Reset, or the left and right arrow keys. Turn on 
 ```
 index.html               module map
 lessons/*.html           one page per lesson
+assets/chapters.js       the course outline: chapters and lessons, read by the home page and lesson nav
 assets/engine.js         step engine: snapshots, Python and C stages, animation, controls
 assets/style.css         tokens, light and dark themes, layout
 assets/lessons/*.js      lesson data: the code and what changes in memory at each step

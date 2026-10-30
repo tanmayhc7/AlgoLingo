@@ -56,8 +56,21 @@
   function buildSnapshots(steps) {
     var st = { objs: [], names: [], rows: [], err: null, flash: [], cflash: [] };
     var objCount = 0;
-    var rowCount = 0;
+    var nameCount = 0;
+    var cursor = 0x1000;
     var snaps = [];
+
+    /* Dummy addresses: Python names live in slots from 0x1000, objects from 0x2000 (32 bytes each).
+       C boxes are laid out one after another from 0x1000, sized by type (int 4 bytes, pointer 8). */
+    function hex(n) {
+      return '0x' + n.toString(16);
+    }
+    function alloc(size, align) {
+      cursor = Math.ceil(cursor / align) * align;
+      var a = cursor;
+      cursor += size;
+      return hex(a);
+    }
 
     function row(name) {
       for (var i = 0; i < st.rows.length; i++) if (st.rows[i].name === name) return st.rows[i];
@@ -77,14 +90,14 @@
             type: op[2],
             val: op[3],
             refs: 0,
-            addr: '0x' + (0x7f3a10c0 + objCount++ * 0x30).toString(16),
+            addr: hex(0x2000 + objCount++ * 0x20),
           });
         } else if (kind === 'bind') {
           var t = st.names.filter(function (n) {
             return n.name === op[1];
           })[0];
           if (t) t.to = op[2];
-          else st.names.push({ name: op[1], to: op[2] });
+          else st.names.push({ name: op[1], to: op[2], addr: hex(0x1000 + nameCount++ * 8) });
         } else if (kind === 'unbind') {
           st.names = st.names.filter(function (n) {
             return n.name !== op[1];
@@ -109,7 +122,7 @@
               kind: 'var',
               type: op[2],
               val: op[3],
-              addr: '0x' + (0x7ffee1c0 - rowCount++ * 0x10).toString(16),
+              addr: alloc(4, 4),
             });
         } else if (kind === 'setv') {
           r.val = op[2];
@@ -119,7 +132,7 @@
             kind: 'arr',
             type: op[2],
             vals: op[3].slice(),
-            addr: '0x' + (0x7ffee1c0 - rowCount++ * 0x10).toString(16),
+            addr: alloc(op[3].length * 4, 4),
           });
         } else if (kind === 'seti') {
           r.vals[op[2]] = op[3];
@@ -129,7 +142,7 @@
             kind: 'ptr',
             type: 'int',
             to: op[2],
-            addr: '0x' + (0x7ffee1c0 - rowCount++ * 0x10).toString(16),
+            addr: alloc(8, 8),
           });
         } else if (kind === 'err') {
           st.err = op[1];
@@ -216,7 +229,7 @@
 
   /* ---------- Python stage: tags, objects, arrows ---------- */
 
-  var P = { W: 420, H: 224, TAG_X: 10, TAG_W: 88, TAG_H: 34, OBJ_X: 232, OBJ_W: 178, OBJ_H: 58, GAP: 70, TAG_GAP: 64 };
+  var P = { W: 420, H: 250, TAG_X: 10, TAG_W: 112, TAG_H: 44, OBJ_X: 236, OBJ_W: 174, OBJ_H: 58, GAP: 80, TAG_GAP: 76 };
 
   function PyStage(root) {
     this.root = root;
@@ -262,8 +275,8 @@
       var v = svgEl('text', { class: 'obj-val', x: 12, y: 47 }, e.body);
       v.textContent = o.val;
     }
-    var a = svgEl('text', { class: 'addr', x: P.OBJ_W - 12, y: 50, 'text-anchor': 'end' }, e.body);
-    a.textContent = o.addr;
+    var a = svgEl('text', { class: 'addr', x: 54, y: 18 }, e.body);
+    a.textContent = '@ ' + o.addr;
     if (changed) bumpEl(e.body);
   };
 
@@ -334,8 +347,10 @@
           inner
         );
         svgEl('circle', { class: 'tag-hole', cx: w - 12, cy: hh / 2, r: 3.2 }, inner);
-        var tx = svgEl('text', { class: 'tag-text', x: 12, y: 23 }, inner);
+        var tx = svgEl('text', { class: 'tag-text', x: 12, y: 20 }, inner);
         tx.textContent = n.name;
+        var ta = svgEl('text', { class: 'tag-addr', x: 12, y: 36 }, inner);
+        ta.textContent = '@ ' + n.addr;
         e = { g: g, inner: inner, x: P.TAG_X, y: ty, ty: ty };
         self.tags.set(n.name, e);
       }
@@ -381,7 +396,7 @@
 
   /* ---------- C stage: boxes in a row of stack memory ---------- */
 
-  var C = { W: 420, H: 224, X: 10, GAP: 70, BOX_H: 40, CELL: 50 };
+  var C = { W: 420, H: 250, X: 10, GAP: 80, BOX_H: 40, CELL: 50 };
 
   function CStage(root) {
     this.root = root;
@@ -419,6 +434,8 @@
         svgEl('rect', { class: 'c-box', x: i * C.CELL, y: 20, width: C.CELL - 4, height: C.BOX_H, rx: 8 }, e.body);
         var t = svgEl('text', { class: 'c-text', x: i * C.CELL + (C.CELL - 4) / 2, y: 46, 'text-anchor': 'middle' }, e.body);
         t.textContent = v;
+        var ca = svgEl('text', { class: 'addr', x: i * C.CELL + (C.CELL - 4) / 2, y: 74, 'text-anchor': 'middle' }, e.body);
+        ca.textContent = '0x' + (parseInt(r.addr, 16) + i * 4).toString(16);
       });
       width = r.vals.length * C.CELL;
     } else if (r.kind === 'ptr') {
@@ -432,8 +449,10 @@
       vt.textContent = r.val;
       width = 118;
     }
-    var at = svgEl('text', { class: 'addr', x: width + 10, y: 46 }, e.body);
-    at.textContent = '@ ' + r.addr;
+    if (r.kind !== 'arr') {
+      var at = svgEl('text', { class: 'addr', x: 0, y: 74 }, e.body);
+      at.textContent = '@ ' + r.addr;
+    }
     e.width = width;
     if (changed) bumpEl(e.body);
     return true;
@@ -543,7 +562,7 @@
     var bPlay = h('button', { class: 'btn', type: 'button', text: 'Play', onclick: toggle });
     var dots = h('div', { class: 'dots', role: 'group', 'aria-label': 'Steps' });
     var count = h('span', { class: 'count' });
-    var addr = h('input', { type: 'checkbox', id: 'addr' });
+    var addr = h('input', { type: 'checkbox', id: 'addr', checked: 'checked' });
     var speedSel = h('select', { id: 'speed', 'aria-label': 'Play speed' }, [
       h('option', { value: '2400', text: 'Slow' }),
       h('option', { value: '1500', text: 'Normal', selected: 'selected' }),
@@ -556,6 +575,8 @@
     $('controls').appendChild(
       h('div', { class: 'opts-inline' }, [h('label', { for: 'addr' }, [addr, document.createTextNode('Show addresses')]), speedSel])
     );
+    pp.svg.classList.add('show-addr');
+    cp.svg.classList.add('show-addr');
     addr.addEventListener('change', function () {
       pp.svg.classList.toggle('show-addr', addr.checked);
       cp.svg.classList.toggle('show-addr', addr.checked);

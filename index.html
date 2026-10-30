@@ -22,84 +22,13 @@
 
   <section class="intro">
     <h1>Watch the code run, and the memory move</h1>
-    <p class="lede">Python and data structures for someone who thinks in C. Every lesson runs the same program in both languages, one line at a time, and shows what happens in memory.</p>
+    <p class="lede">Python and data structures for someone who thinks in C. The course is seven chapters. Every lesson runs the same program in both languages, one line at a time, and shows what happens in memory.</p>
   </section>
 
   <div class="stages" id="stages"></div>
 </div>
 
-<script>
-(function () {
-  var stages = [
-    {
-      title: 'Language basics',
-      sub: 'Everything you need before collections make sense.',
-      items: [
-        ['Compiled versus interpreted: how C and Python run'],
-        ['Running Python programs'],
-        ['Variables and names', 'lessons/variables.html'],
-        ['Numbers, booleans and None'],
-        ['Strings as sequences'],
-        ['Conditions'],
-        ['Loops'],
-        ['Functions'],
-        ['Shorthands and idioms'],
-        ['Comprehensions'],
-        ['Errors and tracebacks'],
-        ['Python survival kit for coding problems']
-      ]
-    },
-    {
-      title: 'Collections and hashing',
-      sub: 'Arrays, lists, tuples, hash tables, dicts and sets.',
-      items: [
-        ['How memory holds an array'],
-        ['Lists'],
-        ['Tuples'],
-        ['Hashing'],
-        ['Dicts'],
-        ['Sets'],
-        ['Sorting and searching helpers'],
-        ['collections and friends'],
-        ['Choosing a container'],
-        ['Patterns you will reuse']
-      ]
-    }
-  ];
-
-  var root = document.getElementById('stages');
-  stages.forEach(function (s) {
-    var sec = document.createElement('section');
-    sec.className = 'card';
-    var h2 = document.createElement('h2');
-    h2.textContent = s.title;
-    var sub = document.createElement('p');
-    sub.className = 'sub';
-    sub.textContent = s.sub;
-    var ol = document.createElement('ol');
-    s.items.forEach(function (it) {
-      var li = document.createElement('li');
-      var title;
-      if (it[1]) {
-        title = document.createElement('a');
-        title.href = it[1];
-      } else {
-        title = document.createElement('span');
-      }
-      title.textContent = it[0];
-      var chip = document.createElement('span');
-      chip.className = 'chip' + (it[1] ? ' ready' : '');
-      chip.textContent = it[1] ? 'Ready' : 'Planned';
-      li.appendChild(title);
-      li.appendChild(chip);
-      ol.appendChild(li);
-    });
-    sec.appendChild(h2);
-    sec.appendChild(sub);
-    sec.appendChild(ol);
-    root.appendChild(sec);
-  });
-})();
-</script>
+<script src="assets/chapters.js"></script>
+<script>Course.renderHome(document.getElementById('stages'));</script>
 </body>
 </html>

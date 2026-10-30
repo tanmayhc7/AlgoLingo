@@ -21,6 +21,7 @@
   </header>
 
   <section class="lesson-head">
+    <p class="crumb" id="crumb"></p>
     <h1 id="title">Variables and names</h1>
     <p class="lede" id="lede"></p>
   </section>
@@ -50,10 +51,15 @@
       </table>
     </div>
   </section>
+
+  <div class="outline" id="outline"></div>
+  <nav class="pager" id="pager" aria-label="Lessons"></nav>
 </div>
 
+<script src="../assets/chapters.js"></script>
 <script src="../assets/lessons/variables.js"></script>
 <script src="../assets/engine.js"></script>
-<script>DSAV.mount(window.LESSON);</script>
+<script>DSAV.mount(window.LESSON);
+Course.renderLesson('variables');</script>
 </body>
 </html>

@@ -13,6 +13,22 @@ Status: planning only. No page has been built yet. Tick boxes as modules are agr
 5. **Traps**: the classic mistakes, each reproducible in one click.
 6. **Check yourself**: predict the output, then reveal the answer and the trace.
 
+## Chapters
+
+The site groups Phase 1 into seven chapters. The outline lives in `assets/chapters.js`, and the home page, the breadcrumbs and the previous and next links all read from it. Stage 1A is chapters 1 to 4. Stage 1B is chapters 5 and 6, with the toolbox in chapter 7.
+
+| Chapter | Lessons |
+|---|---|
+| 1. Getting started | 1.1 Compiled versus interpreted, 1.2 Running Python programs, 1.3 Variables and names (built) |
+| 2. Basic types | 2.1 Numbers, booleans and None, 2.2 Strings as sequences |
+| 3. Control flow | 3.1 Conditions, 3.2 Loops, 3.3 Errors and tracebacks |
+| 4. Functions and shorthands | 4.1 Functions, 4.2 Shorthands and idioms, 4.3 Comprehensions |
+| 5. Memory and arrays | 5.1 How memory holds an array, 5.2 Lists, 5.3 Tuples |
+| 6. Hashing | 6.1 Hashing, 6.2 Dicts, 6.3 Sets |
+| 7. Toolbox | 7.1 Sorting and searching helpers, 7.2 collections and friends, 7.3 Choosing a container, 7.4 Patterns you will reuse, 7.5 Survival kit for coding problems |
+
+Inside a lesson, the content is split into scenes (the tabs at the top of the page), each a small program that runs in both languages.
+
 ---
 
 ## Phase 1: Language basics, then collections and hashing
