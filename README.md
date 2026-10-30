@@ -4,7 +4,13 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-Planning. The Phase 1 plan is in [CURRICULUM.md](CURRICULUM.md). No lesson pages exist yet.
+The step-through engine is built, with one lesson so far: **Variables and names** (four scenes, Python and C side by side). The full Phase 1 plan is in [CURRICULUM.md](CURRICULUM.md).
+
+## Run it
+
+No build step. Open `index.html` in a browser (double-click it, or run `open index.html` on a Mac). Fonts load from Google Fonts and fall back to system fonts when offline.
+
+Controls: Step, Back, Play and Reset, or the left and right arrow keys. Turn on "Show addresses" to see where each object and box lives.
 
 ## Phase 1 at a glance
 
@@ -14,7 +20,14 @@ Planning. The Phase 1 plan is in [CURRICULUM.md](CURRICULUM.md). No lesson pages
 ## Layout (planned)
 
 ```
-CURRICULUM.md   what each lesson covers and the open decisions
-lessons/        one page per lesson (not created yet)
-engine/         shared step-through engine (not created yet)
+index.html               module map
+lessons/*.html           one page per lesson
+assets/engine.js         step engine: snapshots, Python and C stages, animation, controls
+assets/style.css         tokens, light and dark themes, layout
+assets/lessons/*.js      lesson data: the code and what changes in memory at each step
+CURRICULUM.md            what each lesson covers and the open decisions
 ```
+
+## Adding a lesson
+
+Copy `lessons/variables.html` and `assets/lessons/variables.js`. A lesson is plain data: for each scene, the Python and C code and a list of steps. Each step names the highlighted lines, one sentence of narration per language, and the memory changes (the op list is documented at the top of the data file). The engine handles stepping back, freeing unreferenced objects and the animation.

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variables and names | DSA Visualizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/site.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../index.html">
+      <svg viewBox="0 0 30 22" aria-hidden="true"><path d="M3 1h15l8 10-8 10H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" fill="currentColor" style="color:var(--name)"/><circle cx="20" cy="11" r="2" fill="var(--bg)"/></svg>
+      DSA Visualizer
+    </a>
+    <button class="tool" id="theme" type="button">Dark mode</button>
+  </header>
+
+  <section class="lesson-head">
+    <h1 id="title">Variables and names</h1>
+    <p class="lede" id="lede"></p>
+  </section>
+
+  <div class="scenes" id="scenes" role="tablist" aria-label="Scenes"></div>
+  <p class="scene-blurb" id="blurb"></p>
+
+  <div class="controls" id="controls"></div>
+  <div class="panels" id="panels"></div>
+
+  <div class="below">
+    <section class="card" aria-labelledby="predict-h">
+      <h2 id="predict-h">Predict, then check</h2>
+      <div id="predict-body"></div>
+    </section>
+    <section class="card trap" aria-labelledby="trap-h">
+      <h2 id="trap-h">Common trap</h2>
+      <p id="trap-text"></p>
+    </section>
+  </div>
+
+  <section class="card section" aria-labelledby="api-h">
+    <h2 id="api-h">Built-ins from this lesson</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody id="builtins"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script src="../assets/lessons/variables.js"></script>
+<script src="../assets/engine.js"></script>
+<script>DSAV.mount(window.LESSON);</script>
+</body>
+</html>
