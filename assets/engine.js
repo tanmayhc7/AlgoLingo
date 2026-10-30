@@ -269,27 +269,56 @@
     this.arrows.clear();
   };
 
+  /* Cards grow by a row when a collection has more items than fit on one line. */
+  function cellGrid(o) {
+    var vals = o.val;
+    var maxLen = 0;
+    vals.forEach(function (v) {
+      maxLen = Math.max(maxLen, String(v).length);
+    });
+    var cw = maxLen <= 2 ? 32 : maxLen <= 4 ? 46 : 70;
+    var cols = Math.max(1, Math.floor((P.OBJ_W - 20) / (cw + 4)));
+    return { cw: cw, cols: cols, rows: Math.max(1, Math.ceil(vals.length / cols)) };
+  }
+
+  function objH(o) {
+    return Array.isArray(o.val) ? P.OBJ_H + (cellGrid(o).rows - 1) * 30 : P.OBJ_H;
+  }
+
+  var KNOWN_HD = { int: 'int', float: 'int', bool: 'int', str: 'str', list: 'list', tuple: 'tuple', dict: 'dict', set: 'set' };
+
   PyStage.prototype.drawObj = function (e, o) {
     var sig = JSON.stringify([o.type, o.val, o.refs]);
     if (e.sig === sig) return;
     var changed = e.sig !== null;
     e.sig = sig;
     var W = P.OBJ_W;
+    var H = objH(o);
+    e.h = H;
     e.body.textContent = '';
-    svgEl('rect', { class: 'obj-card', width: W, height: P.OBJ_H, rx: 12 }, e.body);
-    var kind = { int: 'int', str: 'str', list: 'list' }[o.type] || 'int';
+    svgEl('rect', { class: 'obj-card', width: W, height: H, rx: 12 }, e.body);
+    var kind = KNOWN_HD[o.type] || 'other';
     svgEl('path', { class: 'hd hd-' + kind, d: 'M0,22 V12 Q0,0 12,0 H' + (W - 12) + ' Q' + W + ',0 ' + W + ',12 V22 Z' }, e.body);
     svgEl('text', { class: 'obj-type', x: 12, y: 16 }, e.body).textContent = o.type;
     svgEl('text', { class: 'addr addr-ink', x: 56, y: 16 }, e.body).textContent = '@ ' + o.addr;
-    svgEl('text', { class: 'obj-refs', x: W - 12, y: 16, 'text-anchor': 'end' }, e.body).textContent = o.refs ? o.refs + (o.refs === 1 ? ' tag' : ' tags') : o.type === 'list' ? 'being built' : 'in a list';
+    svgEl('text', { class: 'obj-refs', x: W - 12, y: 16, 'text-anchor': 'end' }, e.body).textContent = o.refs
+      ? o.refs + (o.refs === 1 ? ' tag' : ' tags')
+      : o.type === 'list' || o.type === 'dict' || o.type === 'set' ? 'being built' : 'in a list';
     if (Array.isArray(o.val)) {
+      var g = cellGrid(o);
       o.val.forEach(function (v, i) {
-        var x = 12 + i * 35;
-        svgEl('rect', { class: 'cell', x: x, y: 30, width: 32, height: 26, rx: 7 }, e.body);
-        svgEl('text', { class: 'cell-text', x: x + 16, y: 48, 'text-anchor': 'middle' }, e.body).textContent = v;
+        var x = 12 + (i % g.cols) * (g.cw + 4);
+        var y = 30 + Math.floor(i / g.cols) * 30;
+        var empty = v === '' || v === '·';
+        svgEl('rect', { class: 'cell' + (empty ? ' cell-empty' : ''), x: x, y: y, width: g.cw, height: 26, rx: 7 }, e.body);
+        var t = svgEl('text', { class: 'cell-text' + (empty ? ' cell-empty-text' : ''), x: x + g.cw / 2, y: y + 18, 'text-anchor': 'middle' }, e.body);
+        t.textContent = empty ? '·' : v;
+        if (String(v).length > 3) t.style.fontSize = '12px';
       });
     } else {
-      svgEl('text', { class: 'obj-val', x: 12, y: 54 }, e.body).textContent = o.val;
+      var vt = svgEl('text', { class: 'obj-val', x: 12, y: 54 }, e.body);
+      vt.textContent = o.val;
+      if (String(o.val).length > 9) vt.style.fontSize = String(o.val).length > 14 ? '13px' : '16px';
     }
     if (changed) restart(e.body, 'bump');
   };
@@ -297,7 +326,7 @@
   PyStage.prototype.burst = function (e) {
     if (reduce) return;
     var cx = e.x + P.OBJ_W / 2;
-    var cy = e.y + P.OBJ_H / 2;
+    var cy = e.y + (e.h || P.OBJ_H) / 2;
     var lf = this.lf;
     function gone(n, ms) {
       setTimeout(function () {
@@ -331,8 +360,10 @@
         self.objs.delete(id);
       }
     });
+    var yy = 8;
     st.objs.forEach(function (o, i) {
-      var ty = 8 + i * P.GAP;
+      var ty = yy;
+      yy += objH(o) + (P.GAP - P.OBJ_H);
       var e = self.objs.get(o.id);
       if (!e) {
         var g = svgEl('g', { transform: 'translate(' + P.OBJ_X + ',' + ty + ')' }, self.lo);
@@ -400,8 +431,9 @@
         restart(e.inner, 'wiggle', 700);
       }
       a.tx = P.OBJ_X - 5;
-      a.ty = target.ty + P.OBJ_H / 2;
+      a.ty = target.ty + (target.h || P.OBJ_H) / 2;
     });
+    this.root.setAttribute('viewBox', '0 0 ' + P.W + ' ' + Math.max(P.H, yy, 12 + st.names.length * P.TAG_GAP));
     this.step();
     kick();
   };

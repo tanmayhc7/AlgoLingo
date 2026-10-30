@@ -16,10 +16,11 @@
     },
     {
       title: 'Basic types',
+      quiz: 'quizzes/chapter-2.html',
       blurb: 'Numbers, truth values and strings, and where they differ from C.',
       lessons: [
-        { id: 'numbers', title: 'Numbers, booleans and None' },
-        { id: 'strings', title: 'Strings as sequences' },
+        { id: 'numbers', title: 'Numbers, booleans and None', href: 'lessons/numbers.html' },
+        { id: 'strings', title: 'Strings as sequences', href: 'lessons/strings.html' },
       ],
     },
     {
@@ -27,9 +28,9 @@
       quiz: 'quizzes/chapter-3.html',
       blurb: 'Decisions, loops that walk over things, and reading errors.',
       lessons: [
-        { id: 'conditions', title: 'Conditions' },
+        { id: 'conditions', title: 'Conditions', href: 'lessons/conditions.html' },
         { id: 'loops', title: 'Loops', href: 'lessons/loops.html' },
-        { id: 'errors', title: 'Errors and tracebacks' },
+        { id: 'errors', title: 'Errors and tracebacks', href: 'lessons/errors.html' },
       ],
     },
     {
@@ -37,8 +38,8 @@
       quiz: 'quizzes/chapter-4.html',
       blurb: 'Functions, the idioms that replace C boilerplate, and comprehensions.',
       lessons: [
-        { id: 'functions', title: 'Functions' },
-        { id: 'shorthands', title: 'Shorthands and idioms' },
+        { id: 'functions', title: 'Functions', href: 'lessons/functions.html' },
+        { id: 'shorthands', title: 'Shorthands and idioms', href: 'lessons/shorthands.html' },
         { id: 'comprehensions', title: 'Comprehensions', href: 'lessons/comprehensions.html' },
       ],
     },

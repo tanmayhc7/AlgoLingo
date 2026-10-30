@@ -1,8 +1,8 @@
-/* Chapter 3 quiz: Control flow. Covers the loops lesson so far. See assets/quiz.js. */
+/* Chapter 3 quiz: Control flow. Covers conditions, loops and errors. See assets/quiz.js. */
 window.QUIZ = {
   chapter: 3,
   title: 'Control flow',
-  lede: 'Covers lesson 3.2, loops, for now. Conditions and errors will add questions when those lessons arrive. Two multiple choice, one fill-in, one write-it-yourself and one debug with a loop that never ends.',
+  lede: 'Conditions, loops and errors. Multiple choice, fill-in, write-it-yourself and debug questions, including a loop that never ends.',
   questions: [
     {
       type: 'mcq',
@@ -57,6 +57,26 @@ window.QUIZ = {
       hint: 'The loop test depends on n, but nothing in the body changes n. Each round should chop off the last digit.',
       solution: 'def digits(n):\n    count = 0\n    while n > 0:\n        count = count + 1\n        n = n // 10\n    return count\n',
       why: 'A while loop needs something in its body that moves the test toward false. n // 10 drops the last digit each round.',
+    },
+    {
+      type: 'mcq',
+      q: 'A function does <code>x = int(text)</code> inside <code>try:</code> with <code>except ValueError:</code>. What happens if <code>text</code> is <code>"abc"</code>?',
+      options: ['The except block runs and the program continues', 'The program stops with a traceback', 'x becomes 0 automatically'],
+      answer: 0,
+      why: 'int("abc") raises ValueError, which the except clause catches. x is not assigned unless the except block does it. The program carries on after the try statement.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>safe_int(text)</code>. It returns the integer in the string, or <code>None</code> when the text is not a number.',
+      starter: 'def safe_int(text):\n    pass\n',
+      tests: [
+        { expr: "safe_int('42')", want: '42' },
+        { expr: "safe_int('abc')", want: 'None' },
+        { expr: "safe_int('-7')", want: '-7' },
+      ],
+      hint: 'Put the int(...) call inside try, and return None from the except block for ValueError.',
+      solution: 'def safe_int(text):\n    try:\n        return int(text)\n    except ValueError:\n        return None\n',
+      why: 'Catch only the error you expect. A typo elsewhere in the function would still show up.',
     },
   ],
 };

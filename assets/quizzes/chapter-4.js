@@ -1,8 +1,8 @@
-/* Chapter 4 quiz: Functions and shorthands. Covers the comprehensions lesson so far. See assets/quiz.js. */
+/* Chapter 4 quiz: Functions and shorthands. Covers functions and comprehensions. See assets/quiz.js. */
 window.QUIZ = {
   chapter: 4,
   title: 'Functions and shorthands',
-  lede: 'Covers lesson 4.3, comprehensions, for now. Functions and shorthands will add questions when those lessons arrive. Two multiple choice, one fill-in, one write-it-yourself and one debug.',
+  lede: 'Functions, comprehensions and how arguments are passed. Multiple choice, fill-in, write-it-yourself and debug questions.',
   questions: [
     {
       type: 'mcq',
@@ -55,6 +55,25 @@ window.QUIZ = {
       hint: 'In an if test, 1 counts as true and 0 as false. i % 2 is 1 for odd numbers. What do you want to be true?',
       solution: 'def evens(n):\n    return [i for i in range(n) if i % 2 == 0]\n',
       why: 'i % 2 is truthy for odd numbers, so the filter kept the odd ones. Comparing with == 0 keeps the even ones.',
+    },
+    {
+      type: 'mcq',
+      q: 'A function does <code>xs = []</code> as its first line, where <code>xs</code> is its parameter. Does the caller\'s list change?',
+      options: ['No, only the function\'s tag moved', 'Yes, the list is emptied', 'It raises an error'],
+      answer: 0,
+      why: 'Assigning to a parameter rebinds the local tag onto a new list. The caller\'s tag still points at the original. To empty the caller\'s list, use xs.clear() or xs[:] = [].',
+    },
+    {
+      type: 'debug',
+      q: 'This function should return a new list with 0 appended, without changing the list passed in. Right now it changes the argument. Fix it.',
+      starter: 'def with_zero(xs):\n    xs.append(0)\n    return xs\n',
+      tests: [
+        { expr: 'with_zero([1, 2])', want: '[1, 2, 0]' },
+        { expr: '(lambda a: (with_zero(a), a)[1])([5])', want: '[5]' },
+      ],
+      hint: 'Make a copy first, with a slice, or build a new list by adding: xs + [0].',
+      solution: 'def with_zero(xs):\n    return xs + [0]\n',
+      why: 'xs + [0] builds a new list and leaves the caller\'s list alone. append mutates in place, which is visible to everyone holding a tag on it.',
     },
   ],
 };

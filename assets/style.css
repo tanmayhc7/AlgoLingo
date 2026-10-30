@@ -605,6 +605,26 @@ a {
 .hd-list {
   fill: var(--t-list);
 }
+.hd-tuple {
+  fill: #ffd9a0;
+}
+.hd-dict {
+  fill: #9fe3ff;
+}
+.hd-set {
+  fill: #e2b8ff;
+}
+.hd-other {
+  fill: #d4d8ea;
+}
+.cell-empty {
+  fill: transparent;
+  stroke-dasharray: 3 3;
+  stroke: rgba(18, 22, 43, 0.25);
+}
+.cell-empty-text {
+  fill: rgba(18, 22, 43, 0.35);
+}
 .obj-type {
   fill: #12162b;
   font: 700 12.5px var(--font-ui);
