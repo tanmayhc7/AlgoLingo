@@ -93,7 +93,11 @@
     var sec = el('section', 'chapter');
     sec.appendChild(el('div', 'chapter-num', String(ci + 1)));
     var body = el('div', 'chapter-body');
-    body.appendChild(el('h2', '', c.title));
+    var head = el('div', 'chapter-head');
+    head.appendChild(el('h2', '', c.title));
+    var isReady = c.lessons.some(function (l) { return l.href; });
+    head.appendChild(el('span', 'status ' + (isReady ? 'ready' : 'planned'), isReady ? 'Ready' : 'Planned'));
+    body.appendChild(head);
     body.appendChild(el('p', 'sub', c.blurb));
     var list = el('div', 'lessons');
     c.lessons.forEach(function (l, li) {
@@ -119,6 +123,12 @@
   }
 
   function renderHome(root) {
+    var all = flat();
+    var ready = all.filter(function (x) { return x.lesson.href; }).length;
+    var bar = el('div', 'outline-head');
+    bar.appendChild(el('h2', '', 'Course outline'));
+    bar.appendChild(el('p', '', ready + ' of ' + all.length + ' lessons ready'));
+    root.parentNode.insertBefore(bar, root);
     CHAPTERS.forEach(function (c, ci) {
       root.appendChild(chapterCard(c, ci, '', null));
     });

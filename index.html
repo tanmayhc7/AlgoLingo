@@ -24,10 +24,26 @@
       <p class="lede">Python and data structures for someone who thinks in C. Every lesson runs the same program in both languages, one line at a time, and shows what happens in memory.</p>
       <a class="cta" href="lessons/variables.html">Start with variables</a>
     </div>
-    <div class="panel" data-lang="py" aria-label="Live demo: Python names are tags on objects">
-      <header><h2>Python</h2><p>Tags on objects, running live</p></header>
-      <ol class="code" id="hero-code"></ol>
-      <svg class="stage show-addr" id="hero-stage" role="img" aria-label="Animated demo of tags pointing at objects"></svg>
+    <div class="hero-stack">
+      <div class="panel" data-lang="py" aria-label="Live demo: Python names are tags on objects">
+        <header><h2>Python</h2><p>Tags on objects, running live</p></header>
+        <ol class="code" id="hero-code"></ol>
+        <svg class="stage show-addr" id="hero-stage" role="img" aria-label="Animated demo of tags pointing at objects"></svg>
+      </div>
+
+      <div class="panel" data-lang="c" aria-label="Same idea in C: variables are boxes with addresses">
+        <header><h2>C</h2><p>Boxes with addresses</p></header>
+        <div class="mini-c">
+          <ol class="code">
+            <li><span class="no">1</span><code>int a = 5;</code></li>
+            <li><span class="no">2</span><code>int *b = &amp;a;</code></li>
+          </ol>
+          <div class="crates" role="img" aria-label="Box a at 0x1000 holds 5. Box b at 0x1004 holds the address 0x1000.">
+            <div class="crate"><span class="cn">a<small>0x1000</small></span><b>5</b></div>
+            <div class="crate"><span class="cn">b<small>0x1004</small></span><b class="ptr">&rarr; 0x1000</b></div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
