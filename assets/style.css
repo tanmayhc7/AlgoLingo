@@ -1550,3 +1550,45 @@ a.pill.quiz:hover {
 .c-text.c-bad {
   fill: var(--hot);
 }
+
+/* Interview depth */
+.depth {
+  margin-top: 28px;
+  padding: 28px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  display: grid;
+  gap: 28px;
+}
+.depth-head h2 { font-size: 28px; letter-spacing: -0.02em; margin: 2px 0 8px; }
+.depth .eyebrow { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.depth-thesis { font-size: 18px; max-width: 68ch; color: var(--ink); }
+.depth-block { display: grid; gap: 12px; min-width: 0; }
+.depth-block h3 { font-size: 20px; letter-spacing: -0.01em; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.depth .why h4 { font-size: 16px; margin-bottom: 2px; }
+.depth .why p, .depth-note { color: var(--muted); max-width: 72ch; }
+.depth-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.depth-table th, .depth-table td { text-align: left; vertical-align: top; padding: 9px 12px; border-top: 1px solid var(--line); }
+.depth-table th { font-weight: 600; white-space: nowrap; width: 1%; }
+.depth-table td.big-o { font-family: var(--font-code); white-space: nowrap; width: 1%; color: var(--accent); font-weight: 600; }
+.qa { border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+.qa > summary { cursor: pointer; display: flex; gap: 10px; align-items: baseline; padding: 14px 16px; font-weight: 600; list-style: none; }
+.qa > summary::-webkit-details-marker { display: none; }
+.qa[open] > summary { border-bottom: 1px solid var(--line); }
+.qa-a { padding: 14px 16px; max-width: 74ch; white-space: pre-line; }
+.qa .qa { margin: 0 16px 14px; background: var(--paper); }
+.qa .qa:last-child { margin-bottom: 16px; }
+.lvl { flex: none; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; background: var(--line); color: var(--ink); font-weight: 700; }
+.lvl-senior { background: var(--sun); color: var(--on-sun); }
+.lvl-staff { background: var(--accent); color: var(--on-accent); }
+.lvl-follow { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.qa-q { min-width: 0; }
+@media (max-width: 640px) {
+  .depth { padding: 18px; }
+  .depth-table th, .depth-table td.big-o { white-space: normal; }
+}
+
+.depth .why { display: grid; gap: 2px; }
+.depth .why h4, .depth .why p { margin: 0; }
+.depth-table th { white-space: normal; min-width: 11ch; max-width: 26ch; width: auto; }

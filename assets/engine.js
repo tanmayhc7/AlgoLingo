@@ -635,6 +635,95 @@
 
   /* ---------- lesson page ---------- */
 
+    /* Interview depth: assets/depth/<lesson>.js sets window.DEPTH. Text may use `backticks` for code.
+     { thesis, why:[[head,text]], edges:[[case,text]], cost:[[op,cost,note]], internals:[[head,text]],
+       qa:[{lvl:'mid'|'senior'|'staff', q, a, follow:[[q,a]]}] } */
+  function rich(t) {
+    return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>');
+  }
+
+  function renderDepth(D) {
+    if (!D) return;
+    var host = document.getElementById('depth');
+    if (!host) {
+      host = document.createElement('section');
+      host.id = 'depth';
+      var anchor = document.getElementById('outline');
+      anchor.parentNode.insertBefore(host, anchor);
+    }
+    host.className = 'depth';
+    host.setAttribute('aria-labelledby', 'depth-h');
+    host.appendChild(h('div', { class: 'depth-head' }, [
+      h('p', { class: 'eyebrow', text: 'Interview depth' }),
+      h('h2', { id: 'depth-h', text: 'Know it well enough to defend it' }),
+      h('p', { class: 'depth-thesis', html: rich(D.thesis) }),
+    ]));
+
+    function block(title, kids) {
+      var b = h('section', { class: 'depth-block' }, [h('h3', { text: title })]);
+      kids.forEach(function (k) { b.appendChild(k); });
+      host.appendChild(b);
+    }
+    function rows(list, cols) {
+      var tbl = h('table', { class: 'depth-table' });
+      var tbody = h('tbody');
+      list.forEach(function (r) {
+        var tr = h('tr');
+        r.forEach(function (c, i) {
+          tr.appendChild(h(i === 0 ? 'th' : 'td', { html: rich(c), class: cols && cols[i] ? cols[i] : '' }));
+        });
+        tbody.appendChild(tr);
+      });
+      tbl.appendChild(tbody);
+      return h('div', { class: 'table-wrap' }, [tbl]);
+    }
+
+    if (D.why && D.why.length) {
+      block('How to reason about it', D.why.map(function (w) {
+        return h('div', { class: 'why' }, [h('h4', { text: w[0] }), h('p', { html: rich(w[1]) })]);
+      }));
+    }
+    if (D.edges && D.edges.length) {
+      block('Edge cases to name out loud', [rows(D.edges)]);
+    }
+    if (D.cost && D.cost.length) {
+      var kids = [h('div', { class: 'table-wrap' }, [(function () {
+        var tbl = h('table', { class: 'depth-table cost' });
+        var tbody = h('tbody');
+        D.cost.forEach(function (r) {
+          tbody.appendChild(h('tr', {}, [
+            h('th', { html: '<code>' + esc(r[0]) + '</code>' }),
+            h('td', { class: 'big-o', text: r[1] }),
+            h('td', { html: rich(r[2] || '') }),
+          ]));
+        });
+        tbl.appendChild(tbody);
+        return tbl;
+      })()])];
+      block('Complexity', kids);
+    }
+    if (D.internals && D.internals.length) {
+      block('What is underneath', D.internals.map(function (w) {
+        return h('div', { class: 'why' }, [h('h4', { text: w[0] }), h('p', { html: rich(w[1]) })]);
+      }));
+    }
+    if (D.qa && D.qa.length) {
+      var LV = { mid: 'Mid', senior: 'Senior', staff: 'Staff' };
+      block('Questions an interviewer asks', [h('p', { class: 'depth-note', text: 'Answer out loud first, then open the answer. Each follow-up is the kind of push a real interviewer makes.' })].concat(D.qa.map(function (x) {
+        var det = h('details', { class: 'qa' });
+        det.appendChild(h('summary', {}, [h('span', { class: 'lvl lvl-' + (x.lvl || 'mid'), text: LV[x.lvl || 'mid'] }), h('span', { class: 'qa-q', html: rich(x.q) })]));
+        det.appendChild(h('div', { class: 'qa-a', html: rich(x.a) }));
+        (x.follow || []).forEach(function (f) {
+          var d2 = h('details', { class: 'qa follow' });
+          d2.appendChild(h('summary', {}, [h('span', { class: 'lvl lvl-follow', text: 'Follow-up' }), h('span', { class: 'qa-q', html: rich(f[0]) })]));
+          d2.appendChild(h('div', { class: 'qa-a', html: rich(f[1]) }));
+          det.appendChild(d2);
+        });
+        return det;
+      })));
+    }
+  }
+
   function mount(L) {
     var scenes = L.scenes;
     var cur = null;
@@ -815,6 +904,8 @@
       renderPredict(sc);
       go(0);
     }
+
+    renderDepth(window.DEPTH);
 
     var tb = $('builtins');
     L.builtins.forEach(function (r) {

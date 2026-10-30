@@ -14,6 +14,7 @@ An interactive static site that teaches Python, then DSA, to a C programmer. Eac
 
 ## Built so far (Phase 1 complete)
 22 lessons in 7 chapters: 1 Getting started (compiled vs interpreted, running Python, variables), 2 Basic types (numbers, strings), 3 Control flow (conditions, loops, errors), 4 Functions and shorthands (functions, shorthands, comprehensions), 5 Memory and arrays (array memory, lists, tuples), 6 Hashing (hashing, dicts, sets), 7 Toolbox (sorting helpers, collections, choosing a container, patterns, survival kit). Seven chapter quizzes, 5 to 7 questions each.
+Interview depth: every lesson has `assets/depth/<id>.js` (`window.DEPTH` = thesis, why[], edges[], cost[], internals[], qa[] with lvl mid/senior/staff and follow-ups) loaded by a script tag before engine.js and rendered by `renderDepth` before the outline. Use the same schema for all new lessons.
 Regression run on 2026-10-30: all 73 scenes step forward cleanly at desktop and phone width with no console errors and no horizontal overflow; all quizzes pass with their reference solutions.
 
 ## How it is built
@@ -24,6 +25,6 @@ Regression run on 2026-10-30: all 73 scenes step forward cleanly at desktop and 
 - To add a lesson: copy `lessons/loops.html` and a lesson data file, change the ids, add `href` in `chapters.js`.
 
 ## Next steps
-1. Phase 2: classes, then the DSA topics (linked lists, trees, graphs, heaps, DP) in the same Python-and-C format.
+1. Phase 2: linked lists, stacks, queues, trees, heaps, tries. Phase 3: graphs, dynamic programming, complexity analysis. Phase 4: OOP. Same Python-and-C format, each lesson with a depth file.
 2. Figma pass on the lesson screen, then port the result.
-3. Turn on GitHub Pages if not done yet.
+3. Turn on GitHub Pages if not done yet (Settings, Pages, main, / root).

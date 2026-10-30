@@ -2,7 +2,7 @@
 
 Who this is for: an engineer who thinks in C and is learning Python's idioms and data structures from scratch. Where C makes you build things by hand, Python hands you a built-in. Every lesson shows what the built-in does for you and what it costs underneath.
 
-Status: Phase 1 is built (22 lessons, 7 chapter quizzes). The checkboxes below are the original plan; every item is now a lesson page. Phase 2 is next.
+Status: Phase 1 is built (22 lessons, 7 chapter quizzes). The checkboxes below are the original plan; every item is now a lesson page. Every Phase 1 lesson also has an interview-depth section. Phase 2 is next.
 
 ## How every lesson is built
 
@@ -229,9 +229,11 @@ Phase 1 has two stages. Stage 1A is everything you need before collections make 
 
 ## Later phases (rough order, to be refined as you decide)
 
-**Phase 2: more Python.** Strings in depth, classes and objects, dunder methods (`__init__`, `__repr__`, `__eq__`, `__hash__`), modules and imports, files, generators and iterators, decorators, `dataclasses`, virtual environments and `pip`, testing with `assert` and `pytest`.
+**Roadmap (agreed with T).** Every phase is built to the interview-depth standard: each lesson has the visual trace plus an "Interview depth" section (thesis, reasoning, edge-case checklist, complexity table, internals, and mid/senior/staff Q&A with follow-ups).
 
-**Phase 3: DSA, visually.** Big-O with real timings, linear and binary search, sorting algorithms, two pointers, sliding window, prefix sums, stacks, queues, linked lists, recursion and backtracking, trees and traversals (pre-order, in-order, post-order, level-order, with the code, the tree and a narration per loop iteration), binary search trees, heaps, tries, graphs (BFS, DFS, topological sort, shortest paths), union-find, dynamic programming, greedy, intervals, bit manipulation.
+- **Phase 2: linear and tree structures.** Linked lists, stacks, queues, trees (traversals, BST), heaps and tries. Python and C side by side, with the node and pointer pictures.
+- **Phase 3: graphs, dynamic programming and complexity.** Graphs (BFS, DFS, topological sort, shortest paths, union-find), dynamic programming (top-down, bottom-up, space optimisation), big-O and complexity analysis with real timings.
+- **Phase 4: OOP.** Classes and objects, dunder methods (`__init__`, `__repr__`, `__eq__`, `__hash__`), inheritance and composition, dataclasses, iterators and generators, decorators, design trade-offs.
 
 ---
 
