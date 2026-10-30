@@ -8,7 +8,7 @@ Planning. The Phase 1 plan is in [CURRICULUM.md](CURRICULUM.md). No lesson pages
 
 ## Phase 1 at a glance
 
-- **Stage 1A, language basics:** variables, numbers, strings, conditions, loops, functions, shorthands, comprehensions, errors
+- **Stage 1A, language basics:** compiled versus interpreted (C versus Python), variables, numbers, strings, conditions, loops, functions, shorthands, comprehensions, errors
 - **Stage 1B, collections and hashing:** how memory holds an array, lists, tuples, hashing, dicts, sets, sorting helpers, `collections`
 
 ## Layout (planned)

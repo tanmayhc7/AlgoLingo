@@ -21,7 +21,18 @@ Phase 1 has two stages. Stage 1A is everything you need before collections make 
 
 ### Stage 1A: Language basics
 
-- [ ] **1A.0 Running Python**
+- [ ] **1A.0 Compiled versus interpreted: how C and Python actually run**
+  - C: source, preprocessor, compiler, assembler, linker, then one native executable that the CPU runs directly. Types are fixed at compile time, and many mistakes are caught before the program ever starts.
+  - Python (CPython): source is compiled to bytecode (the `.pyc` files in `__pycache__`), then a virtual machine loop interprets that bytecode one instruction at a time. Types are checked while the program runs.
+  - So Python is both compiled and interpreted. The useful question is what is compiled to what, and when.
+  - What this means in practice: why Python is slower in tight loops, why a typo in a branch that never runs goes unnoticed, why one `a + b` works on ints, strings and lists, why you can run a file without a build step
+  - See the bytecode yourself with the `dis` module
+  - Other ways to run Python and what they change: PyPy (JIT), Cython and Numba (compile hot code), and why C extensions such as NumPy are fast
+  - Tradeoffs table: speed, startup, portability, error timing, memory use, build step
+  - Visual: two pipelines side by side. C goes source, machine code, CPU. Python goes source, bytecode, VM loop. Step through `x = a + b`: C is one add instruction on typed registers, Python is `LOAD_NAME`, `LOAD_NAME`, `BINARY_OP`, `STORE_NAME` with a type check at each step.
+  - Traps: an error in code that has not run yet only shows up when it does. `a + b` means different things depending on the types at that moment.
+
+- [ ] **1A.0b Running Python**
   - REPL versus scripts (`python3 file.py`), comments, indentation instead of braces, no semicolons, no `main()` required, `if __name__ == "__main__":`
   - `print` (`sep`, `end`), `input`, `help()`, `dir()`, `type()`
   - Visual: the same small program in C and Python, with the braces fading into indentation
