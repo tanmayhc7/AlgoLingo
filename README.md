@@ -1,6 +1,6 @@
 # Algolingo
 
-**Live site: https://tanmayhc7.github.io/dsa-visualizer/**
+**Live site: https://tanmayhc7.github.io/algolingo/**
 
 Open it in any browser, phone included. Code questions in the chapter quizzes run real Python in the browser.
 
