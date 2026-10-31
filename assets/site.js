@@ -35,4 +35,105 @@
       label();
     });
   });
+
+  /* ---------- motion and progress ---------- */
+  var DONE = 'dsav-visited';
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(DONE) || '[]'); } catch (e) { return []; }
+  }
+  function markDone(id) {
+    var d = getDone();
+    if (d.indexOf(id) < 0) {
+      d.push(id);
+      try { localStorage.setItem(DONE, JSON.stringify(d)); } catch (e) { /* ignore */ }
+    }
+  }
+  var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.documentElement.classList.add('js-motion');
+
+    /* a lesson page counts as visited once the learner steps through its first scene */
+    if (window.LESSON && window.LESSON.id) {
+      var id = window.LESSON.id;
+      var armed = false;
+      document.addEventListener('click', function (e) {
+        if (armed) return;
+        var b = e.target.closest && e.target.closest('button');
+        if (b && b.id !== 'theme') { armed = true; markDone(id); }
+      });
+    }
+
+    var done = getDone();
+    var pills = document.querySelectorAll('a.pill.ready[data-id], .pill.here[data-id]');
+    Array.prototype.forEach.call(pills, function (p) {
+      if (done.indexOf(p.getAttribute('data-id')) >= 0) p.classList.add('done');
+    });
+
+    /* home page: headline words, progress bar, scroll reveal */
+    var h1 = document.querySelector('.hero h1');
+    if (h1 && !calm && !h1.dataset.split) {
+      h1.dataset.split = '1';
+      var words = h1.textContent.split(' ');
+      h1.textContent = '';
+      words.forEach(function (w, i) {
+        var span = document.createElement('span');
+        span.className = 'word';
+        span.style.animationDelay = 80 + i * 70 + 'ms';
+        span.textContent = w;
+        h1.appendChild(span);
+        h1.appendChild(document.createTextNode(' '));
+      });
+    }
+
+    var track = document.getElementById('progress');
+    if (track && window.CHAPTERS) {
+      var all = [];
+      window.CHAPTERS.forEach(function (c) {
+        c.lessons.forEach(function (l) { if (l.href) all.push(l); });
+      });
+      var seen = all.filter(function (l) { return done.indexOf(l.id) >= 0; }).length;
+      var next = all.filter(function (l) { return done.indexOf(l.id) < 0; })[0];
+      document.getElementById('progress-label').textContent = seen + ' of ' + all.length + ' lessons visited';
+      var nl = document.getElementById('progress-next');
+      if (next) {
+        nl.href = next.href;
+        nl.textContent = seen ? 'Continue: ' + next.title : 'Start: ' + next.title;
+      } else {
+        nl.hidden = true;
+      }
+      track.hidden = false;
+      var fill = document.getElementById('progress-fill');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { fill.style.width = (all.length ? (seen / all.length) * 100 : 0) + '%'; });
+      });
+    }
+
+    var cards = document.querySelectorAll('.chapter');
+    if (cards.length) {
+      if (calm || !('IntersectionObserver' in window)) {
+        Array.prototype.forEach.call(cards, function (c) { c.classList.add('in'); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+          });
+        }, { threshold: 0.12 });
+        Array.prototype.forEach.call(cards, function (c, i) {
+          c.style.transitionDelay = Math.min(i, 4) * 60 + 'ms';
+          io.observe(c);
+        });
+      }
+    }
+
+    /* depth section: Q&A answers open smoothly, section reveals on scroll */
+    var depth = document.getElementById('depth');
+    if (depth && !calm && 'IntersectionObserver' in window) {
+      depth.classList.add('reveal');
+      var io2 = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { depth.classList.add('in'); io2.disconnect(); }
+      }, { threshold: 0.05 });
+      io2.observe(depth);
+    }
+  });
 })();

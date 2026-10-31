@@ -119,6 +119,7 @@
       } else {
         pill = el('span', 'pill');
       }
+      pill.setAttribute('data-id', l.id);
       pill.appendChild(n);
       pill.appendChild(document.createTextNode(l.title));
       if (!l.href) pill.appendChild(el('span', 'sr', ' (planned)'));
