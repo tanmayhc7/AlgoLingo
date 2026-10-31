@@ -8,7 +8,7 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-Six phases are built: 27 chapters, 72 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [DESIGN.md (design principles and working rules), HANDOFF.md](HANDOFF.md) says where the project stands.
+Six phases are built: 27 chapters, 72 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [DESIGN.md](DESIGN.md) holds the design principles and working rules, and [HANDOFF.md](HANDOFF.md) says where the project stands.
 
 1. **Python foundations** (chapters 1 to 7): names, types, control flow, functions, memory and arrays, hashing, the toolbox.
 2. **Core data structures** (8 to 11): linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers (structure mode).
