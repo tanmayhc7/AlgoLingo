@@ -161,6 +161,15 @@
         { id: 'dunder-methods', title: 'Special methods', href: 'lessons/dunder-methods.html' },
       ],
     },
+    {
+      title: 'Inheritance and composition',
+      quiz: 'quizzes/chapter-17.html',
+      blurb: 'Reusing behaviour two ways: subclasses with method resolution order, and objects that hold and delegate to other objects.',
+      lessons: [
+        { id: 'inheritance', title: 'Inheritance and method resolution', href: 'lessons/inheritance.html' },
+        { id: 'composition', title: 'Composition and delegation', href: 'lessons/composition.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -168,7 +177,7 @@
     { n: 1, title: 'Python foundations', blurb: 'Python for someone who thinks in C: names and objects, types, control flow, functions, memory and arrays, hashing, and the standard-library toolbox.', from: 0, to: 6 },
     { n: 2, title: 'Core data structures', blurb: 'Linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers that move as the code runs.', from: 7, to: 10 },
     { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 14 },
-    { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 17 },
+    { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 16 },
   ];
 
   function phaseOf(ci) {
