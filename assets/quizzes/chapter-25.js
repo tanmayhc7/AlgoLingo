@@ -1,0 +1,72 @@
+/* Chapter 25 quiz: String matching. */
+window.QUIZ = {
+  chapter: 25,
+  title: 'String matching',
+  lede: 'KMP and its failure table, and Rabin-Karp with a rolling hash.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'What is the lps (failure) table for the pattern <code>"ABAB"</code>?',
+      options: ['[0, 0, 1, 2]', '[0, 1, 2, 3]', '[0, 0, 0, 0]'],
+      answer: 0,
+      why: '"A" and "AB" have no border; "ABA" has "A"; "ABAB" has "AB".',
+    },
+    {
+      type: 'mcq',
+      q: 'KMP is matching and hits a mismatch with <code>j</code> characters already matched. What happens?',
+      options: ['i moves back by j - 1 and j resets to 0', 'j = lps[j - 1]; i does not move back', 'The whole pattern is skipped'],
+      answer: 1,
+      why: 'The border tells how many matched characters remain valid, so no text character is read twice.',
+    },
+    {
+      type: 'mcq',
+      q: 'Two Rabin-Karp windows have the same hash. What does that prove?',
+      options: ['The windows are equal strings', 'Nothing yet: it is a candidate that must be verified', 'The hash function is broken'],
+      answer: 1,
+      why: 'Different strings can share a hash (a collision), so the characters must be compared.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>build_lps</code> returns the failure table.',
+      starter: 'def build_lps(p):\n    lps = [0] * len(p)\n    k = 0\n    for i in range(1, len(p)):\n        while k and p[i] != p[___]:\n            k = lps[___]\n        if p[i] == p[k]:\n            k += 1\n        lps[i] = k\n    return lps\n',
+      tests: [
+        { expr: 'build_lps("ABABAC")', want: '[0, 0, 1, 2, 3, 0]' },
+        { expr: 'build_lps("AAAA")', want: '[0, 1, 2, 3]' },
+        { expr: 'build_lps("ABCD")', want: '[0, 0, 0, 0]' },
+        { expr: 'build_lps("AABAAB")', want: '[0, 1, 0, 1, 2, 3]' },
+      ],
+      hint: 'Compare with p[k], and on a mismatch fall back to the border of the previous k characters: lps[k - 1].',
+      solution: 'def build_lps(p):\n    lps = [0] * len(p)\n    k = 0\n    for i in range(1, len(p)):\n        while k and p[i] != p[k]:\n            k = lps[k - 1]\n        if p[i] == p[k]:\n            k += 1\n        lps[i] = k\n    return lps\n',
+      why: 'The fallback chain visits every shorter border in turn, so the longest valid one is found.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>kmp_search(text, pat)</code> returning the index of the first occurrence of <code>pat</code> in <code>text</code>, or <code>-1</code>. An empty pattern returns <code>0</code>. Use the lps idea: do not restart the text index on a mismatch.',
+      starter: 'def kmp_search(text, pat):\n    # your code\n',
+      tests: [
+        { expr: 'kmp_search("ABABABACABA", "ABABAC")', want: '2' },
+        { expr: 'kmp_search("hello", "xyz")', want: '-1' },
+        { expr: 'kmp_search("aaaaab", "aab")', want: '3' },
+        { expr: 'kmp_search("abc", "")', want: '0' },
+        { expr: 'kmp_search("ab", "abc")', want: '-1' },
+      ],
+      hint: 'Build lps, then loop over the text with j = matched count. While j and the characters differ, set j = lps[j - 1]. Return i - m + 1 when j reaches m.',
+      solution: 'def kmp_search(text, pat):\n    m = len(pat)\n    if m == 0:\n        return 0\n    lps = [0] * m\n    k = 0\n    for i in range(1, m):\n        while k and pat[i] != pat[k]:\n            k = lps[k - 1]\n        if pat[i] == pat[k]:\n            k += 1\n        lps[i] = k\n    j = 0\n    for i, ch in enumerate(text):\n        while j and ch != pat[j]:\n            j = lps[j - 1]\n        if ch == pat[j]:\n            j += 1\n        if j == m:\n            return i - m + 1\n    return -1\n',
+      why: 'The text index only increases and j rises at most once per character, so the loop is O(n + m).',
+    },
+    {
+      type: 'debug',
+      q: '<code>roll(h, old, new, top, base, mod)</code> should return the next window hash after dropping digit <code>old</code> and adding digit <code>new</code>. It gives the wrong hash because the removed digit is not weighted correctly. Fix it.',
+      starter: 'def roll(h, old, new, top, base, mod):\n    return ((h - old) * base + new) % mod\n',
+      tests: [
+        { expr: 'roll(6, 3, 1, 2, 10, 7)', want: '1' },
+        { expr: 'roll(1, 1, 5, 2, 10, 7)', want: '2' },
+        { expr: 'roll(2, 4, 9, 2, 10, 7)', want: '5' },
+        { expr: 'roll(0, 5, 0, 2, 10, 7) >= 0', want: 'True' },
+      ],
+      hint: 'The leading digit contributes old * base^(m-1) to the hash, and top already holds base^(m-1) mod mod.',
+      solution: 'def roll(h, old, new, top, base, mod):\n    return (((h - old * top % mod) % mod + mod) % mod * base + new) % mod\n',
+      why: 'The leading digit sits in the highest place, so it is worth old * top, not old. Reducing and adding mod before the final remainder also keeps the intermediate value non-negative, which C and Java need.',
+    },
+  ],
+};

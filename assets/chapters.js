@@ -233,6 +233,15 @@
         { id: 'counting-radix', title: 'Counting and radix sort', href: 'lessons/counting-radix.html' },
       ],
     },
+    {
+      title: 'String matching',
+      quiz: 'quizzes/chapter-25.html',
+      blurb: 'Finding a pattern in a text without restarting: KMP with its failure table, and Rabin-Karp with a rolling hash.',
+      lessons: [
+        { id: 'kmp', title: 'KMP string matching', href: 'lessons/kmp.html' },
+        { id: 'rabin-karp', title: 'Rabin-Karp rolling hash', href: 'lessons/rabin-karp.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -242,7 +251,7 @@
     { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 14 },
     { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 17 },
     { n: 5, title: 'Algorithms in motion', blurb: 'Sorting, searching and array techniques as animations: bars that slide and swap like a video, with the Python and C code running beside them.', from: 18, to: 20 },
-    { n: 6, title: 'Advanced algorithms', blurb: 'Spanning trees, negative edges, and more graph and string algorithms beyond the basics, with the same step-through pictures.', from: 21, to: 23 },
+    { n: 6, title: 'Advanced algorithms', blurb: 'Spanning trees, negative edges, and more graph and string algorithms beyond the basics, with the same step-through pictures.', from: 21, to: 24 },
   ];
 
   function phaseOf(ci) {
