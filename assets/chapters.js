@@ -41,6 +41,7 @@
       blurb: 'Functions, the idioms that replace C boilerplate, and comprehensions.',
       lessons: [
         { id: 'functions', title: 'Functions', href: 'lessons/functions.html' },
+        { id: 'recursion', title: 'Recursion: the call stack, base cases and limits', href: 'lessons/recursion.html' },
         { id: 'shorthands', title: 'Shorthands and idioms', href: 'lessons/shorthands.html' },
         { id: 'comprehensions', title: 'Comprehensions', href: 'lessons/comprehensions.html' },
       ],

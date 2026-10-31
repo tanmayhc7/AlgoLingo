@@ -14,6 +14,7 @@ window.CHAPTER_NOTES = {
       'A traceback reads bottom to top: the last line is the error, the frame above it is where it was raised.',
       'Catch the narrowest exception you can handle; use finally for cleanup and never swallow errors silently.'],
   4: ['Functions are objects. Default arguments are evaluated once, so never use a mutable default such as [].',
+      'Recursion needs a base case and a call on a smaller input; every call has its own stack frame (O(depth) space) and Python stops at about 1000 frames, so convert very deep recursion to a loop.',
       'Return values and *args/**kwargs cover most signatures; keyword-only arguments make call sites readable.',
       'Idioms worth knowing: tuple unpacking, swap with a, b = b, a, conditional expressions, any/all, and the walrus operator.',
       'A comprehension is a loop that builds a collection in one expression; stop when it needs more than one condition or nesting level.'],

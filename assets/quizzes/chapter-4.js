@@ -75,5 +75,32 @@ window.QUIZ = {
       solution: 'def with_zero(xs):\n    return xs + [0]\n',
       why: 'xs + [0] builds a new list and leaves the caller\'s list alone. append mutates in place, which is visible to everyone holding a tag on it.',
     },
+    {
+      type: 'write',
+      q: 'Write <code>sum_digits(n)</code> <b>recursively</b>: the sum of the decimal digits of a non-negative integer.',
+      starter: 'def sum_digits(n):\n    # your code\n',
+      tests: [
+        { expr: 'sum_digits(123)', want: '6' },
+        { expr: 'sum_digits(0)', want: '0' },
+        { expr: 'sum_digits(9)', want: '9' },
+        { expr: 'sum_digits(1000)', want: '1' },
+      ],
+      hint: 'Base case: n < 10 returns n. Otherwise last digit n % 10 plus sum_digits(n // 10).',
+      solution: 'def sum_digits(n):\n    if n < 10:\n        return n\n    return n % 10 + sum_digits(n // 10)\n',
+      why: 'The base case stops the calls, and n // 10 is a strictly smaller input, so every call moves toward it.',
+    },
+    {
+      type: 'debug',
+      q: '<code>sum_to(n)</code> should return 1 + 2 + ... + n, and 0 for n = 0. The base case is wrong. Fix it.',
+      starter: 'def sum_to(n):\n    if n == 0:\n        return 1\n    return n + sum_to(n - 1)\n',
+      tests: [
+        { expr: 'sum_to(3)', want: '6' },
+        { expr: 'sum_to(0)', want: '0' },
+        { expr: 'sum_to(1)', want: '1' },
+      ],
+      hint: 'What should the sum of nothing be?',
+      solution: 'def sum_to(n):\n    if n == 0:\n        return 0\n    return n + sum_to(n - 1)\n',
+      why: 'The base case value feeds every result on the way back up, so a wrong base case corrupts every answer.',
+    },
   ],
 };
