@@ -385,6 +385,7 @@
       Array.prototype.forEach.call(views, function (v) { v.hidden = v !== target; });
       picker.hidden = !!target;
       head.hidden = !!target;
+      var ns = document.querySelector('.next-site'); if (ns) ns.hidden = !!target;
       if (target) {
         var top = target.getBoundingClientRect().top + window.pageYOffset - 70;
         window.scrollTo(0, Math.max(0, top));
