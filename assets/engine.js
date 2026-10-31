@@ -724,6 +724,314 @@
     }
   }
 
+  /* ---------- structure stage: nodes, arrows and named pointers (linked lists, trees, heaps) ----------
+     Ops (all in step.ds):
+       ['node', id, label, x, y, shape]   shape: 'node' (value | next), 'dnode' (prev | value | next), 'cell', 'circle'
+       ['mv', id, x, y]  ['lab', id, label]  ['rm', id]  ['note', id, text]
+       ['edge', from, to, kind]           kind: next (default), prev, l, r, child. One edge per (from, kind).
+       ['unedge', from, kind]
+       ['ptr', name, id|null, dir]        dir: up (default) or down. null shows a name = none chip in the dock.
+       ['unptr', name]
+       ['tag', id, cls...] ['untag', id, cls...]   persistent classes: done, dim, hot, cur
+       ['hot', ids...]                    flashes for this step only
+     Coordinates are in a 1000-wide viewBox. */
+  var DS_W = 1000;
+  var SHAPES = { node: [100, 44], dnode: [136, 44], cell: [64, 44], circle: [44, 44] };
+
+  function buildDsSnapshots(steps) {
+    var nodes = [];
+    var edges = [];
+    var ptrs = [];
+    var count = 0;
+    var out = [];
+    function find(id) {
+      return nodes.filter(function (n) { return n.id === id; })[0];
+    }
+    steps.forEach(function (step) {
+      var hot = [];
+      (step.ds || []).forEach(function (op) {
+        var k = op[0];
+        if (k === 'node') {
+          var shape = op[5] || 'node';
+          nodes.push({ id: op[1], label: op[2], x: op[3], y: op[4], shape: shape, cls: [], note: '', addr: '0x' + (0x5000 + count++ * 0x20).toString(16) });
+        } else if (k === 'mv') {
+          var n = find(op[1]);
+          if (n) { n.x = op[2]; n.y = op[3]; }
+        } else if (k === 'lab') {
+          var m = find(op[1]);
+          if (m) m.label = op[2];
+        } else if (k === 'note') {
+          var q = find(op[1]);
+          if (q) q.note = op[2];
+        } else if (k === 'rm') {
+          nodes = nodes.filter(function (x) { return x.id !== op[1]; });
+          edges = edges.filter(function (e) { return e.from !== op[1] && e.to !== op[1]; });
+          ptrs.forEach(function (p) { if (p.to === op[1]) p.to = null; });
+        } else if (k === 'edge') {
+          var kind = op[3] || 'next';
+          edges = edges.filter(function (e) { return !(e.from === op[1] && e.kind === kind); });
+          edges.push({ from: op[1], to: op[2], kind: kind });
+        } else if (k === 'unedge') {
+          var kd = op[2] || 'next';
+          edges = edges.filter(function (e) { return !(e.from === op[1] && e.kind === kd); });
+        } else if (k === 'ptr') {
+          var p = ptrs.filter(function (x) { return x.name === op[1]; })[0];
+          if (p) { p.to = op[2]; if (op[3]) p.dir = op[3]; }
+          else ptrs.push({ name: op[1], to: op[2], dir: op[3] || 'up' });
+        } else if (k === 'unptr') {
+          ptrs = ptrs.filter(function (x) { return x.name !== op[1]; });
+        } else if (k === 'tag') {
+          var t = find(op[1]);
+          if (t) op.slice(2).forEach(function (c) { if (t.cls.indexOf(c) < 0) t.cls.push(c); });
+        } else if (k === 'untag') {
+          var u = find(op[1]);
+          if (u) u.cls = u.cls.filter(function (c) { return op.slice(2).indexOf(c) < 0; });
+        } else if (k === 'hot') {
+          hot = op.slice(1);
+        }
+      });
+      out.push({
+        nodes: nodes.map(function (x) { return { id: x.id, label: x.label, x: x.x, y: x.y, shape: x.shape, cls: x.cls.slice(), note: x.note, addr: x.addr }; }),
+        edges: edges.map(function (e) { return { from: e.from, to: e.to, kind: e.kind }; }),
+        ptrs: ptrs.map(function (x) { return { name: x.name, to: x.to, dir: x.dir }; }),
+        hot: hot,
+        height: step.h,
+      });
+    });
+    return out;
+  }
+
+  function DsStage(svg) {
+    this.svg = svg;
+    this.reset();
+  }
+
+  DsStage.prototype.reset = function () {
+    this.svg.textContent = '';
+    this.layers = {
+      edges: svgEl('g', { class: 'ds-edges' }, this.svg),
+      nodes: svgEl('g', { class: 'ds-nodes' }, this.svg),
+      ptrs: svgEl('g', { class: 'ds-ptrs' }, this.svg),
+    };
+    this.defs = svgEl('defs', {}, this.svg);
+    var mk = svgEl('marker', { id: 'ds-arrow', viewBox: '0 0 10 10', refX: '8', refY: '5', markerUnits: 'userSpaceOnUse', markerWidth: '13', markerHeight: '13', orient: 'auto-start-reverse' }, this.defs);
+    svgEl('path', { d: 'M0,0 L10,5 L0,10 z', class: 'ds-head' }, mk);
+    this.nodeEls = {};
+    this.edgeEls = {};
+    this.ptrEls = {};
+    this.last = null;
+  };
+
+  function dsSize(n) {
+    return SHAPES[n.shape] || SHAPES.node;
+  }
+
+  /* where an edge leaves one node and arrives at another */
+  function dsPath(a, b, kind) {
+    var sa = dsSize(a);
+    var sb = dsSize(b);
+    var x1, y1, x2, y2;
+    if (a.shape === 'circle' || a.shape === 'cell') {
+      /* trees and arrays: centre to centre, trimmed to the border */
+      var dx = b.x - a.x;
+      var dy = b.y - a.y;
+      var len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var ra = a.shape === 'circle' ? 22 : 0;
+      var rb = b.shape === 'circle' ? 24 : 0;
+      x1 = a.x + (dx / len) * ra;
+      y1 = a.y + (dy / len) * ra;
+      x2 = b.x - (dx / len) * rb;
+      y2 = b.y - (dy / len) * rb;
+      return 'M' + x1 + ',' + y1 + ' L' + x2 + ',' + y2;
+    }
+    if (a.shape === 'dnode') {
+      if (kind === 'prev') {
+        x1 = a.x - sa[0] / 2 + 17; y1 = a.y + 11;
+        x2 = b.x + sb[0] / 2; y2 = b.y + 11;
+        return 'M' + x1 + ',' + y1 + ' L' + (x2 + 3) + ',' + y2;
+      }
+      x1 = a.x + sa[0] / 2 - 17; y1 = a.y - 11;
+      x2 = b.x - sb[0] / 2; y2 = b.y - 11;
+      return 'M' + x1 + ',' + y1 + ' L' + (x2 - 3) + ',' + y2;
+    }
+    /* singly linked node: leaves from the next cell */
+    x1 = a.x + 30;
+    y1 = a.y;
+    if (Math.abs(b.y - a.y) < 8 && b.x > a.x) {
+      x2 = b.x - sb[0] / 2 - 3;
+      return 'M' + x1 + ',' + y1 + ' L' + x2 + ',' + b.y;
+    }
+    if (Math.abs(b.y - a.y) < 8) {
+      /* pointing backwards along the row: loop underneath */
+      var ya = a.y + sa[1] / 2;
+      var yb = b.y + sb[1] / 2 + 3;
+      return 'M' + x1 + ',' + ya + ' C' + x1 + ',' + (ya + 52) + ' ' + b.x + ',' + (yb + 52) + ' ' + b.x + ',' + yb;
+    }
+    if (b.y > a.y) {
+      var yt = b.y - sb[1] / 2 - 3;
+      return 'M' + x1 + ',' + (a.y + sa[1] / 2) + ' C' + x1 + ',' + (a.y + 60) + ' ' + b.x + ',' + (yt - 40) + ' ' + b.x + ',' + yt;
+    }
+    var yb2 = b.y + sb[1] / 2 + 3;
+    return 'M' + x1 + ',' + (a.y - sa[1] / 2) + ' C' + x1 + ',' + (a.y - 60) + ' ' + b.x + ',' + (yb2 + 40) + ' ' + b.x + ',' + yb2;
+  }
+
+  function dsNodeBody(g, n) {
+    var sz = dsSize(n);
+    var w = sz[0];
+    var hgt = sz[1];
+    g.textContent = '';
+    if (n.shape === 'circle') {
+      svgEl('circle', { class: 'ds-body', r: 22 }, g);
+      svgEl('text', { class: 'ds-val', 'text-anchor': 'middle', y: 6 }, g).textContent = n.label;
+    } else if (n.shape === 'cell') {
+      svgEl('rect', { class: 'ds-body', x: -w / 2, y: -hgt / 2, width: w, height: hgt, rx: 8 }, g);
+      svgEl('text', { class: 'ds-val', 'text-anchor': 'middle', y: 6 }, g).textContent = n.label;
+    } else if (n.shape === 'dnode') {
+      svgEl('rect', { class: 'ds-body', x: -w / 2, y: -hgt / 2, width: w, height: hgt, rx: 8 }, g);
+      svgEl('line', { class: 'ds-div', x1: -w / 2 + 34, x2: -w / 2 + 34, y1: -hgt / 2, y2: hgt / 2 }, g);
+      svgEl('line', { class: 'ds-div', x1: w / 2 - 34, x2: w / 2 - 34, y1: -hgt / 2, y2: hgt / 2 }, g);
+      svgEl('text', { class: 'ds-val', 'text-anchor': 'middle', y: 6 }, g).textContent = n.label;
+    } else {
+      svgEl('rect', { class: 'ds-body', x: -w / 2, y: -hgt / 2, width: w, height: hgt, rx: 8 }, g);
+      svgEl('line', { class: 'ds-div', x1: 10, x2: 10, y1: -hgt / 2, y2: hgt / 2 }, g);
+      svgEl('text', { class: 'ds-val', 'text-anchor': 'middle', x: -20, y: 6 }, g).textContent = n.label;
+    }
+    if (n.note) svgEl('text', { class: 'ds-note', 'text-anchor': 'middle', y: hgt / 2 + (n.shape === 'node' || n.shape === 'dnode' ? 34 : 20) }, g).textContent = n.note;
+    if (n.shape === 'node' || n.shape === 'dnode') svgEl('text', { class: 'ds-addr', x: -w / 2, y: hgt / 2 + 16 }, g).textContent = n.addr;
+  }
+
+  DsStage.prototype.apply = function (st) {
+    var self = this;
+    var nodeById = {};
+    st.nodes.forEach(function (n) { nodeById[n.id] = n; });
+    var maxY = 0;
+    st.nodes.forEach(function (n) { maxY = Math.max(maxY, n.y + 70); });
+    var H = st.height || Math.max(220, maxY + 60);
+    this.svg.setAttribute('viewBox', '0 0 ' + DS_W + ' ' + H);
+
+    /* nodes */
+    var seen = {};
+    st.nodes.forEach(function (n) {
+      seen[n.id] = true;
+      var e = self.nodeEls[n.id];
+      var sig = n.label + '|' + n.note + '|' + n.shape;
+      if (!e) {
+        var g = svgEl('g', { class: 'ds-node' }, self.layers.nodes);
+        var inner = svgEl('g', { class: 'ds-pop' }, g);
+        e = self.nodeEls[n.id] = { g: g, inner: inner, sig: null };
+        g.style.transform = 'translate(' + n.x + 'px,' + n.y + 'px)';
+      }
+      if (e.sig !== sig) {
+        dsNodeBody(e.inner, n);
+        e.sig = sig;
+        if (e.sigSeen) restart(e.inner, 'ds-bump', 500);
+        e.sigSeen = true;
+      }
+      e.g.style.transform = 'translate(' + n.x + 'px,' + n.y + 'px)';
+      ['done', 'dim', 'hot', 'cur', 'mark', 'bad'].forEach(function (c) {
+        e.g.classList.toggle('ds-' + c, n.cls.indexOf(c) >= 0);
+      });
+      if (st.hot.indexOf(n.id) >= 0) restart(e.inner, 'ds-flash', 900);
+    });
+    Object.keys(this.nodeEls).forEach(function (id) {
+      if (!seen[id]) {
+        var e = self.nodeEls[id];
+        e.inner.classList.add('ds-leave');
+        (function (g) { setTimeout(function () { g.remove(); }, 520); })(e.g);
+        delete self.nodeEls[id];
+      }
+    });
+
+    /* edges */
+    var eseen = {};
+    st.edges.forEach(function (ed) {
+      var a = nodeById[ed.from];
+      var b = nodeById[ed.to];
+      if (!a || !b) return;
+      var key = ed.from + '>' + ed.kind;
+      eseen[key] = true;
+      var d = dsPath(a, b, ed.kind);
+      var e = self.edgeEls[key];
+      var cls = 'ds-edge ds-k-' + ed.kind;
+      if (!e) {
+        var p = svgEl('path', { class: cls + ' ds-draw', 'marker-end': 'url(#ds-arrow)' }, self.layers.edges);
+        e = self.edgeEls[key] = { p: p, to: ed.to };
+        p.setAttribute('d', d);
+      } else if (e.to !== ed.to) {
+        e.to = ed.to;
+        restart(e.p, 'ds-draw', 700);
+      }
+      e.p.setAttribute('d', d);
+      e.p.style.d = "path('" + d + "')";
+    });
+    Object.keys(this.edgeEls).forEach(function (key) {
+      if (!eseen[key]) {
+        self.edgeEls[key].p.remove();
+        delete self.edgeEls[key];
+      }
+    });
+
+    /* pointers: stack up to three chips above or below the node they target */
+    var slots = {};
+    var dock = 0;
+    var pseen = {};
+    st.ptrs.forEach(function (p) {
+      pseen[p.name] = true;
+      var e = self.ptrEls[p.name];
+      if (!e) {
+        var g = svgEl('g', { class: 'ds-ptr' }, self.layers.ptrs);
+        e = self.ptrEls[p.name] = { g: g, built: false };
+      }
+      var tx, ty, nullish = false;
+      var n = p.to ? nodeById[p.to] : null;
+      if (n) {
+        var sz = dsSize(n);
+        var key = p.to + p.dir;
+        var k = slots[key] || 0;
+        slots[key] = k + 1;
+        tx = n.x + (p.dir === 'down' ? 0 : 0);
+        var off = sz[1] / 2 + 38 + k * 30;
+        ty = p.dir === 'down' ? n.y + off + 14 : n.y - off - 4;
+      } else {
+        nullish = true;
+        tx = 70 + dock * 126;
+        ty = 22;
+        dock++;
+      }
+      var sig = p.name + '|' + nullish;
+      if (e.sig !== sig) {
+        e.g.textContent = '';
+        var w = Math.max(54, p.name.length * 11 + 22);
+        svgEl('rect', { class: 'ds-chip', x: -w / 2, y: -14, width: w, height: 28, rx: 14 }, e.g);
+        svgEl('text', { class: 'ds-chip-t', 'text-anchor': 'middle', y: 5 }, e.g).textContent = nullish ? p.name + ' = none' : p.name;
+        if (nullish) {
+          e.g.firstChild.setAttribute('width', w + 52);
+          e.g.firstChild.setAttribute('x', -(w + 52) / 2);
+        }
+        e.arrow = svgEl('path', { class: 'ds-ptr-arrow', 'marker-end': 'url(#ds-arrow)' }, e.g);
+        e.sig = sig;
+      }
+      e.g.classList.toggle('ds-null', nullish);
+      e.g.style.transform = 'translate(' + tx + 'px,' + ty + 'px)';
+      if (n) {
+        e.arrow.setAttribute('d', p.dir === 'down' ? 'M0,-14 L0,-' + (ty - n.y - dsSize(n)[1] / 2 - 4 + 14) : 'M0,14 L0,' + (n.y - dsSize(n)[1] / 2 - ty - 4));
+        e.arrow.style.display = '';
+      } else {
+        e.arrow.style.display = 'none';
+      }
+    });
+    Object.keys(this.ptrEls).forEach(function (name) {
+      if (!pseen[name]) {
+        self.ptrEls[name].g.remove();
+        delete self.ptrEls[name];
+      }
+    });
+  };
+
+  DsStage.prototype.step = function () {
+    return false;
+  };
+
   function mount(L) {
     var scenes = L.scenes;
     var cur = null;
@@ -741,6 +1049,7 @@
     if (L.builtinsTitle) $('api-h').textContent = L.builtinsTitle;
     $('lede').textContent = L.lede;
 
+    var DS = L.mode === 'ds';
     function panel(lang, name, sub) {
       var code = h('ol', { class: 'code', 'aria-label': name + ' code' });
       var svg = svgEl('svg', { class: 'stage show-addr', role: 'img', 'aria-label': name + ' memory' });
@@ -751,14 +1060,26 @@
         svg,
         cap,
       ]);
+      if (DS && lang !== 'ds') svg.remove();
       return { el: el, code: code, svg: svg, cap: cap };
     }
-    var pp = panel('py', 'Python', 'A name is a tag that points at an object');
-    var cp = panel('c', 'C', 'A name is a box that holds a value');
+    var pp = panel('py', 'Python', DS ? 'Objects that hold references to other objects' : 'A name is a tag that points at an object');
+    var cp = panel('c', 'C', DS ? 'Structs on the heap, linked by pointers' : 'A name is a box that holds a value');
     $('panels').appendChild(pp.el);
     $('panels').appendChild(cp.el);
-    var py = new PyStage(pp.svg);
-    var cs = new CStage(cp.svg);
+    var py, cs, dsg;
+    if (DS) {
+      var dsSvg = svgEl('svg', { class: 'ds-stage show-addr', role: 'img', 'aria-label': 'Data structure diagram' });
+      var dsPanel = h('article', { class: 'panel ds-panel', 'data-lang': 'ds' }, [
+        h('header', {}, [h('h2', { text: 'Structure' }), h('p', { text: 'The same picture for both languages' })]),
+        dsSvg,
+      ]);
+      $('panels').appendChild(dsPanel);
+      dsg = new DsStage(dsSvg);
+    } else {
+      py = new PyStage(pp.svg);
+      cs = new CStage(cp.svg);
+    }
 
     /* dock controls */
     var bReset = h('button', { class: 'btn ghost', type: 'button', text: 'Reset', onclick: function () { stop(); go(0); } });
@@ -782,8 +1103,11 @@
     $('opts').appendChild(h('label', { for: 'addr' }, [addr, document.createTextNode('Show addresses')]));
     $('opts').appendChild(h('label', { for: 'speed' }, [document.createTextNode('Speed'), speedSel]));
     addr.addEventListener('change', function () {
-      pp.svg.classList.toggle('show-addr', addr.checked);
-      cp.svg.classList.toggle('show-addr', addr.checked);
+      if (DS) dsSvg.classList.toggle('show-addr', addr.checked);
+      else {
+        pp.svg.classList.toggle('show-addr', addr.checked);
+        cp.svg.classList.toggle('show-addr', addr.checked);
+      }
     });
     speedSel.addEventListener('change', function () {
       speed = +speedSel.value;
@@ -816,8 +1140,11 @@
       idx = i;
       var s = snaps[i];
       var step = cur.steps[i];
-      py.apply(s);
-      cs.apply(s);
+      if (DS) dsg.apply(s);
+      else {
+        py.apply(s);
+        cs.apply(s);
+      }
 
       [].forEach.call(pp.code.children, function (li, n) {
         li.classList.toggle('on', n === step.pl);
@@ -892,9 +1219,12 @@
       $('trap-text').textContent = sc.trap;
       renderCode(pp.code, sc.pyCode);
       renderCode(cp.code, sc.cCode);
-      snaps = buildSnapshots(sc.steps);
-      py.reset();
-      cs.reset();
+      snaps = DS ? buildDsSnapshots(sc.steps) : buildSnapshots(sc.steps);
+      if (DS) dsg.reset();
+      else {
+        py.reset();
+        cs.reset();
+      }
       dots.textContent = '';
       sc.steps.forEach(function (_, n) {
         dots.appendChild(
@@ -939,5 +1269,5 @@
     };
   }
 
-  window.DSAV = { mount: mount, hero: hero, buildSnapshots: buildSnapshots };
+  window.DSAV = { mount: mount, hero: hero, buildSnapshots: buildSnapshots, buildDsSnapshots: buildDsSnapshots };
 })();

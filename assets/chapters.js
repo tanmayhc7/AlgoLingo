@@ -75,6 +75,16 @@
         { id: 'survival-kit', title: 'Python survival kit for coding problems', href: 'lessons/survival-kit.html' },
       ],
     },
+    {
+      title: 'Linked lists',
+      quiz: 'quizzes/chapter-8.html',
+      blurb: 'Nodes joined by references: building, walking, reversing and the pointer tricks interviewers love.',
+      lessons: [
+        { id: 'linked-list-basics', title: 'Linked list basics', href: 'lessons/linked-list-basics.html' },
+        { id: 'linked-list-patterns', title: 'Reverse, fast and slow, dummy head', href: 'lessons/linked-list-patterns.html' },
+        { id: 'doubly-linked-list', title: 'Doubly linked lists and LRU', href: 'lessons/doubly-linked-list.html' },
+      ],
+    },
   ];
 
   function el(tag, cls, text) {
