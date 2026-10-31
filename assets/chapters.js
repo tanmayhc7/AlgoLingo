@@ -114,13 +114,23 @@
         { id: 'tries', title: 'Tries', href: 'lessons/tries.html' },
       ],
     },
+    {
+      title: 'Graphs',
+      quiz: 'quizzes/chapter-12.html',
+      blurb: 'Vertices and edges: how to store them, walk them, and order tasks with prerequisites.',
+      lessons: [
+        { id: 'graph-basics', title: 'Graphs and adjacency lists', href: 'lessons/graph-basics.html' },
+        { id: 'graph-traversal', title: 'BFS, DFS and components', href: 'lessons/graph-traversal.html' },
+        { id: 'topological-sort', title: 'Topological sort', href: 'lessons/topological-sort.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
   var PHASES = [
     { n: 1, title: 'Python foundations', blurb: 'Python for someone who thinks in C: names and objects, types, control flow, functions, memory and arrays, hashing, and the standard-library toolbox.', from: 0, to: 6 },
     { n: 2, title: 'Core data structures', blurb: 'Linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers that move as the code runs.', from: 7, to: 10 },
-    { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', planned: ['Graphs', 'Dynamic programming', 'Complexity analysis'] },
+    { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 11 },
     { n: 4, title: 'Object-oriented design', blurb: 'Classes, inheritance, composition and design trade-offs in Python and C.', planned: ['Classes and objects', 'Inheritance and composition', 'Design trade-offs'] },
   ];
 

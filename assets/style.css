@@ -1872,3 +1872,7 @@ a.phase-card:focus-visible {
 }
 
 .phase-view[hidden], .phases[hidden], .outline-head[hidden] { display: none; }
+
+.ds-edge.ds-e-on { stroke: #ffd23f; stroke-width: 4; }
+.ds-edge.ds-e-dim { opacity: 0.25; }
+.ds-edge.ds-e-tree { stroke: #8cf0c4; stroke-width: 4; }

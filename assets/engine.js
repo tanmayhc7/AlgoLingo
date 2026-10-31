@@ -730,6 +730,7 @@
        ['mv', id, x, y]  ['lab', id, label]  ['rm', id]  ['note', id, text]
        ['edge', from, to, kind]           kind: next (default), prev, l, r, child. One edge per (from, kind).
        ['unedge', from, kind]
+       ['etag', from, kind, cls...] ['euntag', ...]   edge classes: on (highlight), dim. A kind starting with u is undirected (no arrowhead).
        ['ptr', name, id|null, dir]        dir: up (default) or down. null shows a name = none chip in the dock.
        ['unptr', name]
        ['tag', id, cls...] ['untag', id, cls...]   persistent classes: done, dim, hot, cur
@@ -770,10 +771,18 @@
         } else if (k === 'edge') {
           var kind = op[3] || 'next';
           edges = edges.filter(function (e) { return !(e.from === op[1] && e.kind === kind); });
-          edges.push({ from: op[1], to: op[2], kind: kind });
+          edges.push({ from: op[1], to: op[2], kind: kind, cls: [] });
         } else if (k === 'unedge') {
           var kd = op[2] || 'next';
           edges = edges.filter(function (e) { return !(e.from === op[1] && e.kind === kd); });
+        } else if (k === 'etag' || k === 'euntag') {
+          edges.forEach(function (e) {
+            if (e.from === op[1] && e.kind === op[2]) {
+              var cs = op.slice(3);
+              if (k === 'etag') cs.forEach(function (c) { if (e.cls.indexOf(c) < 0) e.cls.push(c); });
+              else e.cls = e.cls.filter(function (c) { return cs.indexOf(c) < 0; });
+            }
+          });
         } else if (k === 'ptr') {
           var p = ptrs.filter(function (x) { return x.name === op[1]; })[0];
           if (p) { p.to = op[2]; if (op[3]) p.dir = op[3]; }
@@ -792,7 +801,7 @@
       });
       out.push({
         nodes: nodes.map(function (x) { return { id: x.id, label: x.label, x: x.x, y: x.y, shape: x.shape, cls: x.cls.slice(), note: x.note, addr: x.addr }; }),
-        edges: edges.map(function (e) { return { from: e.from, to: e.to, kind: e.kind }; }),
+        edges: edges.map(function (e) { return { from: e.from, to: e.to, kind: e.kind, cls: (e.cls || []).slice() }; }),
         ptrs: ptrs.map(function (x) { return { name: x.name, to: x.to, dir: x.dir }; }),
         hot: hot,
         height: step.h,
@@ -959,13 +968,18 @@
       var e = self.edgeEls[key];
       var cls = 'ds-edge ds-k-' + ed.kind;
       if (!e) {
-        var p = svgEl('path', { class: cls + ' ds-draw', 'marker-end': 'url(#ds-arrow)' }, self.layers.edges);
-        e = self.edgeEls[key] = { p: p, to: ed.to };
+        var attrs = { class: cls + ' ds-draw' };
+        if (ed.kind.charAt(0) !== 'u') attrs['marker-end'] = 'url(#ds-arrow)';
+        var p = svgEl('path', attrs, self.layers.edges);
+        e = self.edgeEls[key] = { p: p, to: ed.to, cls: [] };
         p.setAttribute('d', d);
       } else if (e.to !== ed.to) {
         e.to = ed.to;
         restart(e.p, 'ds-draw', 700);
       }
+      (e.cls || []).forEach(function (c) { if (ed.cls.indexOf(c) < 0) e.p.classList.remove('ds-e-' + c); });
+      ed.cls.forEach(function (c) { e.p.classList.add('ds-e-' + c); });
+      e.cls = ed.cls.slice();
       e.p.setAttribute('d', d);
       e.p.style.d = "path('" + d + "')";
     });
