@@ -1,0 +1,71 @@
+/* Chapter 24 quiz: Heaps, selection and counting. */
+window.QUIZ = {
+  chapter: 24,
+  title: 'Heaps, selection and counting',
+  lede: 'Heap sort, quickselect, counting sort and radix sort.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'In an array-based heap, which positions are the children of index <code>i</code>?',
+      options: ['i + 1 and i + 2', '2i + 1 and 2i + 2', 'i / 2 and i / 2 + 1'],
+      answer: 1,
+      why: 'The array is a complete binary tree stored level by level, so the children of i are at 2i + 1 and 2i + 2.',
+    },
+    {
+      type: 'mcq',
+      q: 'Why can counting sort run in O(n + k), beating the O(n log n) bound?',
+      options: ['It uses a faster comparison', 'It never compares values; it uses each value as an index', 'It only works on sorted input'],
+      answer: 1,
+      why: 'The n log n lower bound applies to comparison sorts only.',
+    },
+    {
+      type: 'mcq',
+      q: 'Average time of quickselect for the k-th smallest of n values?',
+      options: ['O(n)', 'O(n log n)', 'O(k log n)'],
+      answer: 0,
+      why: 'The search range roughly halves each round, so the work is n + n/2 + n/4 + ... which is about 2n.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks to get the k largest values using a min-heap of size <code>k</code>.',
+      starter: 'import heapq\n\ndef k_largest(nums, k):\n    heap = []\n    for x in nums:\n        heapq.heappush(heap, ___)\n        if len(heap) > ___:\n            heapq.heappop(heap)\n    return sorted(heap, reverse=True)\n',
+      tests: [
+        { expr: 'k_largest([3, 1, 5, 12, 2, 11], 3)', want: '[12, 11, 5]' },
+        { expr: 'k_largest([5], 1)', want: '[5]' },
+        { expr: 'k_largest([2, 2, 1], 2)', want: '[2, 2]' },
+      ],
+      hint: 'Push every value; when the heap is bigger than k, remove the smallest.',
+      solution: 'import heapq\n\ndef k_largest(nums, k):\n    heap = []\n    for x in nums:\n        heapq.heappush(heap, x)\n        if len(heap) > k:\n            heapq.heappop(heap)\n    return sorted(heap, reverse=True)\n',
+      why: 'A min-heap capped at k always keeps the k biggest values seen so far; the smallest of them is on top, ready to be evicted.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>counting_sort(a, k)</code> for a list of integers in <code>0..k</code>. Return a new sorted list without using <code>sorted</code> or <code>list.sort</code>.',
+      starter: 'def counting_sort(a, k):\n    # your code\n',
+      tests: [
+        { expr: 'counting_sort([3, 1, 4, 1, 5, 2, 0, 3], 5)', want: '[0, 1, 1, 2, 3, 3, 4, 5]' },
+        { expr: 'counting_sort([], 3)', want: '[]' },
+        { expr: 'counting_sort([2, 2, 2], 2)', want: '[2, 2, 2]' },
+        { expr: 'counting_sort([5, 0], 5)', want: '[0, 5]' },
+      ],
+      hint: 'Count each value, then for v from 0 to k output v as many times as it was counted.',
+      solution: 'def counting_sort(a, k):\n    count = [0] * (k + 1)\n    for x in a:\n        count[x] += 1\n    out = []\n    for v in range(k + 1):\n        out.extend([v] * count[v])\n    return out\n',
+      why: 'Two linear passes: tally, then rebuild. Time O(n + k).',
+    },
+    {
+      type: 'debug',
+      q: '<code>kth_smallest(a, k)</code> should return the k-th smallest value (0-based) using the Lomuto partition, but it returns wrong answers: after partitioning it continues on the wrong side. Fix it.',
+      starter: 'def kth_smallest(a, k):\n    a = list(a)\n    lo, hi = 0, len(a) - 1\n    while lo < hi:\n        pivot = a[hi]\n        i = lo\n        for j in range(lo, hi):\n            if a[j] < pivot:\n                a[i], a[j] = a[j], a[i]\n                i += 1\n        a[i], a[hi] = a[hi], a[i]\n        if i == k:\n            break\n        if i < k:\n            hi = i - 1\n        else:\n            lo = i + 1\n    return a[k]\n',
+      tests: [
+        { expr: 'kth_smallest([7, 2, 9, 4, 1, 8, 5, 3], 2)', want: '3' },
+        { expr: 'kth_smallest([2, 1, 3], 0)', want: '1' },
+        { expr: 'kth_smallest([9, 8, 7, 6], 3)', want: '9' },
+        { expr: 'kth_smallest([4], 0)', want: '4' },
+        { expr: 'kth_smallest([3, 1, 2, 5, 4], 4)', want: '5' },
+      ],
+      hint: 'The pivot is already in its final place after partitioning, so the next search range must exclude it.',
+      solution: 'def kth_smallest(a, k):\n    a = list(a)\n    lo, hi = 0, len(a) - 1\n    while lo < hi:\n        pivot = a[hi]\n        i = lo\n        for j in range(lo, hi):\n            if a[j] < pivot:\n                a[i], a[j] = a[j], a[i]\n                i += 1\n        a[i], a[hi] = a[hi], a[i]\n        if i == k:\n            break\n        if i < k:\n            lo = i + 1\n        else:\n            hi = i - 1\n    return a[k]\n',
+      why: 'If the pivot ended up left of k (i < k) the answer is on the right, so lo = i + 1; if it ended up right of k, the answer is on the left, so hi = i - 1. The starter had the two sides reversed.',
+    },
+  ],
+};
