@@ -124,11 +124,56 @@ def _check(code, tests_json):
     document.getElementById('score').textContent = n + ' of ' + total + ' correct';
     var bar = document.getElementById('bar');
     bar.style.width = (n / total) * 100 + '%';
+    renderNotes(answered >= total);
     var msg = document.getElementById('verdict');
     msg.textContent =
       n === total
         ? 'All done. Move on to the next lesson, or come back and retry anything you want.'
         : 'Questions you got right stay marked on this device. You can recheck any of them.';
+  }
+
+
+  var NOTE_MAX = 1000;
+  var notesBuilt = false;
+
+  /* Key takeaways and a personal notes box, unlocked once every question has been attempted. */
+  function renderNotes(unlocked) {
+    var host = document.getElementById('chapter-notes');
+    var ch = storeKey.replace('dsav-quiz-', '');
+    var points = (window.CHAPTER_NOTES || {})[ch];
+    if (!host || !points) return;
+    if (!unlocked) {
+      notesBuilt = false;
+      host.innerHTML = '';
+      host.appendChild(h('section', { class: 'card notes locked' }, [
+        h('h2', { text: 'Key takeaways' }),
+        h('p', { class: 'muted', text: 'Locked. Answer every question above (right or wrong) to unlock the chapter summary and your notes box.' }),
+      ]));
+      return;
+    }
+    if (notesBuilt) return;
+    notesBuilt = true;
+    host.innerHTML = '';
+    var ul = h('ul', { class: 'takeaways' }, points.map(function (p) { return h('li', { text: p }); }));
+    var key = 'dsav-notes-' + ch;
+    var saved = '';
+    try { saved = localStorage.getItem(key) || ''; } catch (e) {}
+    var ta = h('textarea', { class: 'notes-box', maxlength: String(NOTE_MAX), rows: '6', placeholder: 'Your own notes for this chapter (saved on this device)', 'aria-label': 'Your notes' });
+    ta.value = saved.slice(0, NOTE_MAX);
+    var count = h('span', { class: 'notes-count' });
+    function upd() { count.textContent = ta.value.length + ' / ' + NOTE_MAX; }
+    ta.addEventListener('input', function () {
+      upd();
+      try { localStorage.setItem(key, ta.value); } catch (e) {}
+    });
+    upd();
+    host.appendChild(h('section', { class: 'card notes', id: 'notes' }, [
+      h('h2', { text: 'Key takeaways' }),
+      ul,
+      h('h3', { text: 'Your notes' }),
+      ta,
+      h('p', { class: 'muted' }, [count, document.createTextNode(' characters. Notes stay in this browser only.')]),
+    ]));
   }
 
   function markDone(i, ok) {

@@ -64,3 +64,8 @@ Two lesson modes:
 - Do exactly the scoped change: when told "only the logo" or "only on the home page", touch nothing else.
 - When something is missing from a topic list, add it to the earliest sensible phase rather than only reporting it, and list the remaining gaps.
 - Ask only when the choice cannot be reversed or a wrong guess is expensive.
+
+## Chapter key takeaways and notes
+- `assets/notes.js` holds `window.CHAPTER_NOTES[chapter]` (4 or 5 short points). Quiz pages load it before `quiz.js` and have a `<div id="chapter-notes">` after the questions.
+- The "Key takeaways" panel stays locked until every quiz question has been attempted (same rule as `dsav-qdone-N`). Then it shows the points and a personal notes textarea (limit `NOTE_MAX` = 1000 characters in quiz.js), saved in localStorage as `dsav-notes-N`.
+- New chapter checklist: add its entry to `assets/notes.js`.

@@ -28,7 +28,7 @@ Regression run on 2026-10-30: all 73 scenes step forward cleanly at desktop and 
 - To add a lesson: copy `lessons/loops.html` and a lesson data file, change the ids, add `href` in `chapters.js`.
 
 ## Next steps
-1. Phases 1 to 8 are DONE (7 and 8 use the Flow helper assets/flow.js: `Flow.steps(frames, opts)`; pages must load flow.js BEFORE the lesson script; ds lessons need `mode: 'ds'`). Optional extras not built: SQL, FastAPI, Docker, pandas. Added after the first pass: bit manipulation (chapter 2), prefix sums, Kadane and greedy intervals (chapter 21), Fenwick and segment trees (chapter 27). Remaining gaps: number theory (sieve, gcd, modular exponentiation), graph extras (bipartite, cycle detection, SCC, bridges), grid flood-fill, randomised algorithms (reservoir sampling). Then the LeetCode Visualizer (see LEETCODE_PLAN.md).
+1. Chapter key takeaways + notes box are DONE (see DESIGN.md). Phases 1 to 8 are DONE (7 and 8 use the Flow helper assets/flow.js: `Flow.steps(frames, opts)`; pages must load flow.js BEFORE the lesson script; ds lessons need `mode: 'ds'`). Optional extras not built: SQL, FastAPI, Docker, pandas. Added after the first pass: bit manipulation (chapter 2), prefix sums, Kadane and greedy intervals (chapter 21), Fenwick and segment trees (chapter 27). Remaining gaps: number theory (sieve, gcd, modular exponentiation), graph extras (bipartite, cycle detection, SCC, bridges), grid flood-fill, randomised algorithms (reservoir sampling). Then the LeetCode Visualizer (see LEETCODE_PLAN.md).
 2. Figma pass on the lesson screen, then port the result (blocked earlier by the Figma plan call limit).
 3. User is reviewing content at home; expect feedback on wording and visuals.
 4. GitHub Pages is live and deploys from main.

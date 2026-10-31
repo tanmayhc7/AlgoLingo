@@ -2036,3 +2036,18 @@ a.phase-card:focus-visible {
 
 .next-site { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 .next-site[hidden] { display: none; }
+
+/* Chapter key takeaways and personal notes (quiz pages) */
+#chapter-notes { margin-top: 1.5rem; }
+.card.notes h2 { margin: 0 0 .6rem; }
+.card.notes h3 { margin: 1.2rem 0 .5rem; font-size: 1rem; }
+.card.notes.locked { opacity: .75; border-style: dashed; }
+.card.notes .muted { color: var(--muted); font-size: .9rem; margin: .5rem 0 0; }
+.takeaways { margin: 0; padding-left: 1.2rem; display: grid; gap: .5rem; line-height: 1.5; }
+.notes-box {
+  width: 100%; box-sizing: border-box; min-height: 8rem; resize: vertical;
+  font: inherit; line-height: 1.5; padding: .7rem .8rem;
+  background: var(--paper); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 8px;
+}
+.notes-box:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
