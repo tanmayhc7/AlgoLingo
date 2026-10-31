@@ -1,4 +1,4 @@
-/* Algolingo step engine.
+/* AlgoLingo step engine.
    A lesson is plain data (see assets/lessons/*.js). Each scene lists the same program in Python and C,
    and every step says which line runs and what changes in memory. The engine replays the changes into
    snapshots, so stepping backwards is exact, then draws both memory models and animates the difference. */
@@ -1073,7 +1073,7 @@
     };
 
     $('title').textContent = L.title;
-    document.title = L.title + ' | Algolingo';
+    document.title = L.title + ' | AlgoLingo';
     if (L.builtinsTitle) $('api-h').textContent = L.builtinsTitle;
     $('lede').textContent = L.lede;
 

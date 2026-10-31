@@ -261,7 +261,7 @@ def _check(code, tests_json):
       done = {};
     }
     document.getElementById('q-title').textContent = 'Chapter ' + Q.chapter + ' quiz: ' + Q.title;
-    document.title = 'Chapter ' + Q.chapter + ' quiz | Algolingo';
+    document.title = 'Chapter ' + Q.chapter + ' quiz | AlgoLingo';
     document.getElementById('q-lede').textContent = Q.lede;
     Q.questions.forEach(function (q, i) {
       var card = h('section', { class: 'card q', 'aria-labelledby': 'q' + i });

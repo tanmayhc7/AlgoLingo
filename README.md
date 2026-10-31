@@ -1,4 +1,4 @@
-# Algolingo
+# AlgoLingo
 
 **Live site: https://tanmayhc7.github.io/AlgoLingo/**
 

@@ -1,4 +1,4 @@
-# Algolingo: handoff
+# AlgoLingo: handoff
 
 Where the project stands, so any session can continue it. Last updated 2026-10-30 (Phases 1 to 5 built).
 
@@ -54,4 +54,4 @@ Regression run on 2026-10-30: all 73 scenes step forward cleanly at desktop and 
 - Algo player speeds: 0.25x, 0.5x, 1x, 2x, 4x.
 - A "LeetCode Visualizer" card sits at the bottom of the home page only (hidden inside phase views). `leetcode/index.html` is an empty placeholder; the plan is in LEETCODE_PLAN.md.
 - Ideas for more advanced chapters: greedy and intervals, prefix sums and bit tricks, tries for strings (Aho-Corasick), segment trees and Fenwick trees, topological DP.
-- Renamed from "DSA Visualizer" to "Algolingo"; the GitHub repo is now `AlgoLingo` (live site https://tanmayhc7.github.io/AlgoLingo/). The local folder is still /home/claude/dsa-visualizer.
+- Renamed from "DSA Visualizer" to "AlgoLingo"; the GitHub repo is now `AlgoLingo` (live site https://tanmayhc7.github.io/AlgoLingo/). The local folder is still /home/claude/dsa-visualizer.
