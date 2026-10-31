@@ -1,0 +1,70 @@
+/* Chapter 23 quiz: All pairs and guided search. */
+window.QUIZ = {
+  chapter: 23,
+  title: 'All pairs and guided search',
+  lede: 'Floyd-Warshall and A*.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'In Floyd-Warshall, which loop is the outermost?',
+      options: ['k, the allowed intermediate vertex', 'i, the source', 'j, the destination'],
+      answer: 0,
+      why: 'Each round must finish for all pairs before the next vertex is allowed as a stop.',
+    },
+    {
+      type: 'mcq',
+      q: 'A* with h = 0 for every node is the same as which algorithm?',
+      options: ['BFS on a weighted graph', 'Dijkstra', 'Depth-first search'],
+      answer: 1,
+      why: 'f = g, so nodes are expanded in order of cost so far.',
+    },
+    {
+      type: 'mcq',
+      q: 'After Floyd-Warshall, dist[2][2] is -3. What does that mean?',
+      options: ['Vertex 2 is the source', 'A negative cycle passes through vertex 2', 'The graph is disconnected'],
+      answer: 1,
+      why: 'A negative diagonal means you can leave a vertex and return to it with negative total cost.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>floyd</code> updates the distance matrix in place.',
+      starter: 'def floyd(dist):\n    n = len(dist)\n    for ___ in range(n):\n        for i in range(n):\n            for j in range(n):\n                if dist[i][k] + dist[k][j] < ___:\n                    dist[i][j] = dist[i][k] + dist[k][j]\n    return dist\n',
+      tests: [
+        { expr: 'floyd([[0, 3, 99], [99, 0, 1], [2, 99, 0]])', want: '[[0, 3, 4], [3, 0, 1], [2, 5, 0]]' },
+        { expr: 'floyd([[0]])', want: '[[0]]' },
+        { expr: 'floyd([[0, 5], [99, 0]])', want: '[[0, 5], [99, 0]]' },
+      ],
+      hint: 'The outer loop variable is named k; compare with the current best for the pair, dist[i][j].',
+      solution: 'def floyd(dist):\n    n = len(dist)\n    for k in range(n):\n        for i in range(n):\n            for j in range(n):\n                if dist[i][k] + dist[k][j] < dist[i][j]:\n                    dist[i][j] = dist[i][k] + dist[k][j]\n    return dist\n',
+      why: 'The check asks whether going through k beats the best known route.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>astar_grid(grid, start, goal)</code>. <code>grid</code> is a list of strings where <code>#</code> is a wall; <code>start</code> and <code>goal</code> are <code>(row, col)</code>. Moves are 4-directional with cost 1. Return the shortest number of moves or <code>-1</code>. Use the Manhattan distance as h.',
+      starter: 'import heapq\n\ndef astar_grid(grid, start, goal):\n    # your code\n',
+      tests: [
+        { expr: 'astar_grid(["...", "...", "..."], (0, 0), (2, 2))', want: '4' },
+        { expr: 'astar_grid([".#.", ".#.", "..."], (0, 0), (0, 2))', want: '6' },
+        { expr: 'astar_grid([".#.", "###", "..."], (0, 0), (2, 2))', want: '-1' },
+        { expr: 'astar_grid(["."], (0, 0), (0, 0))', want: '0' },
+      ],
+      hint: 'Heap of (g + h, g, row, col); skip entries whose g is worse than the best known; return g when the goal is popped.',
+      solution: 'import heapq\n\ndef astar_grid(grid, start, goal):\n    R, C = len(grid), len(grid[0])\n    def h(r, c):\n        return abs(r - goal[0]) + abs(c - goal[1])\n    best = {start: 0}\n    heap = [(h(*start), 0, start[0], start[1])]\n    while heap:\n        f, g, r, c = heapq.heappop(heap)\n        if (r, c) == goal:\n            return g\n        if g > best.get((r, c), 10**9):\n            continue\n        for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n            nr, nc = r + dr, c + dc\n            if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] != "#":\n                ng = g + 1\n                if ng < best.get((nr, nc), 10**9):\n                    best[(nr, nc)] = ng\n                    heapq.heappush(heap, (ng + h(nr, nc), ng, nr, nc))\n    return -1\n',
+      why: 'Manhattan distance never overestimates on a 4-direction grid, so the first pop of the goal is optimal.',
+    },
+    {
+      type: 'debug',
+      q: '<code>has_negative_cycle(dist)</code> should be True if the matrix produced by Floyd-Warshall shows a negative cycle. It checks the wrong thing. Fix it.',
+      starter: 'def has_negative_cycle(dist):\n    n = len(dist)\n    for i in range(n):\n        for j in range(n):\n            if dist[i][j] < 0:\n                return True\n    return False\n',
+      tests: [
+        { expr: 'has_negative_cycle([[0, -2], [5, 0]])', want: 'False' },
+        { expr: 'has_negative_cycle([[-1, 2], [3, 0]])', want: 'True' },
+        { expr: 'has_negative_cycle([[0, 1], [1, 0]])', want: 'False' },
+        { expr: 'has_negative_cycle([[0, 1, 2], [3, 0, 4], [5, 6, -4]])', want: 'True' },
+      ],
+      hint: 'A negative edge weight alone is fine. Only the diagonal reveals a cycle that returns to its start.',
+      solution: 'def has_negative_cycle(dist):\n    n = len(dist)\n    for i in range(n):\n        if dist[i][i] < 0:\n            return True\n    return False\n',
+      why: 'Negative entries off the diagonal are ordinary negative-weight paths. A negative dist[i][i] means a cycle through i with negative total weight.',
+    },
+  ],
+};
