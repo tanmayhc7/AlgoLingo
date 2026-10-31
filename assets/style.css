@@ -2026,3 +2026,5 @@ a.phase-card:focus-visible {
   .aptr b { font-size: 10.5px; padding: 3px 4px; }
   .aptr .ar { display: none; }
 }
+
+.next-site { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
