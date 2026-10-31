@@ -338,7 +338,7 @@
     { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 17 },
     { n: 5, title: 'Algorithms in motion', blurb: 'Sorting, searching and array techniques as animations: bars that slide and swap like a video, with the Python and C code running beside them.', from: 18, to: 20 },
     { n: 6, title: 'Advanced algorithms', blurb: 'Spanning trees, negative edges, and more graph and string algorithms beyond the basics, with the same step-through pictures.', from: 21, to: 26 },
-    { n: 7, title: 'Field-ready Python', blurb: 'The Python an applied or forward deployed AI engineer writes every day: JSON and text handling, reliable API calls, asyncio, validation, configuration, logging and tests.', from: 27, to: 30 },
+    { n: 7, title: 'Python for applied AI', blurb: 'The Python an applied or forward deployed AI engineer writes every day: JSON and text handling, reliable API calls, asyncio, validation, configuration, logging and tests.', from: 27, to: 30 },
     { n: 8, title: 'Building with models', blurb: 'Using language models as components: calling them, getting structured output, tool calling and agents, retrieval, and evaluating the result.', from: 31, to: 33 },
   ];
 

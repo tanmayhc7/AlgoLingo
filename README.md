@@ -16,7 +16,7 @@ Eight phases are built: 34 chapters, 86 lessons, each with Python and C side by 
 4. **Object-oriented design** (16 to 18): classes, dunder methods, inheritance and the MRO, composition, iterators, generators, decorators, dataclasses.
 5. **Algorithms in motion** (19 to 21): sorting, binary search, two pointers, sliding window, prefix sums, Kadane and greedy intervals (chapter 21 "Array techniques"), as step-through animations with a scrubber.
 6. **Advanced algorithms** (22 to 27): Kruskal and Prim, Bellman-Ford, Floyd-Warshall, A*, heap sort and quickselect, counting and radix sort, KMP and Rabin-Karp, backtracking (subsets, N-Queens), Fenwick and segment trees.
-7. **Field-ready Python** (28 to 31): JSON and JSONL, text cleaning and chunking, HTTP retries and pagination, asyncio, type hints and validation, context managers, config and logging, tests with fakes. Each lesson shows a C analogue (cJSON, libcurl, epoll, function pointers).
+7. **Python for applied AI** (28 to 31): JSON and JSONL, text cleaning and chunking, HTTP retries and pagination, asyncio, type hints and validation, context managers, config and logging, tests with fakes. Each lesson shows a C analogue (cJSON, libcurl, epoll, function pointers).
 8. **Building with models** (32 to 34): LLM API basics and cost, structured output, tool calling, the agent loop, embeddings and retrieval, evals.
 
 ## Run it
