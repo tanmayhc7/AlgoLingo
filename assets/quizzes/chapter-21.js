@@ -1,0 +1,71 @@
+/* Chapter 21 quiz: Two pointers and sliding window. */
+window.QUIZ = {
+  chapter: 21,
+  title: 'Two pointers and sliding window',
+  lede: 'Pointers from both ends, read and write pointers, and windows.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'Sorted array, looking for a pair that sums to a target. The current sum is too <b>big</b>. What do you do?',
+      options: ['Move the left pointer up', 'Move the right pointer down', 'Stop: no pair exists'],
+      answer: 1,
+      why: 'The right value is the largest remaining and even its smallest partner overshoots, so it cannot be in any valid pair. Discard it.',
+    },
+    {
+      type: 'mcq',
+      q: 'A fixed window of size k slides one step right. How should the window sum be updated?',
+      options: ['Recompute sum(a[i:i+k])', 'Add the entering value and subtract the leaving value', 'Multiply by k'],
+      answer: 1,
+      why: 'Two values change, so the update is O(1). Recomputing would make the whole algorithm O(n k).',
+    },
+    {
+      type: 'mcq',
+      q: 'The variable-size window has a while loop inside a for loop. What is the total time?',
+      options: ['O(n^2)', 'O(n): each index enters and leaves once', 'O(n log n)'],
+      answer: 1,
+      why: 'Both pointers only move forward, so the total number of moves is at most 2n.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>pair_sum</code> returns the indexes of two values in a sorted list that add up to <code>target</code>, or <code>None</code>.',
+      starter: 'def pair_sum(a, target):\n    left, right = 0, len(a) - 1\n    while left < right:\n        s = a[left] + a[right]\n        if s == target:\n            return left, right\n        if s < target:\n            left += ___\n        else:\n            right -= ___\n    return None\n',
+      tests: [
+        { expr: 'pair_sum([1, 3, 4, 6, 8, 10, 13, 15], 17)', want: '(2, 6)' },
+        { expr: 'pair_sum([1, 2, 3], 7)', want: 'None' },
+        { expr: 'pair_sum([], 3)', want: 'None' },
+        { expr: 'pair_sum([2, 5], 7)', want: '(0, 1)' },
+      ],
+      hint: 'Each step discards exactly one end: move that pointer by one position.',
+      solution: 'def pair_sum(a, target):\n    left, right = 0, len(a) - 1\n    while left < right:\n        s = a[left] + a[right]\n        if s == target:\n            return left, right\n        if s < target:\n            left += 1\n        else:\n            right -= 1\n    return None\n',
+      why: 'Each iteration removes one candidate from an end, so the loop runs at most n - 1 times.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>max_window_sum(a, k)</code> returning the largest sum of <code>k</code> consecutive values (assume <code>1 <= k <= len(a)</code>). Use the sliding update, not a sum per window.',
+      starter: 'def max_window_sum(a, k):\n    # your code\n',
+      tests: [
+        { expr: 'max_window_sum([2, 1, 5, 1, 3, 2, 9, 4], 3)', want: '15' },
+        { expr: 'max_window_sum([4], 1)', want: '4' },
+        { expr: 'max_window_sum([1, 2, 3], 3)', want: '6' },
+        { expr: 'max_window_sum([-1, -2, -3, -4], 2)', want: '-3' },
+      ],
+      hint: 'Sum the first k values, then for each next i add a[i] and subtract a[i - k], tracking the best.',
+      solution: 'def max_window_sum(a, k):\n    window = sum(a[:k])\n    best = window\n    for i in range(k, len(a)):\n        window += a[i] - a[i - k]\n        best = max(best, window)\n    return best\n',
+      why: 'The first window costs O(k) and every slide costs O(1), so the total is O(n).',
+    },
+    {
+      type: 'debug',
+      q: '<code>min_subarray_len(target, a)</code> should return the length of the shortest run of positive numbers with sum at least <code>target</code> (0 if none). It returns the wrong length because it never shrinks the window. Fix it.',
+      starter: 'def min_subarray_len(target, a):\n    left = total = 0\n    best = len(a) + 1\n    for right in range(len(a)):\n        total += a[right]\n        if total >= target:\n            best = min(best, right - left + 1)\n    return best if best <= len(a) else 0\n',
+      tests: [
+        { expr: 'min_subarray_len(7, [2, 3, 1, 2, 4, 3])', want: '2' },
+        { expr: 'min_subarray_len(4, [1, 4, 4])', want: '1' },
+        { expr: 'min_subarray_len(100, [1, 2, 3])', want: '0' },
+        { expr: 'min_subarray_len(3, [1, 1, 1])', want: '3' },
+      ],
+      hint: 'Once the window is long enough, keep removing values from the left while it stays long enough, recording the length each time.',
+      solution: 'def min_subarray_len(target, a):\n    left = total = 0\n    best = len(a) + 1\n    for right in range(len(a)):\n        total += a[right]\n        while total >= target:\n            best = min(best, right - left + 1)\n            total -= a[left]\n            left += 1\n    return best if best <= len(a) else 0\n',
+      why: 'The if only records one window per right end and never moves left. A while loop shrinks the window as far as it stays valid, which finds the shortest one.',
+    },
+  ],
+};
