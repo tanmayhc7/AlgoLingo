@@ -133,13 +133,23 @@
         { id: 'union-find', title: 'Union-find', href: 'lessons/union-find.html' },
       ],
     },
+    {
+      title: 'Dynamic programming',
+      quiz: 'quizzes/chapter-14.html',
+      blurb: 'Turn exponential recursion into tables: memoisation, one-dimensional and two-dimensional DP.',
+      lessons: [
+        { id: 'dp-recursion', title: 'From recursion to memoisation', href: 'lessons/dp-recursion.html' },
+        { id: 'dp-1d', title: 'One-dimensional tables', href: 'lessons/dp-1d.html' },
+        { id: 'dp-2d', title: 'Two-dimensional tables', href: 'lessons/dp-2d.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
   var PHASES = [
     { n: 1, title: 'Python foundations', blurb: 'Python for someone who thinks in C: names and objects, types, control flow, functions, memory and arrays, hashing, and the standard-library toolbox.', from: 0, to: 6 },
     { n: 2, title: 'Core data structures', blurb: 'Linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers that move as the code runs.', from: 7, to: 10 },
-    { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 12 },
+    { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 13 },
     { n: 4, title: 'Object-oriented design', blurb: 'Classes, inheritance, composition and design trade-offs in Python and C.', planned: ['Classes and objects', 'Inheritance and composition', 'Design trade-offs'] },
   ];
 

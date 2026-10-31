@@ -1,0 +1,71 @@
+/* Chapter 14 quiz: Dynamic programming. */
+window.QUIZ = {
+  chapter: 14,
+  title: 'Dynamic programming',
+  lede: 'Memoisation, one-dimensional tables and two-dimensional tables.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'Which pair of properties makes a problem a good candidate for dynamic programming?',
+      options: ['Sorted input and a unique answer', 'Overlapping subproblems and optimal substructure', 'A graph with no cycles and positive weights'],
+      answer: 1,
+      why: 'Overlapping subproblems mean a cache pays off; optimal substructure means the best answer is built from best answers to smaller pieces.',
+    },
+    {
+      type: 'mcq',
+      q: 'A table cell depends only on the previous two cells. What is the best space complexity for filling a 1D table of length n?',
+      options: ['O(n)', 'O(1), keeping two variables', 'O(log n)'],
+      answer: 1,
+      why: 'Only the last two values are ever read, so two variables replace the whole table.',
+    },
+    {
+      type: 'mcq',
+      q: 'In LCS, <code>dp[i][j]</code> covers the first i characters of s and the first j of t. Which characters do you compare?',
+      options: ['s[i] and t[j]', 's[i - 1] and t[j - 1]', 's[i + 1] and t[j + 1]'],
+      answer: 1,
+      why: 'The table has an extra zero row and column, so row i corresponds to character index i - 1.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>min_coins(coins, amount)</code> returns the fewest coins, or -1 if impossible.',
+      starter: 'def min_coins(coins, amount):\n    INF = float("inf")\n    dp = [0] + [INF] * amount\n    for a in range(1, amount + 1):\n        for c in coins:\n            if c <= a:\n                dp[a] = min(dp[a], dp[___] + 1)\n    return dp[amount] if dp[amount] < ___ else -1\n',
+      tests: [
+        { expr: 'min_coins([1, 3, 4], 6)', want: '2' },
+        { expr: 'min_coins([2], 3)', want: '-1' },
+        { expr: 'min_coins([1], 0)', want: '0' },
+        { expr: 'min_coins([1, 2, 5], 11)', want: '3' },
+      ],
+      hint: 'Using coin c leaves amount a - c. Unreachable cells hold infinity.',
+      solution: 'def min_coins(coins, amount):\n    INF = float("inf")\n    dp = [0] + [INF] * amount\n    for a in range(1, amount + 1):\n        for c in coins:\n            if c <= a:\n                dp[a] = min(dp[a], dp[a - c] + 1)\n    return dp[amount] if dp[amount] < INF else -1\n',
+      why: 'Each amount is one more than the best smaller amount reached by a coin; infinity marks impossible amounts.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>lcs_length(s, t)</code> returning the length of the longest common subsequence.',
+      starter: 'def lcs_length(s, t):\n    # your code\n',
+      tests: [
+        { expr: "lcs_length('ACE', 'ABCDE')", want: '3' },
+        { expr: "lcs_length('abc', 'def')", want: '0' },
+        { expr: "lcs_length('', 'abc')", want: '0' },
+        { expr: "lcs_length('AGGTAB', 'GXTXAYB')", want: '4' },
+      ],
+      hint: 'Build an (m+1) x (n+1) table of zeros. Match: diagonal + 1. Otherwise the larger of above and left.',
+      solution: 'def lcs_length(s, t):\n    m, n = len(s), len(t)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if s[i - 1] == t[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1] + 1\n            else:\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\n    return dp[m][n]\n',
+      why: 'The zero border handles empty prefixes, and each cell reads only above, left and diagonal neighbours.',
+    },
+    {
+      type: 'debug',
+      q: 'This should count the ways to climb n stairs taking 1 or 2 steps at a time, but the answers are wrong. Fix it.',
+      starter: 'def climb(n):\n    a, b = 1, 1\n    for _ in range(n):\n        a = b\n        b = a + b\n    return b\n',
+      tests: [
+        { expr: 'climb(1)', want: '1' },
+        { expr: 'climb(2)', want: '2' },
+        { expr: 'climb(5)', want: '8' },
+        { expr: 'climb(0)', want: '1' },
+      ],
+      hint: 'a = b overwrites a before b = a + b uses the old value. Update both at once. Also check how many iterations are needed.',
+      solution: 'def climb(n):\n    a, b = 1, 1\n    for _ in range(n - 1):\n        a, b = b, a + b\n    return b\n',
+      why: 'Tuple assignment updates both from the old values, and with ways(0) = ways(1) = 1 you need n - 1 steps to reach ways(n).',
+    },
+  ],
+};
