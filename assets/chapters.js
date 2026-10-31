@@ -206,6 +206,15 @@
         { id: 'sliding-window', title: 'Sliding window', href: 'lessons/sliding-window.html' },
       ],
     },
+    {
+      title: 'Spanning trees and negative edges',
+      quiz: 'quizzes/chapter-22.html',
+      blurb: 'Advanced graph algorithms: Kruskal and Prim for minimum spanning trees, and Bellman-Ford for shortest paths with negative weights.',
+      lessons: [
+        { id: 'mst', title: 'Minimum spanning trees', href: 'lessons/mst.html' },
+        { id: 'bellman-ford', title: 'Bellman-Ford and negative edges', href: 'lessons/bellman-ford.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -215,6 +224,7 @@
     { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 14 },
     { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 17 },
     { n: 5, title: 'Algorithms in motion', blurb: 'Sorting, searching and array techniques as animations: bars that slide and swap like a video, with the Python and C code running beside them.', from: 18, to: 20 },
+    { n: 6, title: 'Advanced algorithms', blurb: 'Spanning trees, negative edges, and more graph and string algorithms beyond the basics, with the same step-through pictures.', from: 21, to: 21 },
   ];
 
   function phaseOf(ci) {

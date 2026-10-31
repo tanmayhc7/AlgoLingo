@@ -1,0 +1,71 @@
+/* Chapter 22 quiz: Spanning trees and negative edges. */
+window.QUIZ = {
+  chapter: 22,
+  title: 'Spanning trees and negative edges',
+  lede: 'Kruskal with union-find, Prim, and Bellman-Ford.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'A connected graph has 9 vertices. How many edges does any spanning tree have?',
+      options: ['9', '8', 'It depends on the weights'],
+      answer: 1,
+      why: 'A tree on V vertices has V - 1 edges: fewer would disconnect it, more would create a cycle.',
+    },
+    {
+      type: 'mcq',
+      q: 'Kruskal looks at the next cheapest edge and both endpoints are already in the same component. What happens?',
+      options: ['Take it anyway', 'Skip it: it would close a cycle', 'Stop the algorithm'],
+      answer: 1,
+      why: 'Taking it would create a cycle, and the heaviest edge on a cycle is never needed.',
+    },
+    {
+      type: 'mcq',
+      q: 'After V - 1 Bellman-Ford passes, one more pass still improves a distance. What does that mean?',
+      options: ['A bug in the edge order', 'A negative cycle is reachable from the source', 'The graph is disconnected'],
+      answer: 1,
+      why: 'Without a negative cycle all distances are final after V - 1 passes.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>find</code> returns the root of <code>x</code> with path compression.',
+      starter: 'def find(parent, x):\n    if parent[x] != ___:\n        parent[x] = find(parent, ___)\n    return parent[x]\n',
+      tests: [
+        { expr: 'find([0, 0, 1, 2], 3)', want: '0' },
+        { expr: 'find([0, 1, 1], 2)', want: '1' },
+        { expr: 'find([0], 0)', want: '0' },
+        { expr: '(lambda p: (find(p, 3), p))([0, 0, 1, 2])', want: '(0, [0, 0, 0, 0])' },
+      ],
+      hint: 'A root is its own parent; otherwise recurse on the parent and store the result.',
+      solution: 'def find(parent, x):\n    if parent[x] != x:\n        parent[x] = find(parent, parent[x])\n    return parent[x]\n',
+      why: 'Path compression points every visited node straight at the root, so later finds are almost constant time.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>kruskal(n, edges)</code> where edges are <code>(u, v, w)</code> tuples on vertices <code>0..n-1</code>. Return the total weight of a minimum spanning tree, or <code>None</code> if the graph is disconnected.',
+      starter: 'def kruskal(n, edges):\n    # your code\n',
+      tests: [
+        { expr: 'kruskal(5, [(0, 1, 4), (0, 2, 1), (2, 1, 2), (1, 3, 5), (2, 3, 8), (3, 4, 3)])', want: '11' },
+        { expr: 'kruskal(3, [(0, 1, 1)])', want: 'None' },
+        { expr: 'kruskal(1, [])', want: '0' },
+        { expr: 'kruskal(3, [(0, 1, 5), (1, 2, 5), (0, 2, 5)])', want: '10' },
+      ],
+      hint: 'Sort by weight, keep a parent list, and count the edges you take; you need n - 1.',
+      solution: 'def kruskal(n, edges):\n    parent = list(range(n))\n    def find(x):\n        while parent[x] != x:\n            parent[x] = parent[parent[x]]\n            x = parent[x]\n        return x\n    total = taken = 0\n    for u, v, w in sorted(edges, key=lambda e: e[2]):\n        ru, rv = find(u), find(v)\n        if ru != rv:\n            parent[ru] = rv\n            total += w\n            taken += 1\n    return total if taken == n - 1 else None\n',
+      why: 'Sorting costs O(E log E). Fewer than n - 1 accepted edges means the graph was not connected.',
+    },
+    {
+      type: 'debug',
+      q: '<code>bellman_ford(n, edges, s)</code> should return the distance list, or <code>None</code> on a negative cycle. It gives wrong answers on graphs with an unlucky edge order because it makes only one pass. Fix it.',
+      starter: 'def bellman_ford(n, edges, s):\n    INF = float("inf")\n    dist = [INF] * n\n    dist[s] = 0\n    for u, v, w in edges:\n        if dist[u] + w < dist[v]:\n            dist[v] = dist[u] + w\n    for u, v, w in edges:\n        if dist[u] + w < dist[v]:\n            return None\n    return dist\n',
+      tests: [
+        { expr: 'bellman_ford(4, [(1, 3, 2), (2, 1, -3), (0, 2, 5), (0, 1, 4)], 0)', want: '[0, 2, 5, 4]' },
+        { expr: 'bellman_ford(4, [(0, 1, 1), (1, 2, 2), (2, 3, -4), (3, 1, 1)], 0)', want: 'None' },
+        { expr: 'bellman_ford(3, [(0, 1, 2)], 0)[2] == float("inf")', want: 'True' },
+        { expr: 'bellman_ford(2, [], 0)[0]', want: '0' },
+      ],
+      hint: 'Repeat the relaxation loop n - 1 times before the final check pass.',
+      solution: 'def bellman_ford(n, edges, s):\n    INF = float("inf")\n    dist = [INF] * n\n    dist[s] = 0\n    for _ in range(n - 1):\n        for u, v, w in edges:\n            if dist[u] + w < dist[v]:\n                dist[v] = dist[u] + w\n    for u, v, w in edges:\n        if dist[u] + w < dist[v]:\n            return None\n    return dist\n',
+      why: 'One pass only settles paths of one edge. A shortest path can need V - 1 edges, so V - 1 passes are required before the negative-cycle check.',
+    },
+  ],
+};
