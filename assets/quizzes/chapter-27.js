@@ -1,0 +1,71 @@
+/* Chapter 27 quiz: Range queries. */
+window.QUIZ = {
+  chapter: 27,
+  title: 'Range queries',
+  lede: 'Fenwick trees and segment trees: sums over ranges while the data changes.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'What is <code>12 &amp; -12</code>, the lowest set bit of 12 (binary 1100)?',
+      options: ['2', '4', '12'],
+      answer: 1,
+      why: '12 is 1100 and its lowest set bit is the 4s place, so i & -i = 4. In a Fenwick tree, tree[12] covers the last 4 values.',
+    },
+    {
+      type: 'mcq',
+      q: 'Which range query can a basic Fenwick tree NOT answer by subtracting two prefix results?',
+      options: ['Range sum', 'Range xor', 'Range minimum'],
+      answer: 2,
+      why: 'Subtraction undoes sum and xor but there is no inverse for min, so a segment tree is needed for range minimum with updates.',
+    },
+    {
+      type: 'mcq',
+      q: 'A segment tree over 8 values has how many nodes in total (leaves and internal)?',
+      options: ['8', '15', '16'],
+      answer: 1,
+      why: '8 leaves plus 7 internal nodes = 15 (a full binary tree has n - 1 internal nodes).',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so the Fenwick tree moves to the next cell to update (going up) and the next cell to read (going down).',
+      starter: 'def add(tree, i, v):\n    while i < len(tree):\n        tree[i] += v\n        i += i ___ -i\n\ndef prefix(tree, i):\n    total = 0\n    while i > 0:\n        total += tree[i]\n        i -= i ___ -i\n    return total\n\ndef build(a):\n    tree = [0] * (len(a) + 1)\n    for i, x in enumerate(a, 1):\n        add(tree, i, x)\n    return tree\n',
+      tests: [
+        { expr: 'prefix(build([3, 2, 1, 4, 5, 1, 2, 3]), 7)', want: '18' },
+        { expr: 'prefix(build([3, 2, 1, 4]), 2)', want: '5' },
+        { expr: 'prefix(build([5]), 1)', want: '5' },
+        { expr: 'prefix(build([1, 1, 1]), 0)', want: '0' },
+      ],
+      hint: 'The lowest set bit of i is i & -i, a bitwise AND.',
+      solution: 'def add(tree, i, v):\n    while i < len(tree):\n        tree[i] += v\n        i += i & -i\n\ndef prefix(tree, i):\n    total = 0\n    while i > 0:\n        total += tree[i]\n        i -= i & -i\n    return total\n\ndef build(a):\n    tree = [0] * (len(a) + 1)\n    for i, x in enumerate(a, 1):\n        add(tree, i, x)\n    return tree\n',
+      why: 'Adding the lowest set bit climbs to the next cell that covers the position; subtracting it descends through disjoint blocks that tile the prefix.',
+    },
+    {
+      type: 'write',
+      q: 'The Fenwick helpers <code>add</code>, <code>prefix</code> and <code>build</code> are already written. Write <code>range_sum(tree, l, r)</code> returning the sum of positions <code>l..r</code> (1-based, inclusive).',
+      starter: 'def add(tree, i, v):\n    while i < len(tree):\n        tree[i] += v\n        i += i & -i\n\ndef prefix(tree, i):\n    total = 0\n    while i > 0:\n        total += tree[i]\n        i -= i & -i\n    return total\n\ndef build(a):\n    tree = [0] * (len(a) + 1)\n    for i, x in enumerate(a, 1):\n        add(tree, i, x)\n    return tree\n\ndef range_sum(tree, l, r):\n    # your code\n',
+      tests: [
+        { expr: 'range_sum(build([3, 2, 1, 4, 5, 1, 2, 3]), 2, 4)', want: '7' },
+        { expr: 'range_sum(build([3, 2, 1, 4, 5, 1, 2, 3]), 1, 8)', want: '21' },
+        { expr: 'range_sum(build([3, 2, 1, 4, 5, 1, 2, 3]), 5, 5)', want: '5' },
+        { expr: 'range_sum(build([3, 2, 1, 4]), 3, 3)', want: '1' },
+      ],
+      hint: 'A range is the difference of two prefixes: everything up to r minus everything before l.',
+      solution: 'def add(tree, i, v):\n    while i < len(tree):\n        tree[i] += v\n        i += i & -i\n\ndef prefix(tree, i):\n    total = 0\n    while i > 0:\n        total += tree[i]\n        i -= i & -i\n    return total\n\ndef build(a):\n    tree = [0] * (len(a) + 1)\n    for i, x in enumerate(a, 1):\n        add(tree, i, x)\n    return tree\n\ndef range_sum(tree, l, r):\n    return prefix(tree, r) - prefix(tree, l - 1)\n',
+      why: 'Two O(log n) prefix walks give any range sum, so queries cost O(log n) however wide the range is.',
+    },
+    {
+      type: 'debug',
+      q: '<code>make(a)</code> returns an <code>(update, query)</code> pair for a sum segment tree. After an update, range queries return stale sums. Find and fix the bug.',
+      starter: 'def make(a):\n    n = len(a)\n    t = [0] * (4 * n)\n    def build(node, lo, hi):\n        if lo == hi:\n            t[node] = a[lo]\n            return\n        mid = (lo + hi) // 2\n        build(2 * node, lo, mid)\n        build(2 * node + 1, mid + 1, hi)\n        t[node] = t[2 * node] + t[2 * node + 1]\n    def update(node, lo, hi, i, v):\n        if lo == hi:\n            t[node] = v\n            return\n        mid = (lo + hi) // 2\n        if i <= mid:\n            update(2 * node, lo, mid, i, v)\n        else:\n            update(2 * node + 1, mid + 1, hi, i, v)\n    def query(node, lo, hi, l, r):\n        if r < lo or hi < l:\n            return 0\n        if l <= lo and hi <= r:\n            return t[node]\n        mid = (lo + hi) // 2\n        return query(2 * node, lo, mid, l, r) + query(2 * node + 1, mid + 1, hi, l, r)\n    build(1, 0, n - 1)\n    return (lambda i, v: update(1, 0, n - 1, i, v)), (lambda l, r: query(1, 0, n - 1, l, r))\n',
+      tests: [
+        { expr: '(lambda s: (s[0](2, 10), s[1](0, 3))[1])(make([2, 5, 1, 4]))', want: '21' },
+        { expr: '(lambda s: (s[0](0, 0), s[1](0, 1))[1])(make([2, 5, 1, 4]))', want: '5' },
+        { expr: '(lambda s: (s[0](3, 7), s[1](2, 3))[1])(make([2, 5, 1, 4]))', want: '8' },
+        { expr: 'make([2, 5, 1, 4])[1](1, 2)', want: '6' },
+      ],
+      hint: 'The leaf is changed, but every ancestor that summarises it still holds the old total.',
+      solution: 'def make(a):\n    n = len(a)\n    t = [0] * (4 * n)\n    def build(node, lo, hi):\n        if lo == hi:\n            t[node] = a[lo]\n            return\n        mid = (lo + hi) // 2\n        build(2 * node, lo, mid)\n        build(2 * node + 1, mid + 1, hi)\n        t[node] = t[2 * node] + t[2 * node + 1]\n    def update(node, lo, hi, i, v):\n        if lo == hi:\n            t[node] = v\n            return\n        mid = (lo + hi) // 2\n        if i <= mid:\n            update(2 * node, lo, mid, i, v)\n        else:\n            update(2 * node + 1, mid + 1, hi, i, v)\n        t[node] = t[2 * node] + t[2 * node + 1]\n    def query(node, lo, hi, l, r):\n        if r < lo or hi < l:\n            return 0\n        if l <= lo and hi <= r:\n            return t[node]\n        mid = (lo + hi) // 2\n        return query(2 * node, lo, mid, l, r) + query(2 * node + 1, mid + 1, hi, l, r)\n    build(1, 0, n - 1)\n    return (lambda i, v: update(1, 0, n - 1, i, v)), (lambda l, r: query(1, 0, n - 1, l, r))\n',
+      why: 'After recursing into a child, the node must recompute itself from its two children. Without that line only the leaf changes and every ancestor keeps its old sum.',
+    },
+  ],
+};
