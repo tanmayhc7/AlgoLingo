@@ -8,13 +8,14 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-Five phases are built: 21 chapters, 55 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [HANDOFF.md](HANDOFF.md) says where the project stands.
+Six phases are built: 26 chapters, 65 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [HANDOFF.md](HANDOFF.md) says where the project stands.
 
 1. **Python foundations** (chapters 1 to 7): names, types, control flow, functions, memory and arrays, hashing, the toolbox.
 2. **Core data structures** (8 to 11): linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers (structure mode).
 3. **Graphs, DP and analysis** (12 to 15): BFS and DFS, topological sort, Dijkstra, union-find, dynamic programming, complexity analysis.
 4. **Object-oriented design** (16 to 18): classes, dunder methods, inheritance and the MRO, composition, iterators, generators, decorators, dataclasses.
 5. **Algorithms in motion** (19 to 21): sorting, binary search, two pointers and sliding window, as video-style animations with a scrubber.
+6. **Advanced algorithms** (22 to 26): Kruskal and Prim, Bellman-Ford, Floyd-Warshall, A*, heap sort and quickselect, counting and radix sort, KMP and Rabin-Karp, backtracking (subsets, N-Queens).
 
 ## Run it
 

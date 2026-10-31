@@ -13,7 +13,7 @@ An interactive static site that teaches Python, then DSA, to a C programmer. Eac
 - Figma file "DSA Visualizer": Home and Lesson frames. The lesson v2 is still to do after the Starter plan call limit resets.
 
 ## Built so far (Phases 1 to 5)
-Summary: 21 chapters, 55 lessons, 21 quizzes. Phase 1 chapters 1-7 (22 lessons), Phase 2 chapters 8-11, Phase 3 chapters 12-15, Phase 4 chapters 16-18, Phase 5 chapters 19-21. Details of Phase 1 follow; later phases are described in the sections below.
+Summary: 26 chapters, 65 lessons, 26 quizzes. Phase 1 chapters 1-7 (22 lessons), Phase 2 chapters 8-11, Phase 3 chapters 12-15, Phase 4 chapters 16-18, Phase 5 chapters 19-21, Phase 6 chapters 22-26. Details of Phase 1 follow; later phases are described in the sections below.
 
 ### Phase 1
 22 lessons in 7 chapters: 1 Getting started (compiled vs interpreted, running Python, variables), 2 Basic types (numbers, strings), 3 Control flow (conditions, loops, errors), 4 Functions and shorthands (functions, shorthands, comprehensions), 5 Memory and arrays (array memory, lists, tuples), 6 Hashing (hashing, dicts, sets), 7 Toolbox (sorting helpers, collections, choosing a container, patterns, survival kit). Seven chapter quizzes, 5 to 7 questions each.
@@ -41,9 +41,16 @@ Regression run on 2026-10-30: all 73 scenes step forward cleanly at desktop and 
 
 ## Phases 3 to 5 additions
 - Home page: `PHASES` in assets/chapters.js (n, title, blurb, from, to as inclusive 0-based chapter indexes). Home shows phase cards; hash `#phase-N` shows that phase's chapters. Lesson breadcrumb links back to the phase.
-- Chapters 12 Graphs, 13 Shortest paths and connectivity, 14 Dynamic programming, 15 Complexity analysis (Phase 3). Chapters 16 Classes and objects, 17 Inheritance and composition, 18 Iterators, generators and decorators (Phase 4). Chapters 19 Sorting, 20 Binary search, 21 Two pointers and sliding window (Phase 5).
+- Chapters 12 Graphs, 13 Shortest paths and connectivity, 14 Dynamic programming, 15 Complexity analysis (Phase 3). Chapters 16 Classes and objects, 17 Inheritance and composition, 18 Iterators, generators and decorators (Phase 4). Chapters 19 Sorting, 20 Binary search, 21 Two pointers and sliding window (Phase 5). Phase 6: 22 Spanning trees and negative edges (mst, bellman-ford), 23 All pairs and guided search (floyd-warshall, a-star), 24 Heaps, selection and counting (heap-select, counting-radix; algo mode), 25 String matching (kmp, rabin-karp), 26 Backtracking (subsets-backtracking, n-queens). Many Phase 6 ds lessons generate their steps by simulating the algorithm in the lesson file.
 - Structure mode ('ds') extras: `etag`/`euntag` [from, kind, cls...] add edge classes (on, dim, tree); edge kinds starting with `u` are undirected (no arrowhead); edge lines are trimmed to the node border for circles and cells. Object diagrams in chapters 16-18 use a helper `box(id, x, y, title, fields)` that draws a header cell plus one cell per field. Keep content above y = 260 (the dock covers the lower part of the 440-high stage).
 - Phase 5 uses `mode: 'algo'` with assets/algo.js (video-style player). A scene gives `input`, `pyCode`, `cCode`, `predict`, `trap`, optional `keys` (legend labels) and `run(T)`, which runs the algorithm in JavaScript and records frames with `T.frame(pl, cl, say, opts)` (opts: cmp, swp, sorted, pivot, found, dim, min, mark, ptr, band, vars). Bars are DOM elements moved with transform, so swaps slide; the scrubber seeks to any frame. Make a page with newalgo.py (copy of loops.html with DSAV.mountAlgo and algo.js). Tests: load page, step through all frames (`window.__dsav.go(i)`), check the final order and no console errors.
 - Engine exposes `DSAV.util` (h, esc, highlight, renderDepth, restart) for algo.js.
 - Test scripts live in the Claude session scratchpad only (t_all.py, t_quiz.py, t_algo.py, ds_shot.py, newpage.py, newalgo.py, newquiz.py, hookdepth.py); recreate them if the session is gone: they use Playwright against a local `python3 -m http.server` serving the repo, and Pyodide for quizzes.
 - Quiz rule: debug starters must FAIL their tests, complete/write starters must not pass; each quiz is run with reference solutions (6 of 6).
+
+## Later additions
+- Licence: AGPL-3.0 (LICENSE at the repo root).
+- Home page progress counts a lesson as completed only when every question of its chapter quiz has been attempted (quiz.js sets `dsav-qdone-<n>` in localStorage).
+- Algo player speeds: 0.25x, 0.5x, 1x, 2x, 4x.
+- A "LeetCode Visualizer" card sits at the bottom of the home page only (hidden inside phase views). `leetcode/index.html` is an empty placeholder; the plan is in LEETCODE_PLAN.md.
+- Ideas for more advanced chapters: greedy and intervals, prefix sums and bit tricks, tries for strings (Aho-Corasick), segment trees and Fenwick trees, topological DP.

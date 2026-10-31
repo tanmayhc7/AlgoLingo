@@ -2,7 +2,7 @@
 
 Who this is for: an engineer who thinks in C and is learning Python's idioms and data structures from scratch. Where C makes you build things by hand, Python hands you a built-in. Every lesson shows what the built-in does for you and what it costs underneath.
 
-Status: Phases 1 to 5 are built (21 chapters, 55 lessons, a quiz per chapter). The Phase 1 checkboxes below are the original plan; every item is now a lesson page. Every lesson has an interview-depth section. See the phase table below for what each later phase contains.
+Status: Phases 1 to 6 are built (26 chapters, 65 lessons, a quiz per chapter). The Phase 1 checkboxes below are the original plan; every item is now a lesson page. Every lesson has an interview-depth section. See the phase table below for what each later phase contains.
 
 ## How every lesson is built
 
