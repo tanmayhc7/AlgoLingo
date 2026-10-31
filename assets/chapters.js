@@ -116,6 +116,18 @@
     },
   ];
 
+  /* Phases group chapters by index range (from and to are inclusive, 0-based). */
+  var PHASES = [
+    { n: 1, title: 'Python foundations', blurb: 'Python for someone who thinks in C: names and objects, types, control flow, functions, memory and arrays, hashing, and the standard-library toolbox.', from: 0, to: 6 },
+    { n: 2, title: 'Core data structures', blurb: 'Linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers that move as the code runs.', from: 7, to: 10 },
+    { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', planned: ['Graphs', 'Dynamic programming', 'Complexity analysis'] },
+    { n: 4, title: 'Object-oriented design', blurb: 'Classes, inheritance, composition and design trade-offs in Python and C.', planned: ['Classes and objects', 'Inheritance and composition', 'Design trade-offs'] },
+  ];
+
+  function phaseOf(ci) {
+    return PHASES.filter(function (p) { return !p.planned && ci >= p.from && ci <= p.to; })[0];
+  }
+
   function el(tag, cls, text) {
     var e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -174,16 +186,84 @@
     return sec;
   }
 
+  function phaseStats(p) {
+    var lessons = 0, ready = 0;
+    CHAPTERS.slice(p.from, p.to + 1).forEach(function (c) {
+      c.lessons.forEach(function (l) { lessons++; if (l.href) ready++; });
+    });
+    return { chapters: p.to - p.from + 1, lessons: lessons, ready: ready };
+  }
+
   function renderHome(root) {
+    var head = el('div', 'outline-head');
+    head.appendChild(el('h2', '', 'Choose a phase'));
     var all = flat();
     var ready = all.filter(function (x) { return x.lesson.href; }).length;
-    var bar = el('div', 'outline-head');
-    bar.appendChild(el('h2', '', 'Course outline'));
-    bar.appendChild(el('p', '', ready + ' of ' + all.length + ' lessons ready'));
-    root.parentNode.insertBefore(bar, root);
-    CHAPTERS.forEach(function (c, ci) {
-      root.appendChild(chapterCard(c, ci, '', null));
+    head.appendChild(el('p', '', ready + ' lessons ready'));
+    var picker = el('div', 'phases');
+    picker.id = 'phases';
+
+    PHASES.forEach(function (p) {
+      var open = !p.planned;
+      var card = el(open ? 'a' : 'div', 'phase-card' + (open ? '' : ' soon'));
+      if (open) card.href = '#phase-' + p.n;
+      card.appendChild(el('span', 'phase-tag', 'Phase ' + p.n));
+      card.appendChild(el('h3', '', p.title));
+      card.appendChild(el('p', '', p.blurb));
+      var meta = el('p', 'phase-meta');
+      if (open) {
+        var st = phaseStats(p);
+        meta.textContent = 'Chapters ' + (p.from + 1) + ' to ' + (p.to + 1) + '  \u00b7  ' + st.lessons + ' lessons';
+        card.appendChild(meta);
+        card.appendChild(el('span', 'phase-go', 'Open phase'));
+      } else {
+        meta.textContent = 'Coming: ' + p.planned.join(', ');
+        card.appendChild(meta);
+        card.appendChild(el('span', 'status planned', 'Planned'));
+      }
+      picker.appendChild(card);
     });
+    root.parentNode.insertBefore(head, root);
+    root.parentNode.insertBefore(picker, root);
+    head.id = 'phases-head';
+
+    PHASES.filter(function (p) { return !p.planned; }).forEach(function (p) {
+      var view = el('section', 'phase-view');
+      view.id = 'phase-' + p.n;
+      view.hidden = true;
+      var bar = el('div', 'phase-bar');
+      var back = el('a', 'phase-back', 'All phases');
+      back.href = '#';
+      bar.appendChild(back);
+      var t = el('h2', '', 'Phase ' + p.n + ': ' + p.title);
+      bar.appendChild(t);
+      view.appendChild(bar);
+      view.appendChild(el('p', 'phase-blurb', p.blurb));
+      var list = el('div', 'chapters');
+      CHAPTERS.forEach(function (c, ci) {
+        if (ci >= p.from && ci <= p.to) list.appendChild(chapterCard(c, ci, '', null));
+      });
+      view.appendChild(list);
+      root.appendChild(view);
+    });
+
+    function route() {
+      var h = location.hash || '';
+      var m = h.match(/^#phase-(\d+)$/);
+      var target = m && document.getElementById('phase-' + m[1]);
+      var views = root.querySelectorAll('.phase-view');
+      Array.prototype.forEach.call(views, function (v) { v.hidden = v !== target; });
+      picker.hidden = !!target;
+      head.hidden = !!target;
+      if (target) {
+        var top = target.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo(0, Math.max(0, top));
+      } else if (h === '' || h === '#') {
+        /* leave scroll alone when arriving at the page fresh */
+      }
+    }
+    window.addEventListener('hashchange', route);
+    route();
   }
 
   function renderLesson(id) {
@@ -194,9 +274,16 @@
 
     var crumb = document.getElementById('crumb');
     if (crumb) {
-      var home = el('a', '', 'All chapters');
+      var home = el('a', '', 'All phases');
       home.href = '../index.html';
       crumb.appendChild(home);
+      var ph = phaseOf(here.ci);
+      if (ph) {
+        crumb.appendChild(document.createTextNode('  /  '));
+        var pa = el('a', '', 'Phase ' + ph.n);
+        pa.href = '../index.html#phase-' + ph.n;
+        crumb.appendChild(pa);
+      }
       crumb.appendChild(document.createTextNode('  /  Chapter ' + (here.ci + 1) + ': ' + here.chapter.title + '  /  Lesson ' + n));
     }
 
@@ -225,5 +312,6 @@
   }
 
   window.CHAPTERS = CHAPTERS;
+  window.PHASES = PHASES;
   window.Course = { renderHome: renderHome, renderLesson: renderLesson };
 })();

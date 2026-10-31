@@ -1764,3 +1764,111 @@ a.pill.quiz:hover {
   .ds-node, .ds-ptr, .ds-edge { transition: none; }
   .ds-pop, .ds-draw, .ds-flash .ds-body, .ds-bump, .ds-leave { animation: none; }
 }
+
+/* Phase picker on the home page */
+.phases {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 700px) {
+  .phases { grid-template-columns: minmax(0, 1fr); }
+}
+
+.phase-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 24px 26px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+a.phase-card:hover,
+a.phase-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 14px 30px -18px rgba(58, 63, 201, 0.55);
+}
+
+.phase-card.soon { opacity: 0.7; }
+
+.phase-tag {
+  font-family: var(--font-code);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.phase-card h3 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.phase-card p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.phase-card .phase-meta {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.phase-go {
+  margin-top: auto;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.phase-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  margin: 8px 0 6px;
+}
+
+.phase-bar h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.phase-back {
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--paper);
+}
+
+.phase-back::before { content: '\2190  '; }
+
+.phase-back:hover { border-color: var(--accent); }
+
+.phase-blurb {
+  color: var(--muted);
+  max-width: 62ch;
+  margin: 0 0 18px;
+}
+
+.phase-view[hidden], .phases[hidden], .outline-head[hidden] { display: none; }
