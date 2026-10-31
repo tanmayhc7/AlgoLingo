@@ -265,6 +265,69 @@
         { id: 'segment-tree', title: 'Segment tree', href: 'lessons/segment-tree.html' },
       ],
     },
+    {
+      title: 'Data in and out',
+      quiz: 'quizzes/chapter-28.html',
+      blurb: 'Reading and writing the data real projects use: JSON and JSONL files, and cleaning and chunking text.',
+      lessons: [
+        { id: 'json-files', title: 'JSON and files', href: 'lessons/json-files.html' },
+        { id: 'text-cleaning', title: 'Regex, cleaning and chunking text', href: 'lessons/text-cleaning.html' },
+      ],
+    },
+    {
+      title: 'Talking to services',
+      quiz: 'quizzes/chapter-29.html',
+      blurb: 'Calling web APIs reliably: status codes, retries with backoff, pagination, and running many calls at once with asyncio.',
+      lessons: [
+        { id: 'http-apis', title: 'HTTP APIs: status codes, retries and pagination', href: 'lessons/http-apis.html' },
+        { id: 'async-concurrency', title: 'asyncio: many calls at once', href: 'lessons/async-concurrency.html' },
+      ],
+    },
+    {
+      title: 'Typed, safe code',
+      quiz: 'quizzes/chapter-30.html',
+      blurb: 'Type hints, validating data you did not create, and context managers that guarantee cleanup.',
+      lessons: [
+        { id: 'type-validation', title: 'Type hints and validating data', href: 'lessons/type-validation.html' },
+        { id: 'context-managers', title: 'Context managers: with', href: 'lessons/context-managers.html' },
+      ],
+    },
+    {
+      title: 'Shipping code',
+      quiz: 'quizzes/chapter-31.html',
+      blurb: 'What changes when code leaves your laptop: configuration and secrets, logging, tests, and fakes for slow or paid services.',
+      lessons: [
+        { id: 'config-logging', title: 'Configuration, secrets and logging', href: 'lessons/config-logging.html' },
+        { id: 'testing-mocks', title: 'Tests and fakes for model calls', href: 'lessons/testing-mocks.html' },
+      ],
+    },
+    {
+      title: 'Calling a model',
+      quiz: 'quizzes/chapter-32.html',
+      blurb: 'The plain mechanics of a language-model API: messages, tokens and cost, then turning replies into validated data.',
+      lessons: [
+        { id: 'llm-api-basics', title: 'Calling a model: messages, tokens and cost', href: 'lessons/llm-api-basics.html' },
+        { id: 'structured-output', title: 'Structured output: parse, validate, retry', href: 'lessons/structured-output.html' },
+      ],
+    },
+    {
+      title: 'Tools and agents',
+      quiz: 'quizzes/chapter-33.html',
+      blurb: 'Letting a model use your code safely: tool calling, a guarded dispatcher, and an agent loop with limits.',
+      lessons: [
+        { id: 'tool-calling', title: 'Tool calling', href: 'lessons/tool-calling.html' },
+        { id: 'agent-loop', title: 'The agent loop and its guardrails', href: 'lessons/agent-loop.html' },
+      ],
+    },
+    {
+      title: 'Retrieval and evaluation',
+      quiz: 'quizzes/chapter-34.html',
+      blurb: 'Finding the right text with embeddings, building a retrieval pipeline, and measuring whether the feature really works.',
+      lessons: [
+        { id: 'embeddings-retrieval', title: 'Embeddings, similarity and retrieval', href: 'lessons/embeddings-retrieval.html' },
+        { id: 'evals', title: 'Evaluating a model-based feature', href: 'lessons/evals.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -275,6 +338,8 @@
     { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 17 },
     { n: 5, title: 'Algorithms in motion', blurb: 'Sorting, searching and array techniques as animations: bars that slide and swap like a video, with the Python and C code running beside them.', from: 18, to: 20 },
     { n: 6, title: 'Advanced algorithms', blurb: 'Spanning trees, negative edges, and more graph and string algorithms beyond the basics, with the same step-through pictures.', from: 21, to: 26 },
+    { n: 7, title: 'Field-ready Python', blurb: 'The Python an applied or forward deployed AI engineer writes every day: JSON and text handling, reliable API calls, asyncio, validation, configuration, logging and tests.', from: 27, to: 30 },
+    { n: 8, title: 'Building with models', blurb: 'Using language models as components: calling them, getting structured output, tool calling and agents, retrieval, and evaluating the result.', from: 31, to: 33 },
   ];
 
   function phaseOf(ci) {

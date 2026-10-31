@@ -8,7 +8,7 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-Six phases are built: 27 chapters, 72 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [DESIGN.md](DESIGN.md) holds the design principles and working rules, and [HANDOFF.md](HANDOFF.md) says where the project stands.
+Eight phases are built: 34 chapters, 86 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [DESIGN.md](DESIGN.md) holds the design principles and working rules, and [HANDOFF.md](HANDOFF.md) says where the project stands.
 
 1. **Python foundations** (chapters 1 to 7): names, types, control flow, functions, memory and arrays, hashing, the toolbox.
 2. **Core data structures** (8 to 11): linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers (structure mode).
@@ -16,6 +16,8 @@ Six phases are built: 27 chapters, 72 lessons, each with Python and C side by si
 4. **Object-oriented design** (16 to 18): classes, dunder methods, inheritance and the MRO, composition, iterators, generators, decorators, dataclasses.
 5. **Algorithms in motion** (19 to 21): sorting, binary search, two pointers, sliding window, prefix sums, Kadane and greedy intervals (chapter 21 "Array techniques"), as step-through animations with a scrubber.
 6. **Advanced algorithms** (22 to 27): Kruskal and Prim, Bellman-Ford, Floyd-Warshall, A*, heap sort and quickselect, counting and radix sort, KMP and Rabin-Karp, backtracking (subsets, N-Queens), Fenwick and segment trees.
+7. **Field-ready Python** (28 to 31): JSON and JSONL, text cleaning and chunking, HTTP retries and pagination, asyncio, type hints and validation, context managers, config and logging, tests with fakes. Each lesson shows a C analogue (cJSON, libcurl, epoll, function pointers).
+8. **Building with models** (32 to 34): LLM API basics and cost, structured output, tool calling, the agent loop, embeddings and retrieval, evals.
 
 ## Run it
 
