@@ -23,6 +23,7 @@
   --c-glow: #14736c;
 
   --card: #f7f8ff;
+  --qa: #f7f8ff;
   --crate: #d9fbef;
   --crate-ink: #072f2d;
   --t-int: #a9b4ff;
@@ -56,6 +57,7 @@
     --c-glow: #10605a;
     --good: #3fd1a8;
     --good-bg: #11312b;
+    --qa: #1b2038;
     color-scheme: dark;
   }
 }
@@ -75,6 +77,7 @@
   --c-glow: #10605a;
   --good: #3fd1a8;
   --good-bg: #11312b;
+  --qa: #1b2038;
   color-scheme: dark;
 }
 
@@ -1572,7 +1575,7 @@ a.pill.quiz:hover {
 .depth-table th, .depth-table td { text-align: left; vertical-align: top; padding: 9px 12px; border-top: 1px solid var(--line); }
 .depth-table th { font-weight: 600; white-space: nowrap; width: 1%; }
 .depth-table td.big-o { font-family: var(--font-code); white-space: nowrap; width: 1%; color: var(--accent); font-weight: 600; }
-.qa { border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+.qa { border: 1px solid var(--line); border-radius: 16px; background: var(--qa); color: var(--ink); }
 .qa > summary { cursor: pointer; display: flex; gap: 10px; align-items: baseline; padding: 14px 16px; font-weight: 600; list-style: none; }
 .qa > summary::-webkit-details-marker { display: none; }
 .qa[open] > summary { border-bottom: 1px solid var(--line); }

@@ -106,7 +106,7 @@
     var scrub = h('input', { type: 'range', class: 'scrub', min: '0', max: '0', value: '0', step: '1', 'aria-label': 'Playback position' });
     var count = h('span', { class: 'count' });
     var speedSel = h('select', { id: 'speed', 'aria-label': 'Play speed' }, [
-      h('option', { value: '0.5', text: '0.5x' }), h('option', { value: '1', text: '1x' }), h('option', { value: '2', text: '2x' }), h('option', { value: '4', text: '4x' }),
+      h('option', { value: '0.25', text: '0.25x' }), h('option', { value: '0.5', text: '0.5x' }), h('option', { value: '1', text: '1x' }), h('option', { value: '2', text: '2x' }), h('option', { value: '4', text: '4x' }),
     ]);
     speedSel.value = '1';
     $('controls').classList.add('adock');

@@ -53,7 +53,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     document.documentElement.classList.add('js-motion');
 
-    /* a lesson page counts as visited once the learner steps through its first scene */
+    /* (visits are still recorded, but completion now comes from the chapter quiz) */
     if (window.LESSON && window.LESSON.id) {
       var id = window.LESSON.id;
       var armed = false;
@@ -64,7 +64,16 @@
       });
     }
 
-    var done = getDone();
+    /* a lesson is completed when every question of its chapter quiz has been answered */
+    var done = [];
+    if (window.CHAPTERS) {
+      window.CHAPTERS.forEach(function (c) {
+        var m = c.quiz && c.quiz.match(/chapter-(\d+)/);
+        var ok = false;
+        try { ok = !!(m && localStorage.getItem('dsav-qdone-' + m[1])); } catch (e) { /* ignore */ }
+        if (ok) c.lessons.forEach(function (l) { done.push(l.id); });
+      });
+    }
     var pills = document.querySelectorAll('a.pill.ready[data-id], .pill.here[data-id]');
     Array.prototype.forEach.call(pills, function (p) {
       if (done.indexOf(p.getAttribute('data-id')) >= 0) p.classList.add('done');
@@ -94,7 +103,7 @@
       });
       var seen = all.filter(function (l) { return done.indexOf(l.id) >= 0; }).length;
       var next = all.filter(function (l) { return done.indexOf(l.id) < 0; })[0];
-      document.getElementById('progress-label').textContent = seen + ' of ' + all.length + ' lessons visited';
+      document.getElementById('progress-label').textContent = seen + ' of ' + all.length + ' lessons completed';
       var nl = document.getElementById('progress-next');
       if (next) {
         nl.href = next.href;

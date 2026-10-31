@@ -113,6 +113,14 @@ def _check(code, tests_json):
     var n = Object.keys(done).filter(function (k) {
       return done[k];
     }).length;
+    /* the chapter counts as completed on the home page once every question has been attempted */
+    var answered = Object.keys(done).filter(function (k) {
+      return typeof done[k] === 'boolean' && +k < total;
+    }).length;
+    try {
+      if (answered >= total) localStorage.setItem('dsav-qdone-' + storeKey.replace('dsav-quiz-', ''), '1');
+      else localStorage.removeItem('dsav-qdone-' + storeKey.replace('dsav-quiz-', ''));
+    } catch (e) {}
     document.getElementById('score').textContent = n + ' of ' + total + ' correct';
     var bar = document.getElementById('bar');
     bar.style.width = (n / total) * 100 + '%';
