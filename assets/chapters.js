@@ -179,6 +179,15 @@
         { id: 'decorators-dataclasses', title: 'Decorators and dataclasses', href: 'lessons/decorators-dataclasses.html' },
       ],
     },
+    {
+      title: 'Sorting',
+      quiz: 'quizzes/chapter-19.html',
+      blurb: 'Sorting algorithms as animations: bars that slide and swap while the code runs beside them.',
+      lessons: [
+        { id: 'sorting-simple', title: 'Simple sorts: bubble, selection, insertion', href: 'lessons/sorting-simple.html' },
+        { id: 'sorting-fast', title: 'Fast sorts: merge sort and quicksort', href: 'lessons/sorting-fast.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -187,6 +196,7 @@
     { n: 2, title: 'Core data structures', blurb: 'Linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers that move as the code runs.', from: 7, to: 10 },
     { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 14 },
     { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 17 },
+    { n: 5, title: 'Algorithms in motion', blurb: 'Sorting, searching and array techniques as animations: bars that slide and swap like a video, with the Python and C code running beside them.', from: 18, to: 18 },
   ];
 
   function phaseOf(ci) {

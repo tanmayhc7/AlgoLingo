@@ -1297,5 +1297,5 @@
     };
   }
 
-  window.DSAV = { mount: mount, hero: hero, buildSnapshots: buildSnapshots, buildDsSnapshots: buildDsSnapshots };
+  window.DSAV = { mount: mount, hero: hero, buildSnapshots: buildSnapshots, buildDsSnapshots: buildDsSnapshots, util: { h: h, esc: esc, highlight: highlight, renderDepth: renderDepth, restart: restart } };
 })();

@@ -1,0 +1,72 @@
+/* Chapter 19 quiz: Sorting. */
+window.QUIZ = {
+  chapter: 19,
+  title: 'Sorting',
+  lede: 'Simple sorts, merge sort, quicksort, and their trade-offs.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'Which of these sorts performs at most <b>n - 1</b> swaps, however the input is arranged?',
+      options: ['Bubble sort', 'Selection sort', 'Insertion sort'],
+      answer: 1,
+      why: 'Selection sort swaps once per pass to place the minimum. Bubble and insertion sort can swap once per inversion, up to n(n-1)/2 times.',
+    },
+    {
+      type: 'mcq',
+      q: 'You need to sort records by department, keeping the earlier name order inside each department. Which property do you need?',
+      options: ['In-place', 'Stability', 'O(1) space'],
+      answer: 1,
+      why: 'A stable sort keeps equal keys in their previous relative order, so sorting by name and then stably by department gives names in order within each department.',
+    },
+    {
+      type: 'mcq',
+      q: 'Quicksort always uses the last element as the pivot. Which input causes its worst case?',
+      options: ['Random order', 'Already sorted', 'Alternating high and low values'],
+      answer: 1,
+      why: 'On sorted input the last element is the maximum, so each partition leaves one empty side: n levels of shrinking-by-one work, O(n^2).',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks to finish insertion sort.',
+      starter: 'def insertion_sort(a):\n    for i in range(1, len(a)):\n        key = a[i]\n        j = i - 1\n        while j >= 0 and a[j] ___ key:\n            a[j + 1] = a[j]\n            j -= ___\n        a[j + 1] = key\n    return a\n',
+      tests: [
+        { expr: 'insertion_sort([3, 1, 2])', want: '[1, 2, 3]' },
+        { expr: 'insertion_sort([5, 4, 3, 2, 1])', want: '[1, 2, 3, 4, 5]' },
+        { expr: 'insertion_sort([])', want: '[]' },
+        { expr: 'insertion_sort([2, 2, 1])', want: '[1, 2, 2]' },
+      ],
+      hint: 'Shift values that are larger than the key one step to the right, moving j one step left each time.',
+      solution: 'def insertion_sort(a):\n    for i in range(1, len(a)):\n        key = a[i]\n        j = i - 1\n        while j >= 0 and a[j] > key:\n            a[j + 1] = a[j]\n            j -= 1\n        a[j + 1] = key\n    return a\n',
+      why: 'Larger values shift right until the key finds its place; strict > keeps equal values in order (stable).',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>merge(left, right)</code> that merges two sorted lists into one sorted list in O(n) time. Equal values from <code>left</code> must come first.',
+      starter: 'def merge(left, right):\n    # your code\n',
+      tests: [
+        { expr: 'merge([1, 3, 5], [2, 4, 6])', want: '[1, 2, 3, 4, 5, 6]' },
+        { expr: 'merge([], [1, 2])', want: '[1, 2]' },
+        { expr: 'merge([1, 2], [])', want: '[1, 2]' },
+        { expr: 'merge([1, 1], [1])', want: '[1, 1, 1]' },
+        { expr: 'merge([1, 5, 9], [2, 3])', want: '[1, 2, 3, 5, 9]' },
+      ],
+      hint: 'Keep an index into each list; take the smaller front, preferring left when equal; append whatever remains at the end.',
+      solution: 'def merge(left, right):\n    out, i, j = [], 0, 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            out.append(left[i]); i += 1\n        else:\n            out.append(right[j]); j += 1\n    return out + left[i:] + right[j:]\n',
+      why: 'One pass over both lists: O(n + m). The <= comparison takes the left value first on ties, which is what makes merge sort stable.',
+    },
+    {
+      type: 'debug',
+      q: 'This insertion sort leaves the list unchanged for <code>[3, 1, 2]</code>. Fix it.',
+      starter: 'def insertion_sort(a):\n    for i in range(1, len(a)):\n        key = a[i]\n        j = i - 1\n        while j > 0 and a[j] > key:\n            a[j + 1] = a[j]\n            j -= 1\n        a[j + 1] = key\n    return a\n',
+      tests: [
+        { expr: 'insertion_sort([3, 1, 2])', want: '[1, 2, 3]' },
+        { expr: 'insertion_sort([2, 1])', want: '[1, 2]' },
+        { expr: 'insertion_sort([5, 4, 3, 2, 1])', want: '[1, 2, 3, 4, 5]' },
+        { expr: 'insertion_sort([1])', want: '[1]' },
+      ],
+      hint: 'A key that is smaller than everything has to travel all the way to index 0. What does the loop condition do at j = 0?',
+      solution: 'def insertion_sort(a):\n    for i in range(1, len(a)):\n        key = a[i]\n        j = i - 1\n        while j >= 0 and a[j] > key:\n            a[j + 1] = a[j]\n            j -= 1\n        a[j + 1] = key\n    return a\n',
+      why: 'With j > 0 the element at index 0 is never compared or shifted. j >= 0 lets the key reach the front.',
+    },
+  ],
+};
