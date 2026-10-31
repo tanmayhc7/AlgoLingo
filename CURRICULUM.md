@@ -2,7 +2,7 @@
 
 Who this is for: an engineer who thinks in C and is learning Python's idioms and data structures from scratch. Where C makes you build things by hand, Python hands you a built-in. Every lesson shows what the built-in does for you and what it costs underneath.
 
-Status: Phase 1 is built (22 lessons, 7 chapter quizzes). The checkboxes below are the original plan; every item is now a lesson page. Every Phase 1 lesson also has an interview-depth section. Phase 2 is next.
+Status: Phases 1 to 5 are built (21 chapters, 64 lessons, a quiz per chapter). The Phase 1 checkboxes below are the original plan; every item is now a lesson page. Every lesson has an interview-depth section. See the phase table below for what each later phase contains.
 
 ## How every lesson is built
 
@@ -227,13 +227,21 @@ Phase 1 has two stages. Stage 1A is everything you need before collections make 
 
 ---
 
-## Later phases (rough order, to be refined as you decide)
+## Phases built after Phase 1
 
-**Roadmap (agreed with T).** Every phase is built to the interview-depth standard: each lesson has the visual trace plus an "Interview depth" section (thesis, reasoning, edge-case checklist, complexity table, internals, and mid/senior/staff Q&A with follow-ups).
+Every phase is built to the interview-depth standard: each lesson has the visual trace plus an "Interview depth" section (thesis, reasoning, edge-case checklist, complexity table, internals, and mid/senior/staff Q&A with follow-ups). The home page groups chapters into phases (`PHASES` in `assets/chapters.js`).
 
-- **Phase 2: linear and tree structures.** Linked lists, stacks, queues, trees (traversals, BST), heaps and tries. Python and C side by side, with the node and pointer pictures.
-- **Phase 3: graphs, dynamic programming and complexity.** Graphs (BFS, DFS, topological sort, shortest paths, union-find), dynamic programming (top-down, bottom-up, space optimisation), big-O and complexity analysis with real timings.
-- **Phase 4: OOP.** Classes and objects, dunder methods (`__init__`, `__repr__`, `__eq__`, `__hash__`), inheritance and composition, dataclasses, iterators and generators, decorators, design trade-offs.
+| Phase | Chapters | Lessons |
+|---|---|---|
+| 1. Python foundations | 1 to 7 | 22 lessons (see above) |
+| 2. Core data structures | 8 Linked lists (singly, doubly, patterns), 9 Stacks and queues (stack, queue/deque, monotonic and patterns), 10 Trees (basics and traversals, BST, tree patterns), 11 Heaps and tries (heaps, heap patterns, tries) | 11 lessons |
+| 3. Graphs, DP and analysis | 12 Graphs (basics, traversal BFS/DFS, topological sort), 13 Shortest paths and connectivity (Dijkstra, union-find), 14 Dynamic programming (recursion and memo, 1D, 2D), 15 Complexity analysis (growth rates, amortised cost and space) | 10 lessons |
+| 4. Object-oriented design | 16 Classes and objects (classes, dunder methods), 17 Inheritance and composition (MRO and super, composition and delegation), 18 Iterators, generators and decorators (iterators and generators, decorators and dataclasses) | 6 lessons |
+| 5. Algorithms in motion | 19 Sorting (simple sorts, merge sort and quicksort), 20 Binary search (classic and lower bound, rotated and search-on-answer), 21 Two pointers and sliding window | 6 lessons |
+
+Phase 5 uses a different player: bars slide and swap smoothly like a video, with a scrubber, speed control, and the current line highlighted in the Python and C listings beside the animation.
+
+Ideas not yet built: heap sort, counting and radix sort, quickselect, backtracking (permutations, N-Queens), intervals and sweep line, prefix sums and difference arrays, bit manipulation, string algorithms (KMP, rolling hash), greedy.
 
 ---
 

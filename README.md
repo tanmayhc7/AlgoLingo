@@ -8,7 +8,13 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-Phase 1 is complete: all 22 lessons across 7 chapters are built, each with Python and C side by side, and every chapter ends with a **chapter quiz** (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md). Every lesson also has an **Interview depth** section: edge cases, complexity, internals and mid/senior/staff Q&A with follow-ups. Phase 2 is complete too: chapters 8 to 11 (linked lists, stacks and queues, trees, heaps and tries), 12 more lessons with the same depth and quizzes. They use a new **structure mode** that draws nodes, pointers and arrows that move as the code runs. Next up: Phase 3 (graphs, dynamic programming, complexity analysis), Phase 4 (OOP).
+Five phases are built: 21 chapters, 64 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [HANDOFF.md](HANDOFF.md) says where the project stands.
+
+1. **Python foundations** (chapters 1 to 7): names, types, control flow, functions, memory and arrays, hashing, the toolbox.
+2. **Core data structures** (8 to 11): linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers (structure mode).
+3. **Graphs, DP and analysis** (12 to 15): BFS and DFS, topological sort, Dijkstra, union-find, dynamic programming, complexity analysis.
+4. **Object-oriented design** (16 to 18): classes, dunder methods, inheritance and the MRO, composition, iterators, generators, decorators, dataclasses.
+5. **Algorithms in motion** (19 to 21): sorting, binary search, two pointers and sliding window, as video-style animations with a scrubber.
 
 ## Run it
 
@@ -16,18 +22,14 @@ No build step. Open `index.html` in a browser (double-click it, or run `open ind
 
 Controls: Step, Back, Play and Reset, or the left and right arrow keys. Dummy memory addresses are shown for names, objects and variables. Untick "Show addresses" to hide them.
 
-## Phase 1 at a glance
-
-- **Stage 1A, language basics:** compiled versus interpreted (C versus Python), variables, numbers, strings, conditions, loops, functions, shorthands, comprehensions, errors
-- **Stage 1B, collections and hashing:** how memory holds an array, lists, tuples, hashing, dicts, sets, sorting helpers, `collections`
-
 ## Layout
 
 ```
 index.html               module map
 lessons/*.html           one page per lesson
 assets/chapters.js       the course outline: chapters and lessons, read by the home page and lesson nav
-assets/engine.js         step engine: snapshots, Python and C stages, animation, controls
+assets/engine.js         step engine: snapshots, Python and C stages, structure (ds) mode, animation, controls
+assets/algo.js           Phase 5 player: tracer, bars that slide, scrubber, code beside the animation
 assets/style.css         tokens, light and dark themes, layout
 assets/lessons/*.js      lesson data: the code and what changes in memory at each step
 CURRICULUM.md            what each lesson covers and the open decisions
@@ -36,6 +38,10 @@ CURRICULUM.md            what each lesson covers and the open decisions
 ## Adding a lesson
 
 Copy `lessons/variables.html` and `assets/lessons/variables.js`. A lesson is plain data: for each scene, the Python and C code and a list of steps. Each step names the highlighted lines, one sentence of narration per language, and the memory changes (the op list is documented at the top of the data file). The engine handles stepping back, freeing unreferenced objects and the animation.
+
+## Algorithm animations (Phase 5)
+
+A lesson with `mode: 'algo'` uses `assets/algo.js` (page mounts with `DSAV.mountAlgo`). Each scene supplies `input` (numbers), `pyCode`/`cCode`, and `run(T)`, which executes the algorithm in JavaScript and records frames: `T.frame(pl, cl, say, opts)` with `opts` = `cmp`, `swp`, `sorted`, `pivot`, `found`, `dim`, `min`, `mark` (position lists), `ptr` ({name: position}), `band` ([lo, hi]) and `vars`. `T.swap(i, j)` reorders; `T.cmps` and `T.swaps` are the counters. An optional `keys` object renames the legend labels. Use `scripts`-free pages made with a copy of an existing algo lesson page.
 
 ## Chapter quizzes
 
