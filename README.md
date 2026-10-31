@@ -8,7 +8,7 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-Phase 1 is complete: all 22 lessons across 7 chapters are built, each with Python and C side by side, and every chapter ends with a **chapter quiz** (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md). Every lesson also has an **Interview depth** section: edge cases, complexity, internals and mid/senior/staff Q&A with follow-ups. Next up: Phase 2 (linked lists, stacks, queues, trees, heaps, tries), Phase 3 (graphs, dynamic programming, complexity analysis), Phase 4 (OOP).
+Phase 1 is complete: all 22 lessons across 7 chapters are built, each with Python and C side by side, and every chapter ends with a **chapter quiz** (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md). Every lesson also has an **Interview depth** section: edge cases, complexity, internals and mid/senior/staff Q&A with follow-ups. Phase 2 is complete too: chapters 8 to 11 (linked lists, stacks and queues, trees, heaps and tries), 12 more lessons with the same depth and quizzes. They use a new **structure mode** that draws nodes, pointers and arrows that move as the code runs. Next up: Phase 3 (graphs, dynamic programming, complexity analysis), Phase 4 (OOP).
 
 ## Run it
 

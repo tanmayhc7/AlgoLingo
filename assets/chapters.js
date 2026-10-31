@@ -104,6 +104,16 @@
         { id: 'tree-patterns', title: 'Tree recursion patterns', href: 'lessons/tree-patterns.html' },
       ],
     },
+    {
+      title: 'Heaps and tries',
+      quiz: 'quizzes/chapter-11.html',
+      blurb: 'Priority queues in an array, top-k selection, and prefix trees for strings.',
+      lessons: [
+        { id: 'heaps', title: 'Heaps', href: 'lessons/heaps.html' },
+        { id: 'heap-patterns', title: 'Heap patterns', href: 'lessons/heap-patterns.html' },
+        { id: 'tries', title: 'Tries', href: 'lessons/tries.html' },
+      ],
+    },
   ];
 
   function el(tag, cls, text) {

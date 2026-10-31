@@ -25,6 +25,12 @@ Regression run on 2026-10-30: all 73 scenes step forward cleanly at desktop and 
 - To add a lesson: copy `lessons/loops.html` and a lesson data file, change the ids, add `href` in `chapters.js`.
 
 ## Next steps
-1. Phase 2: linked lists, stacks, queues, trees, heaps, tries. Phase 3: graphs, dynamic programming, complexity analysis. Phase 4: OOP. Same Python-and-C format, each lesson with a depth file.
+1. Phase 2 is DONE (chapters 8-11). Phase 3: graphs, dynamic programming, complexity analysis. Phase 4: OOP. Same Python-and-C format, each lesson with a depth file.
 2. Figma pass on the lesson screen, then port the result.
 3. Turn on GitHub Pages if not done yet (Settings, Pages, main, / root).
+
+## Phase 2 additions
+- New `mode: 'ds'` lessons draw a shared Structure panel. Step ops live in `step.ds`: node (shapes node/dnode/cell/circle), mv, lab, rm, note, edge/unedge (next/prev/l/r/child), ptr/unptr, tag/untag (done dim hot cur mark bad), hot. The viewBox is 1000 wide; `step.h` sets the height. Engine code: `buildDsSnapshots`, `DsStage`, `dsPath` in assets/engine.js; test hook `window.__dsav`.
+- Motion layer on the home page (assets/site.js, style.css): headline split, reveals, progress strip, visited ticks; all off under prefers-reduced-motion.
+- Chapters 8 Linked lists, 9 Stacks and queues, 10 Trees, 11 Heaps and tries, each with depth files and a quiz. GitHub Pages deploys from .github/workflows/pages.yml (working).
+- After newpage.py, remove any duplicate `href` it adds in chapters.js and the stray loops depth script tag in the new HTML.
