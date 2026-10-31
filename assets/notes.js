@@ -136,5 +136,20 @@ window.CHAPTER_NOTES = {
   34: ['An embedding maps text to a vector; cosine similarity compares direction (meaning), not length. 1 means identical direction.',
       'RAG = chunk, embed, retrieve the top k, then put them in the prompt. If the right chunk is not retrieved, the answer cannot be right.',
       'Tune chunk size, overlap and k by measuring retrieval recall, not by guessing.',
-      'Evaluate with a fixed set of cases and a score, and compare versions per case: equal totals can hide a fix and a regression.']
+      'Evaluate with a fixed set of cases and a score, and compare versions per case: equal totals can hide a fix and a regression.'],
+  35: ['An AVL tree keeps every node\'s balance factor (left height minus right height) in -1, 0 or 1 using rotations, so search, insert and delete stay O(log n) in the worst case.',
+      'A rotation rewires a few pointers and keeps the in-order order. Four cases: left-left, right-right, left-right and right-left (the last two need two rotations).',
+      'A skip list is a sorted linked list with random express lanes (promotion probability 1/2). Search, insert and delete are expected O(log n), and the code is far simpler than a balanced tree.',
+      'A Bloom filter (bit array plus k hashes) has no false negatives but can give false positives, and cannot delete. About 10 bits per item gives about 1% errors.',
+      'A k-D tree splits points on alternating axes at the median. Nearest-neighbour search prunes a side when the splitting line is farther than the best distance. It degrades in high dimensions.'],
+  36: ['The GIL lets one thread run Python bytecode at a time: threads help I/O-bound work but not CPU-bound work. Use processes (or native code) for CPU-bound tasks, and a Lock for shared state, because count += 1 is not atomic.',
+      'Floats are binary approximations: compare with math.isclose and use Decimal or integer cents for money.',
+      'Text is Unicode code points; files and networks carry bytes. Always choose an encoding (UTF-8) and remember one character can take up to 4 bytes.',
+      'Endianness is byte order of multi-byte integers: little-endian on most CPUs, big-endian on the network (htonl). Use int.to_bytes and struct with an explicit order.',
+      'import runs a module once and caches it in sys.modules. Use pathlib for paths, timezone-aware datetimes (UTC) and argparse for scripts with exit codes.'],
+  37: ['LIS: the O(n^2) DP stores the best length ending at each index; the O(n log n) version keeps the smallest tail per length and uses bisect_left. The length of tails is the answer.',
+      'A monotonic deque of indexes (decreasing values) gives every sliding-window maximum in O(n): pop smaller values from the back, expired indexes from the front.',
+      'Dutch flag: lo, mid, hi pointers sort 0s, 1s and 2s in one pass and O(1) space. After swapping with hi, do not advance mid. It is the three-way partition for quicksort.',
+      'Boyer-Moore voting finds the only possible majority candidate in O(1) space by cancelling pairs, but always verify it with a second pass.',
+      'Bitmask DP stores a subset as an integer (practical for n up to about 20): TSP in O(2^n n^2). Huffman coding merges the two lightest nodes from a min-heap to build an optimal prefix code.']
 };

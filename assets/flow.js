@@ -8,6 +8,7 @@
       o = Object.assign({}, G, o || {});
       return frames.map(function (f) {
         var ds = [];
+        (f.ops || []).forEach(function (op) { ds.push(op); });
         (f.add || []).forEach(function (a) { ds.push(['node', a[0], a[1], o.x0 + a[2] * o.dx, o.y0 + a[3] * o.dy, a[4] || 'cell']); });
         (f.lab || []).forEach(function (a) { ds.push(['lab', a[0], a[1]]); });
         (f.untag || []).forEach(function (a) { ds.push(['untag', a[0], a[1]]); });

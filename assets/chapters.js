@@ -328,6 +328,40 @@
         { id: 'evals', title: 'Evaluating a model-based feature', href: 'lessons/evals.html' },
       ],
     },
+    {
+      title: 'Advanced structures',
+      quiz: 'quizzes/chapter-35.html',
+      blurb: 'Structures that go beyond the interview basics: self-balancing trees, skip lists, Bloom filters and k-D trees.',
+      lessons: [
+        { id: 'avl-tree', title: 'AVL trees: self-balancing', href: 'lessons/avl-tree.html' },
+        { id: 'skip-list', title: 'Skip lists', href: 'lessons/skip-list.html' },
+        { id: 'bloom-filter', title: 'Bloom filters', href: 'lessons/bloom-filter.html' },
+        { id: 'kd-tree', title: 'k-D trees', href: 'lessons/kd-tree.html' },
+      ],
+    },
+    {
+      title: 'Python and the machine',
+      quiz: 'quizzes/chapter-36.html',
+      blurb: 'What sits under your code: threads and the GIL, floats, Unicode and byte order, modules, paths and command-line scripts.',
+      lessons: [
+        { id: 'threads-gil', title: 'Threads, processes and the GIL', href: 'lessons/threads-gil.html' },
+        { id: 'floats-unicode', title: 'Floats, Unicode and byte order', href: 'lessons/floats-unicode.html' },
+        { id: 'modules-cli', title: 'Modules, paths and command-line scripts', href: 'lessons/modules-cli.html' },
+      ],
+    },
+    {
+      title: 'Classic patterns',
+      quiz: 'quizzes/chapter-37.html',
+      blurb: 'Named problems that come up again and again: longest increasing subsequence, monotonic deque, Dutch flag, Boyer-Moore, bitmask DP and Huffman coding.',
+      lessons: [
+        { id: 'lis', title: 'Longest increasing subsequence', href: 'lessons/lis.html' },
+        { id: 'monotonic-deque', title: 'Monotonic deque: sliding window maximum', href: 'lessons/monotonic-deque.html' },
+        { id: 'dutch-flag', title: 'Dutch flag and three-way partition', href: 'lessons/dutch-flag.html' },
+        { id: 'boyer-moore', title: 'Boyer-Moore majority vote', href: 'lessons/boyer-moore.html' },
+        { id: 'bitmask-dp', title: 'Bitmask dynamic programming', href: 'lessons/bitmask-dp.html' },
+        { id: 'huffman', title: 'Huffman coding: greedy compression', href: 'lessons/huffman.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -340,6 +374,7 @@
     { n: 6, title: 'Advanced algorithms', blurb: 'Spanning trees, negative edges, and more graph and string algorithms beyond the basics, with the same step-through pictures.', from: 21, to: 26 },
     { n: 7, title: 'Python for applied AI', blurb: 'The Python an applied or forward deployed AI engineer writes every day: JSON and text handling, reliable API calls, asyncio, validation, configuration, logging and tests.', from: 27, to: 30 },
     { n: 8, title: 'Building with models', blurb: 'Using language models as components: calling them, getting structured output, tool calling and agents, retrieval, and evaluating the result.', from: 31, to: 33 },
+    { n: 9, title: 'Advanced concepts', blurb: 'Material beyond the usual interview set: self-balancing and probabilistic structures, how Python meets the machine, and the named classic problems.', from: 34, to: 36 },
   ];
 
   function phaseOf(ci) {
