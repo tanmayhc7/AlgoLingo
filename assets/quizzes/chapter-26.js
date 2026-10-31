@@ -1,0 +1,71 @@
+/* Chapter 26 quiz: Backtracking. */
+window.QUIZ = {
+  chapter: 26,
+  title: 'Backtracking',
+  lede: 'Choose, explore, un-choose: subsets, pruning and N-Queens.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'How many subsets does a list of 5 distinct numbers have?',
+      options: ['10', '25', '32'],
+      answer: 2,
+      why: 'Each number is in or out: 2^5 = 32.',
+    },
+    {
+      type: 'mcq',
+      q: 'In the choose / explore / un-choose template, what does "un-choose" do?',
+      options: ['Restores the shared state so the next branch starts clean', 'Stops the whole search', 'Copies the answer'],
+      answer: 0,
+      why: 'The path and any sets are shared by all branches, so each choice must be undone after exploring it.',
+    },
+    {
+      type: 'mcq',
+      q: 'Which two numbers are constant along a queen\'s diagonals?',
+      options: ['r and c', 'r - c on one, r + c on the other', 'r x c and r / c'],
+      answer: 1,
+      why: 'Moving one step along a diagonal changes r and c together, keeping r - c (or r + c) fixed.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>subsets</code> returns every subset.',
+      starter: 'def subsets(nums):\n    res, path = [], []\n    def dfs(i):\n        if i == len(nums):\n            res.append(___)\n            return\n        path.append(nums[i])\n        dfs(i + 1)\n        path.___()\n        dfs(i + 1)\n    dfs(0)\n    return res\n',
+      tests: [
+        { expr: 'sorted(subsets([1, 2]))', want: '[[], [1], [1, 2], [2]]' },
+        { expr: 'len(subsets([1, 2, 3, 4]))', want: '16' },
+        { expr: 'subsets([])', want: '[[]]' },
+      ],
+      hint: 'Store a copy of path, and undo the append with the list method that removes the last item.',
+      solution: 'def subsets(nums):\n    res, path = [], []\n    def dfs(i):\n        if i == len(nums):\n            res.append(path[:])\n            return\n        path.append(nums[i])\n        dfs(i + 1)\n        path.pop()\n        dfs(i + 1)\n    dfs(0)\n    return res\n',
+      why: 'A copy keeps each answer independent, and pop() is the un-choose step.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>n_queens(n)</code> returning how many distinct ways there are to place <code>n</code> queens on an n x n board so none attack each other.',
+      starter: 'def n_queens(n):\n    # your code\n',
+      tests: [
+        { expr: 'n_queens(1)', want: '1' },
+        { expr: 'n_queens(4)', want: '2' },
+        { expr: 'n_queens(6)', want: '4' },
+        { expr: 'n_queens(8)', want: '92' },
+        { expr: 'n_queens(3)', want: '0' },
+      ],
+      hint: 'Recurse over rows; keep sets for columns, r - c and r + c; add before recursing and remove after.',
+      solution: 'def n_queens(n):\n    cols, d1, d2 = set(), set(), set()\n    def place(r):\n        if r == n:\n            return 1\n        total = 0\n        for c in range(n):\n            if c in cols or r - c in d1 or r + c in d2:\n                continue\n            cols.add(c); d1.add(r - c); d2.add(r + c)\n            total += place(r + 1)\n            cols.remove(c); d1.remove(r - c); d2.remove(r + c)\n        return total\n    return place(0)\n',
+      why: 'Each placement costs O(1) to test, and failed rows return 0 so the caller simply tries its next column.',
+    },
+    {
+      type: 'debug',
+      q: '<code>permutations(nums)</code> should return all orderings, but every result is the same empty list. Fix it.',
+      starter: 'def permutations(nums):\n    res, path, used = [], [], [False] * len(nums)\n    def dfs():\n        if len(path) == len(nums):\n            res.append(path)\n            return\n        for i in range(len(nums)):\n            if used[i]:\n                continue\n            used[i] = True\n            path.append(nums[i])\n            dfs()\n            path.pop()\n            used[i] = False\n    dfs()\n    return res\n',
+      tests: [
+        { expr: 'sorted(permutations([1, 2, 3]))', want: '[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]' },
+        { expr: 'permutations([7])', want: '[[7]]' },
+        { expr: 'len(permutations([1, 2, 3, 4]))', want: '24' },
+        { expr: 'permutations([])', want: '[[]]' },
+      ],
+      hint: 'path keeps changing after you store it; store a snapshot instead.',
+      solution: 'def permutations(nums):\n    res, path, used = [], [], [False] * len(nums)\n    def dfs():\n        if len(path) == len(nums):\n            res.append(path[:])\n            return\n        for i in range(len(nums)):\n            if used[i]:\n                continue\n            used[i] = True\n            path.append(nums[i])\n            dfs()\n            path.pop()\n            used[i] = False\n    dfs()\n    return res\n',
+      why: 'res.append(path) stores a reference to the one list that backtracking keeps mutating; by the end it is empty. Append path[:] to store a copy.',
+    },
+  ],
+};
