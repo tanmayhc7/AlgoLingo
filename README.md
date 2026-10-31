@@ -1,4 +1,4 @@
-# DSA Visualizer
+# Algolingo
 
 **Live site: https://tanmayhc7.github.io/dsa-visualizer/**
 

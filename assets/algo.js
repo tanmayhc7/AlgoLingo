@@ -69,7 +69,7 @@
     var dragging = false;
 
     $('title').textContent = L.title;
-    document.title = L.title + ' | DSA Visualizer';
+    document.title = L.title + ' | Algolingo';
     $('lede').textContent = L.lede;
 
     /* ---- panels ---- */

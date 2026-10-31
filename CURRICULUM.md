@@ -1,4 +1,4 @@
-# DSA Visualizer: Curriculum
+# Algolingo: Curriculum
 
 Who this is for: an engineer who thinks in C and is learning Python's idioms and data structures from scratch. Where C makes you build things by hand, Python hands you a built-in. Every lesson shows what the built-in does for you and what it costs underneath.
 
