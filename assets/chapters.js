@@ -363,6 +363,17 @@
         { id: 'huffman', title: 'Huffman coding: greedy compression', href: 'lessons/huffman.html' },
       ],
     },
+    {
+      title: 'Number theory',
+      quiz: 'quizzes/chapter-38.html',
+      blurb: 'The maths behind many counting and cycle problems: gcd and lcm, primes and the sieve, modular arithmetic with fast exponentiation, and combinations modulo a prime.',
+      lessons: [
+        { id: 'gcd-lcm', title: 'gcd and lcm: Euclid\'s algorithm', href: 'lessons/gcd-lcm.html' },
+        { id: 'sieve', title: 'Primes and the sieve of Eratosthenes', href: 'lessons/sieve.html' },
+        { id: 'modular-pow', title: 'Modular arithmetic and fast exponentiation', href: 'lessons/modular-pow.html' },
+        { id: 'ncr-mod', title: 'Combinations and modular inverses', href: 'lessons/ncr-mod.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -376,6 +387,7 @@
     { n: 7, title: 'Python for applied AI', blurb: 'The Python an applied or forward deployed AI engineer writes every day: JSON and text handling, reliable API calls, asyncio, validation, configuration, logging and tests.', from: 27, to: 30 },
     { n: 8, title: 'Building with models', blurb: 'Using language models as components: calling them, getting structured output, tool calling and agents, retrieval, and evaluating the result.', from: 31, to: 33 },
     { n: 9, title: 'Advanced concepts', blurb: 'Material beyond the usual interview set: self-balancing and probabilistic structures, how Python meets the machine, and the named classic problems.', from: 34, to: 36 },
+    { n: 10, title: 'Number theory', blurb: 'Divisibility, primes and remainders: the small set of maths tools behind counting, cycle and "answer modulo 10^9 + 7" problems.', from: 37, to: 37 },
   ];
 
   function phaseOf(ci) {

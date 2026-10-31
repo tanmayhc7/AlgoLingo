@@ -152,5 +152,10 @@ window.CHAPTER_NOTES = {
       'A monotonic deque of indexes (decreasing values) gives every sliding-window maximum in O(n): pop smaller values from the back, expired indexes from the front.',
       'Dutch flag: lo, mid, hi pointers sort 0s, 1s and 2s in one pass and O(1) space. After swapping with hi, do not advance mid. It is the three-way partition for quicksort.',
       'Boyer-Moore voting finds the only possible majority candidate in O(1) space by cancelling pairs, but always verify it with a second pass.',
-      'Bitmask DP stores a subset as an integer (practical for n up to about 20): TSP in O(2^n n^2). Huffman coding merges the two lightest nodes from a min-heap to build an optimal prefix code.']
+      'Bitmask DP stores a subset as an integer (practical for n up to about 20): TSP in O(2^n n^2). Huffman coding merges the two lightest nodes from a min-heap to build an optimal prefix code.'],
+  38: ['Euclid: gcd(a, b) = gcd(b, a % b), stopping when b is 0; it takes O(log min(a, b)) steps. lcm(a, b) = a // gcd(a, b) * b (divide first to avoid overflow).',
+      'A number n is prime if no divisor up to sqrt(n) divides it. The sieve of Eratosthenes lists all primes up to n in O(n log log n) by crossing out multiples from p * p.',
+      'Reduce modulo m after every + - and x; the result is the same and the numbers stay small. In C watch for negative remainders and 64-bit overflow.',
+      'Fast exponentiation squares the base and reads the exponent bits: O(log b) steps. Python has pow(a, b, m).',
+      'Under a prime modulus, divide by multiplying with the inverse pow(x, p - 2, p) (Fermat). nCr mod p = fact[n] * inv(fact[r] * fact[n - r]), valid when n < p.']
 };

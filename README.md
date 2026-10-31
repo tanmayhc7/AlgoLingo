@@ -8,7 +8,7 @@ An interactive way to learn Python and data structures and algorithms, built for
 
 ## Status
 
-Nine phases are built: 37 chapters, 100 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [DESIGN.md](DESIGN.md) holds the design principles and working rules, and [HANDOFF.md](HANDOFF.md) says where the project stands.
+Ten phases are built: 38 chapters, 104 lessons, each with Python and C side by side, an **Interview depth** section (edge cases, complexity, internals, mid/senior/staff Q&A with follow-ups) and a chapter quiz (multiple choice, write, complete and debug). The plan is in [CURRICULUM.md](CURRICULUM.md), and [DESIGN.md](DESIGN.md) holds the design principles and working rules, and [HANDOFF.md](HANDOFF.md) says where the project stands.
 
 1. **Python foundations** (chapters 1 to 7): names, types, control flow, functions, memory and arrays, hashing, the toolbox.
 2. **Core data structures** (8 to 11): linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers (structure mode).
@@ -19,6 +19,7 @@ Nine phases are built: 37 chapters, 100 lessons, each with Python and C side by 
 7. **Python for applied AI** (28 to 31): JSON and JSONL, text cleaning and chunking, HTTP retries and pagination, asyncio, type hints and validation, context managers, config and logging, tests with fakes. Each lesson shows a C analogue (cJSON, libcurl, epoll, function pointers).
 8. **Building with models** (32 to 34): LLM API basics and cost, structured output, tool calling, the agent loop, embeddings and retrieval, evals.
 9. **Advanced concepts** (35 to 37): AVL trees, skip lists, Bloom filters, k-D trees; threads and the GIL, floats, Unicode and byte order, modules and command-line scripts; classic patterns (longest increasing subsequence, monotonic deque, Dutch flag, Boyer-Moore, bitmask DP, Huffman coding).
+10. **Number theory** (38): gcd and lcm, primes and the sieve, modular arithmetic and fast exponentiation, combinations and modular inverses.
 
 ## Run it
 
