@@ -17,3 +17,6 @@ dist/
 .vscode/
 .idea/
 .env
+
+# Working notes for continuing the project (kept locally and in the Claude Project)
+HANDOFF.md

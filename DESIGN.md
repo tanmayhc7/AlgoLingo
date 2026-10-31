@@ -1,6 +1,6 @@
 # AlgoLingo design principles and working rules
 
-Read this first when continuing the project. It records the decisions made so far so they do not have to be restated. For project status and file map see HANDOFF.md; for the topic plan see CURRICULUM.md.
+Read this first when continuing the project. It records the decisions made so far so they do not have to be restated. For project status and file map see HANDOFF.md (kept locally and in the Claude Project, not in the repo); for the topic plan see CURRICULUM.md.
 
 ## 1. Product
 
