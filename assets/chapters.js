@@ -94,6 +94,16 @@
         { id: 'queues', title: 'Queues', href: 'lessons/queues.html' },
       ],
     },
+    {
+      title: 'Trees',
+      quiz: 'quizzes/chapter-10.html',
+      blurb: 'Hierarchies: traversals, search trees and the recursive patterns behind most tree problems.',
+      lessons: [
+        { id: 'binary-trees', title: 'Binary trees and traversals', href: 'lessons/binary-trees.html' },
+        { id: 'bst', title: 'Binary search trees', href: 'lessons/bst.html' },
+        { id: 'tree-patterns', title: 'Tree recursion patterns', href: 'lessons/tree-patterns.html' },
+      ],
+    },
   ];
 
   function el(tag, cls, text) {
