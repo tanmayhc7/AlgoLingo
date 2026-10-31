@@ -1,0 +1,71 @@
+/* Chapter 20 quiz: Binary search. */
+window.QUIZ = {
+  chapter: 20,
+  title: 'Binary search',
+  lede: 'Halving the range: classic search, bounds, and searching over the answer.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'What must be true about the data for classic binary search to give correct answers?',
+      options: ['It has no duplicates', 'It is sorted', 'Its length is a power of two'],
+      answer: 1,
+      why: 'Comparing with the middle only tells you which half to discard if the order guarantees it. Duplicates are fine, and the length can be anything.',
+    },
+    {
+      type: 'mcq',
+      q: 'A loop uses <code>while lo < hi</code> with <code>mid = (lo + hi) // 2</code>. Which update can loop forever?',
+      options: ['lo = mid + 1', 'hi = mid', 'lo = mid'],
+      answer: 2,
+      why: 'When hi = lo + 1, mid equals lo, so lo = mid changes nothing. With lo = mid + 1 or hi = mid the range always shrinks.',
+    },
+    {
+      type: 'mcq',
+      q: 'Which problem is a good fit for binary search on the answer?',
+      options: ['Find the smallest ship capacity that delivers all packages in D days', 'Sort an array of strings', 'Count the vowels in a string'],
+      answer: 0,
+      why: 'If capacity c works, any larger capacity works too (a monotone yes/no predicate), and a feasibility check is easy.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>first_ge(a, x)</code> returns the first index with <code>a[i] >= x</code> (or <code>len(a)</code>).',
+      starter: 'def first_ge(a, x):\n    lo, hi = 0, len(a)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if a[mid] < x:\n            lo = ___\n        else:\n            hi = ___\n    return lo\n',
+      tests: [
+        { expr: 'first_ge([1, 3, 3, 3, 5], 3)', want: '1' },
+        { expr: 'first_ge([1, 3, 5], 4)', want: '2' },
+        { expr: 'first_ge([1, 3, 5], 9)', want: '3' },
+        { expr: 'first_ge([], 1)', want: '0' },
+      ],
+      hint: 'When a[mid] is too small, skip it. Otherwise mid might be the answer, so keep it as the new upper end.',
+      solution: 'def first_ge(a, x):\n    lo, hi = 0, len(a)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if a[mid] < x:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n',
+      why: 'lo = mid + 1 discards values strictly below x; hi = mid keeps a possible first match.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>count_in_range(a, lo, hi)</code> for a sorted list <code>a</code>: how many values satisfy <code>lo <= v <= hi</code>? It must run in O(log n). (The <code>bisect</code> module is available.)',
+      starter: 'import bisect\n\ndef count_in_range(a, lo, hi):\n    # your code\n',
+      tests: [
+        { expr: 'count_in_range([1, 2, 2, 3, 5, 8], 2, 5)', want: '4' },
+        { expr: 'count_in_range([1, 2, 3], 4, 9)', want: '0' },
+        { expr: 'count_in_range([], 0, 1)', want: '0' },
+        { expr: 'count_in_range([5, 5, 5], 5, 5)', want: '3' },
+      ],
+      hint: 'bisect_left finds the first index >= lo; bisect_right finds the first index > hi. Subtract.',
+      solution: 'import bisect\n\ndef count_in_range(a, lo, hi):\n    return bisect.bisect_right(a, hi) - bisect.bisect_left(a, lo)\n',
+      why: 'Two O(log n) searches mark the boundaries of the range; the difference is the count, including duplicates.',
+    },
+    {
+      type: 'debug',
+      q: 'This should return the index of <code>target</code> in a sorted list, or -1. It sometimes loops forever. Fix it.',
+      starter: 'def search(a, target):\n    lo, hi = 0, len(a) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if a[mid] == target:\n            return mid\n        elif a[mid] < target:\n            lo = mid\n        else:\n            hi = mid\n    return -1\n',
+      tests: [
+        { expr: 'search([1, 3, 5, 7], 7)', want: '3' },
+        { expr: 'search([1, 3, 5, 7], 4)', want: '-1' },
+        { expr: 'search([2], 2)', want: '0' },
+        { expr: 'search([], 1)', want: '-1' },
+      ],
+      hint: 'mid has already been checked, so it must be excluded from the new range on both sides.',
+      solution: 'def search(a, target):\n    lo, hi = 0, len(a) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if a[mid] == target:\n            return mid\n        elif a[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n',
+      why: 'With an inclusive range and lo <= hi, both updates must step past mid (mid + 1 and mid - 1); otherwise a range of one or two elements never shrinks.',
+    },
+  ],
+};

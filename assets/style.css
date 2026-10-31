@@ -2019,3 +2019,7 @@ a.phase-card:focus-visible {
   .apanels .code { font-size: 13px; }
   .apanels .code li { padding-right: 10px; }
 }
+@media (max-width: 600px) {
+  .aptr b { font-size: 10.5px; padding: 3px 4px; }
+  .aptr .ar { display: none; }
+}

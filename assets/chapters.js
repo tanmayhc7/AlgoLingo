@@ -188,6 +188,15 @@
         { id: 'sorting-fast', title: 'Fast sorts: merge sort and quicksort', href: 'lessons/sorting-fast.html' },
       ],
     },
+    {
+      title: 'Binary search',
+      quiz: 'quizzes/chapter-20.html',
+      blurb: 'Halving the search range: the classic search, first occurrence, rotated arrays, and searching over the answer.',
+      lessons: [
+        { id: 'binary-search', title: 'Binary search', href: 'lessons/binary-search.html' },
+        { id: 'binary-search-variants', title: 'Binary search beyond sorted arrays', href: 'lessons/binary-search-variants.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -196,7 +205,7 @@
     { n: 2, title: 'Core data structures', blurb: 'Linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers that move as the code runs.', from: 7, to: 10 },
     { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 14 },
     { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 17 },
-    { n: 5, title: 'Algorithms in motion', blurb: 'Sorting, searching and array techniques as animations: bars that slide and swap like a video, with the Python and C code running beside them.', from: 18, to: 18 },
+    { n: 5, title: 'Algorithms in motion', blurb: 'Sorting, searching and array techniques as animations: bars that slide and swap like a video, with the Python and C code running beside them.', from: 18, to: 19 },
   ];
 
   function phaseOf(ci) {

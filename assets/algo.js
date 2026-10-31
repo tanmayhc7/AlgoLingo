@@ -275,7 +275,7 @@
       frames.forEach(function (f) { Object.keys(f.cls).forEach(function (k) { f.cls[k].split(' ').forEach(function (c) { used[c] = 1; }); }); });
       legend.textContent = '';
       Object.keys(KEYS).forEach(function (k) {
-        if (used[k]) legend.appendChild(h('span', { class: 'akey ' + k }, [h('i'), document.createTextNode(KEYS[k])]));
+        if (used[k]) legend.appendChild(h('span', { class: 'akey ' + k }, [h('i'), document.createTextNode((sc.keys && sc.keys[k]) || KEYS[k])]));
       });
       scrub.max = String(frames.length - 1);
       renderPredict(sc);
