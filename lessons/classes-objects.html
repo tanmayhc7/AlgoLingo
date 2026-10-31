@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>classes-objects | DSA Visualizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&display=swap">
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/site.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../index.html"><img src="../assets/logo.svg" alt="">DSA Visualizer</a>
+    <button class="tool" id="theme" type="button">Dark mode</button>
+  </header>
+
+  <section class="lesson-head">
+    <p class="crumb" id="crumb"></p>
+    <h1 id="title">Variables and names</h1>
+    <p class="lede" id="lede"></p>
+  </section>
+
+  <div class="bench">
+    <div class="bench-bar">
+      <div class="seg" id="scenes" role="tablist" aria-label="Scenes"></div>
+      <div class="opts" id="opts"></div>
+    </div>
+    <p class="scene-blurb" id="blurb"></p>
+    <div class="panels" id="panels"></div>
+    <div class="dock" id="controls"></div>
+  </div>
+
+  <div class="below">
+    <section class="card" aria-labelledby="predict-h">
+      <h2 id="predict-h">Predict, then check</h2>
+      <div id="predict-body"></div>
+    </section>
+    <section class="card trap" aria-labelledby="trap-h">
+      <h2 id="trap-h">Common trap</h2>
+      <p id="trap-text"></p>
+    </section>
+  </div>
+
+  <section class="card section" aria-labelledby="api-h">
+    <h2 id="api-h">Built-ins from this lesson</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody id="builtins"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="outline" id="outline"></div>
+  <nav class="pager" id="pager" aria-label="Lessons"></nav>
+</div>
+
+<script src="../assets/chapters.js"></script>
+<script src="../assets/lessons/classes-objects.js"></script>
+<script src="../assets/depth/classes-objects.js"></script>
+<script src="../assets/engine.js"></script>
+<script>DSAV.mount(window.LESSON);
+Course.renderLesson('classes-objects');</script>
+</body>
+</html>

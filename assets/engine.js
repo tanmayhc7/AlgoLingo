@@ -845,8 +845,17 @@
       var dx = b.x - a.x;
       var dy = b.y - a.y;
       var len = Math.sqrt(dx * dx + dy * dy) || 1;
-      var ra = a.shape === 'circle' ? 22 : 0;
-      var rb = b.shape === 'circle' ? 24 : 0;
+      function trim(n, extra) {
+        if (n.shape === 'circle') return 22 + extra;
+        var ax = Math.abs(dx) || 0.001;
+        var ay = Math.abs(dy) || 0.001;
+        var t = Math.min(32 / ax, 22 / ay);
+        return t * len + extra;
+      }
+      var ra = trim(a, 0);
+      var rb = trim(b, 3);
+      if (a.shape === 'circle') ra = 22;
+      if (b.shape === 'circle') rb = 24;
       x1 = a.x + (dx / len) * ra;
       y1 = a.y + (dy / len) * ra;
       x2 = b.x - (dx / len) * rb;

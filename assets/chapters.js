@@ -152,6 +152,15 @@
         { id: 'complexity-amortized', title: 'Amortised cost and space', href: 'lessons/complexity-amortized.html' },
       ],
     },
+    {
+      title: 'Classes and objects',
+      quiz: 'quizzes/chapter-16.html',
+      blurb: 'Objects as bundles of data with shared code: attributes, methods, self, and the special methods that make objects behave like built-ins.',
+      lessons: [
+        { id: 'classes-objects', title: 'Classes and objects', href: 'lessons/classes-objects.html' },
+        { id: 'dunder-methods', title: 'Special methods', href: 'lessons/dunder-methods.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
@@ -159,7 +168,7 @@
     { n: 1, title: 'Python foundations', blurb: 'Python for someone who thinks in C: names and objects, types, control flow, functions, memory and arrays, hashing, and the standard-library toolbox.', from: 0, to: 6 },
     { n: 2, title: 'Core data structures', blurb: 'Linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers that move as the code runs.', from: 7, to: 10 },
     { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 14 },
-    { n: 4, title: 'Object-oriented design', blurb: 'Classes, inheritance, composition and design trade-offs in Python and C.', planned: ['Classes and objects', 'Inheritance and composition', 'Design trade-offs'] },
+    { n: 4, title: 'Object-oriented design', blurb: 'Classes and objects, inheritance and composition, iterators, generators, decorators and dataclasses, in Python with the C equivalents.', from: 15, to: 17 },
   ];
 
   function phaseOf(ci) {
