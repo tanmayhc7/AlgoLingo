@@ -46,3 +46,7 @@ A lesson with `mode: 'algo'` uses `assets/algo.js` (page mounts with `DSAV.mount
 ## Chapter quizzes
 
 Each quiz is a page in `quizzes/` with its questions in `assets/quizzes/chapter-N.js`. Question types: `mcq`, `write`, `complete` (with `___` blanks) and `debug` (buggy starter code). Code answers are run in the browser with Pyodide (loaded from a CDN the first time you press Check) against the test list in the data file, so a syntax error shows up as the real Python error, and a loop that never ends is stopped. Progress is remembered on the device. Needs an internet connection for the code questions. Add a quiz by copying `quizzes/chapter-1.html` and its data file, then set `quiz:` on the chapter in `assets/chapters.js`.
+
+## License
+
+GNU Affero General Public License v3.0 (AGPL-3.0). See [LICENSE](LICENSE). If you run a modified version of this site for others over a network, you must offer them the modified source.
