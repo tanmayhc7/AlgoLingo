@@ -1,0 +1,71 @@
+/* Chapter 15 quiz: Complexity analysis. */
+window.QUIZ = {
+  chapter: 15,
+  title: 'Complexity analysis',
+  lede: 'Counting steps, growth rates, amortised cost and space.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'What is the time complexity of <code>for i in range(n): for j in range(i): work()</code>?',
+      options: ['O(n)', 'O(n^2)', 'O(n log n)'],
+      answer: 1,
+      why: 'The calls total 0 + 1 + ... + (n - 1) = n(n - 1) / 2, which is O(n^2): the factor 1/2 is a dropped constant.',
+    },
+    {
+      type: 'mcq',
+      q: 'The input has 200,000 numbers and you have about a second. Which approach is realistic?',
+      options: ['Compare every pair of numbers', 'Sort, then scan once', 'Try every subset'],
+      answer: 1,
+      why: 'Sort + scan is O(n log n), about 3.5 million steps. Every pair is 2 x 10^10 steps, and every subset is 2^200000.',
+    },
+    {
+      type: 'mcq',
+      q: 'Why is appending to a dynamic array O(1) <b>amortised</b> when it doubles its capacity?',
+      options: ['A resize never copies anything', 'Copies form 1 + 2 + 4 + ... which is less than 2n over n appends', 'Appends are random, so the average is small'],
+      answer: 1,
+      why: 'Total copying over n appends is a geometric series bounded by 2n, so the cost per append averages to a constant, with no assumption about random input.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>bsearch(a, x)</code> returns the index of <code>x</code> in sorted list <code>a</code>, or -1. It must run in O(log n).',
+      starter: 'def bsearch(a, x):\n    lo, hi = 0, len(a) - 1\n    while lo <= hi:\n        mid = (lo + hi) // ___\n        if a[mid] == x:\n            return mid\n        if a[mid] < x:\n            lo = ___ + 1\n        else:\n            hi = mid - 1\n    return -1\n',
+      tests: [
+        { expr: 'bsearch([1, 3, 5, 7, 9, 11], 7)', want: '3' },
+        { expr: 'bsearch([1, 3, 5, 7, 9, 11], 4)', want: '-1' },
+        { expr: 'bsearch([], 1)', want: '-1' },
+        { expr: 'bsearch([2], 2)', want: '0' },
+      ],
+      hint: 'Halve the range each step: the midpoint is the average, and the left bound moves past the midpoint.',
+      solution: 'def bsearch(a, x):\n    lo, hi = 0, len(a) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if a[mid] == x:\n            return mid\n        if a[mid] < x:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n',
+      why: 'Each probe discards half the remaining range, so the loop runs about log2(n) times.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>has_duplicate(nums)</code> that returns True if any value appears twice. It must run in O(n) average time.',
+      starter: 'def has_duplicate(nums):\n    # your code\n',
+      tests: [
+        { expr: 'has_duplicate([1, 2, 3, 1])', want: 'True' },
+        { expr: 'has_duplicate([1, 2, 3, 4])', want: 'False' },
+        { expr: 'has_duplicate([])', want: 'False' },
+        { expr: 'has_duplicate([5])', want: 'False' },
+      ],
+      hint: 'A set gives O(1) average membership tests. Trade O(n) extra space for the time.',
+      solution: 'def has_duplicate(nums):\n    seen = set()\n    for x in nums:\n        if x in seen:\n            return True\n        seen.add(x)\n    return False\n',
+      why: 'One pass with O(1) set lookups: O(n) time and O(n) space, instead of O(n^2) comparing every pair.',
+    },
+    {
+      type: 'debug',
+      q: 'This O(log n) search should return the index of the <b>first</b> occurrence of <code>x</code> in sorted <code>a</code>, or -1 if absent. It returns a wrong index when <code>x</code> is missing. Fix it.',
+      starter: 'def first_index(a, x):\n    lo, hi = 0, len(a)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if a[mid] < x:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n',
+      tests: [
+        { expr: 'first_index([1, 2, 2, 3], 2)', want: '1' },
+        { expr: 'first_index([1, 2, 3], 4)', want: '-1' },
+        { expr: 'first_index([1, 3], 2)', want: '-1' },
+        { expr: 'first_index([], 1)', want: '-1' },
+      ],
+      hint: 'The loop finds where x would be inserted. Check that position is inside the list and actually holds x.',
+      solution: 'def first_index(a, x):\n    lo, hi = 0, len(a)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if a[mid] < x:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo if lo < len(a) and a[lo] == x else -1\n',
+      why: 'The loop is a lower bound: the first position whose value is not smaller than x. That position may be past the end or hold a different value, so verify it.',
+    },
+  ],
+};

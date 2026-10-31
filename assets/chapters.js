@@ -143,13 +143,22 @@
         { id: 'dp-2d', title: 'Two-dimensional tables', href: 'lessons/dp-2d.html' },
       ],
     },
+    {
+      title: 'Complexity analysis',
+      quiz: 'quizzes/chapter-15.html',
+      blurb: 'Count steps, compare growth rates, and reason about amortised cost and space.',
+      lessons: [
+        { id: 'complexity-growth', title: 'Counting steps and growth rates', href: 'lessons/complexity-growth.html' },
+        { id: 'complexity-amortized', title: 'Amortised cost and space', href: 'lessons/complexity-amortized.html' },
+      ],
+    },
   ];
 
   /* Phases group chapters by index range (from and to are inclusive, 0-based). */
   var PHASES = [
     { n: 1, title: 'Python foundations', blurb: 'Python for someone who thinks in C: names and objects, types, control flow, functions, memory and arrays, hashing, and the standard-library toolbox.', from: 0, to: 6 },
     { n: 2, title: 'Core data structures', blurb: 'Linked lists, stacks and queues, trees, heaps and tries, drawn as nodes and pointers that move as the code runs.', from: 7, to: 10 },
-    { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 13 },
+    { n: 3, title: 'Graphs, DP and analysis', blurb: 'Graph traversal and shortest paths, dynamic programming, and reasoning about time and space complexity.', from: 11, to: 14 },
     { n: 4, title: 'Object-oriented design', blurb: 'Classes, inheritance, composition and design trade-offs in Python and C.', planned: ['Classes and objects', 'Inheritance and composition', 'Design trade-offs'] },
   ];
 
