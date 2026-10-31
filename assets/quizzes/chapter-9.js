@@ -1,0 +1,66 @@
+/* Chapter 9 quiz: Stacks and queues. See assets/quiz.js for the question format. */
+window.QUIZ = {
+  chapter: 9,
+  title: 'Stacks and queues',
+  lede: 'Last in first out, first in first out, and the problems that depend on them.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'You process 100,000 items with <code>q = []</code> using <code>q.append(x)</code> and <code>q.pop(0)</code>. What is wrong?',
+      options: ['Nothing, pop(0) is O(1)', 'pop(0) is O(n), so the loop is O(n^2); use collections.deque', 'append is O(n)'],
+      answer: 1,
+      why: 'pop(0) shifts every remaining item. deque.popleft is O(1).',
+    },
+    {
+      type: 'mcq',
+      q: 'Which problem needs a <b>stack</b> rather than a queue?',
+      options: ['Shortest path in an unweighted grid', 'Checking that brackets are properly nested', 'Serving customers in arrival order'],
+      answer: 1,
+      why: 'Nesting means the most recent opener must close first, which is last in, first out. The other two are FIFO jobs.',
+    },
+    {
+      type: 'mcq',
+      q: 'A queue is built from two stacks. Why must you move items from <code>inbox</code> to <code>outbox</code> <b>only when outbox is empty</b>?',
+      options: ['To save memory', 'Otherwise newer items would be served before older ones still in outbox', 'Python requires it'],
+      answer: 1,
+      why: 'Outbox holds the oldest items on top. Pouring more in before it is empty would put newer items above them and break first-in first-out.',
+    },
+    {
+      type: 'complete',
+      q: 'Fill in the blanks so <code>is_balanced(s)</code> returns True when every <code>(</code> and <code>[</code> is closed in the correct order.',
+      starter: 'def is_balanced(s):\n    pairs = {")": "(", "]": "["}\n    stack = []\n    for ch in s:\n        if ch in "([":\n            stack.___(ch)\n        elif not stack or stack.pop() != pairs[ch]:\n            return False\n    return ___\n',
+      tests: [
+        { expr: "is_balanced('([])')", want: 'True' },
+        { expr: "is_balanced('([)]')", want: 'False' },
+        { expr: "is_balanced('((')", want: 'False' },
+        { expr: "is_balanced('')", want: 'True' },
+      ],
+      hint: 'Push openers with append. At the end the stack must be empty, so return not stack.',
+      solution: 'def is_balanced(s):\n    pairs = {")": "(", "]": "["}\n    stack = []\n    for ch in s:\n        if ch in "([":\n            stack.append(ch)\n        elif not stack or stack.pop() != pairs[ch]:\n            return False\n    return not stack\n',
+      why: 'Leftover openers mean some opener was never closed, so an empty stack at the end is part of the answer.',
+    },
+    {
+      type: 'write',
+      q: 'Write <code>days_until_warmer(temps)</code>. For each day return how many days until a strictly warmer one, or 0 if none. Aim for O(n) using a stack.',
+      starter: 'def days_until_warmer(temps):\n    pass\n',
+      tests: [
+        { expr: 'days_until_warmer([73, 74, 75, 71, 69, 72, 76, 73])', want: '[1, 1, 4, 2, 1, 1, 0, 0]' },
+        { expr: 'days_until_warmer([30, 40, 50, 60])', want: '[1, 1, 1, 0]' },
+        { expr: 'days_until_warmer([30, 20, 10])', want: '[0, 0, 0]' },
+        { expr: 'days_until_warmer([])', want: '[]' },
+      ],
+      hint: 'Keep a stack of indexes whose answer is unknown. When today is warmer than the temperature at the top index, pop it and set its answer to today minus that index.',
+      solution: 'def days_until_warmer(temps):\n    ans = [0] * len(temps)\n    stack = []\n    for i, t in enumerate(temps):\n        while stack and temps[stack[-1]] < t:\n            j = stack.pop()\n            ans[j] = i - j\n        stack.append(i)\n    return ans\n',
+      why: 'Each index is pushed once and popped at most once, so the nested loop is O(n) in total.',
+    },
+    {
+      type: 'debug',
+      q: 'This ring-buffer queue should keep at most 3 items and reject enqueues when full, but it behaves wrongly once it wraps around. Fix it.',
+      starter: 'class Ring:\n    def __init__(self, cap):\n        self.buf = [None] * cap\n        self.cap = cap\n        self.head = 0\n        self.tail = 0\n        self.size = 0\n\n    def enqueue(self, x):\n        if self.size == self.cap:\n            return False\n        self.buf[self.tail] = x\n        self.tail = self.tail + 1\n        self.size += 1\n        return True\n\n    def dequeue(self):\n        if self.size == 0:\n            return None\n        x = self.buf[self.head]\n        self.head = (self.head + 1) % self.cap\n        self.size -= 1\n        return x\n\ndef run():\n    r = Ring(3)\n    for v in (1, 2, 3):\n        r.enqueue(v)\n    out = [r.dequeue(), r.dequeue()]\n    r.enqueue(4)\n    r.enqueue(5)\n    out += [r.dequeue(), r.dequeue(), r.dequeue()]\n    return out\n',
+      tests: [{ expr: 'run()', want: '[1, 2, 3, 4, 5]' }],
+      hint: 'tail never wraps. After three enqueues it equals 3, which is outside the buffer. Use the same remainder trick that head uses.',
+      solution: 'class Ring:\n    def __init__(self, cap):\n        self.buf = [None] * cap\n        self.cap = cap\n        self.head = 0\n        self.tail = 0\n        self.size = 0\n\n    def enqueue(self, x):\n        if self.size == self.cap:\n            return False\n        self.buf[self.tail] = x\n        self.tail = (self.tail + 1) % self.cap\n        self.size += 1\n        return True\n\n    def dequeue(self):\n        if self.size == 0:\n            return None\n        x = self.buf[self.head]\n        self.head = (self.head + 1) % self.cap\n        self.size -= 1\n        return x\n\ndef run():\n    r = Ring(3)\n    for v in (1, 2, 3):\n        r.enqueue(v)\n    out = [r.dequeue(), r.dequeue()]\n    r.enqueue(4)\n    r.enqueue(5)\n    out += [r.dequeue(), r.dequeue(), r.dequeue()]\n    return out\n',
+      why: 'Both indexes must wrap with % cap. Without it, tail walks off the end of the array and the buffer stops being a circle.',
+    },
+  ],
+};

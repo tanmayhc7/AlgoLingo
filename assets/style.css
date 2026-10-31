@@ -1716,6 +1716,7 @@ a.pill.quiz:hover {
   grid-column: 1 / -1;
   background: radial-gradient(120% 100% at 50% 0%, #2a2f66 0%, #151a3d 62%);
 }
+.ds-panel { padding-bottom: 56px; }
 .ds-stage {
   display: block;
   width: 100%;

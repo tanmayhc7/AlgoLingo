@@ -85,6 +85,15 @@
         { id: 'doubly-linked-list', title: 'Doubly linked lists and LRU', href: 'lessons/doubly-linked-list.html' },
       ],
     },
+    {
+      title: 'Stacks and queues',
+      quiz: 'quizzes/chapter-9.html',
+      blurb: 'Two disciplines for ordering work: last in first out, and first in first out.',
+      lessons: [
+        { id: 'stacks', title: 'Stacks', href: 'lessons/stacks.html' },
+        { id: 'queues', title: 'Queues', href: 'lessons/queues.html' },
+      ],
+    },
   ];
 
   function el(tag, cls, text) {

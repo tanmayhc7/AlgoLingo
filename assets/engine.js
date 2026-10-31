@@ -885,7 +885,9 @@
       svgEl('text', { class: 'ds-val', 'text-anchor': 'middle', y: 6 }, g).textContent = n.label;
     } else if (n.shape === 'cell') {
       svgEl('rect', { class: 'ds-body', x: -w / 2, y: -hgt / 2, width: w, height: hgt, rx: 8 }, g);
-      svgEl('text', { class: 'ds-val', 'text-anchor': 'middle', y: 6 }, g).textContent = n.label;
+      var ct = svgEl('text', { class: 'ds-val', 'text-anchor': 'middle', y: 6 }, g);
+      ct.textContent = n.label;
+      if (String(n.label).length > 4) ct.setAttribute('style', 'font-size:' + (String(n.label).length > 5 ? 13 : 16) + 'px');
     } else if (n.shape === 'dnode') {
       svgEl('rect', { class: 'ds-body', x: -w / 2, y: -hgt / 2, width: w, height: hgt, rx: 8 }, g);
       svgEl('line', { class: 'ds-div', x1: -w / 2 + 34, x2: -w / 2 + 34, y1: -hgt / 2, y2: hgt / 2 }, g);
@@ -896,7 +898,10 @@
       svgEl('line', { class: 'ds-div', x1: 10, x2: 10, y1: -hgt / 2, y2: hgt / 2 }, g);
       svgEl('text', { class: 'ds-val', 'text-anchor': 'middle', x: -20, y: 6 }, g).textContent = n.label;
     }
-    if (n.note) svgEl('text', { class: 'ds-note', 'text-anchor': 'middle', y: hgt / 2 + (n.shape === 'node' || n.shape === 'dnode' ? 34 : 20) }, g).textContent = n.note;
+    if (n.note) {
+      if (n.shape === 'cell') svgEl('text', { class: 'ds-note', x: -w / 2 + 2, y: hgt / 2 + 20 }, g).textContent = n.note;
+      else svgEl('text', { class: 'ds-note', 'text-anchor': 'middle', y: hgt / 2 + (n.shape === 'node' || n.shape === 'dnode' ? 34 : 20) }, g).textContent = n.note;
+    }
     if (n.shape === 'node' || n.shape === 'dnode') svgEl('text', { class: 'ds-addr', x: -w / 2, y: hgt / 2 + 16 }, g).textContent = n.addr;
   }
 
