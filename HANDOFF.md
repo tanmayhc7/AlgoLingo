@@ -6,7 +6,7 @@ Where the project stands, so any session can continue it. Last updated 2026-10-3
 An interactive static site that teaches Python, then DSA, to a C programmer. Each lesson runs the same program in Python and C side by side, one step at a time, with memory pictures (dummy addresses), a caption per step, a predict-then-check question and a table of built-ins. Each chapter ends with a quiz (multiple choice, write, complete, debug).
 
 ## Where things live
-- GitHub: https://github.com/tanmayhc7/dsa-visualizer (branch main). Live site: https://tanmayhc7.github.io/dsa-visualizer/ once GitHub Pages is switched on (Settings, Pages, main, root).
+- GitHub: https://github.com/tanmayhc7/AlgoLingo (branch main). Live site: https://tanmayhc7.github.io/AlgoLingo/ once GitHub Pages is switched on (Settings, Pages, main, root).
 - Cloud working copy: `/home/claude/dsa-visualizer` in the Claude session; push to origin from there.
 - Mac folder: `~/Desktop/dsa-visualizer` (older; `git pull` from GitHub to refresh).
 - The phone-only hosted copy is out of date and no longer maintained. Use the GitHub Pages link.
@@ -54,4 +54,4 @@ Regression run on 2026-10-30: all 73 scenes step forward cleanly at desktop and 
 - Algo player speeds: 0.25x, 0.5x, 1x, 2x, 4x.
 - A "LeetCode Visualizer" card sits at the bottom of the home page only (hidden inside phase views). `leetcode/index.html` is an empty placeholder; the plan is in LEETCODE_PLAN.md.
 - Ideas for more advanced chapters: greedy and intervals, prefix sums and bit tricks, tries for strings (Aho-Corasick), segment trees and Fenwick trees, topological DP.
-- Renamed in the UI and docs from "DSA Visualizer" to "Algolingo". The GitHub repo itself is still named dsa-visualizer until it is renamed in GitHub (Settings, General, Repository name). After that, update the URLs in README.md and HANDOFF.md to `tanmayhc7.github.io/algolingo` and run `git remote set-url origin https://github.com/tanmayhc7/algolingo`.
+- Renamed from "DSA Visualizer" to "Algolingo"; the GitHub repo is now `AlgoLingo` (live site https://tanmayhc7.github.io/AlgoLingo/). The local folder is still /home/claude/dsa-visualizer.
