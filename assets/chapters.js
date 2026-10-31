@@ -307,7 +307,10 @@
     var head = el('div', 'chapter-head');
     head.appendChild(el('h2', '', c.title));
     var isReady = c.lessons.some(function (l) { return l.href; });
-    head.appendChild(el('span', 'status ' + (isReady ? 'ready' : 'planned'), isReady ? 'Ready' : 'Planned'));
+    var total = c.lessons.filter(function (l) { return l.href; }).length;
+    var st = el('span', 'status ' + (isReady ? 'ready' : 'planned'), isReady ? '0 / ' + total : 'Planned');
+    if (isReady) { st.setAttribute('data-ids', c.lessons.filter(function (l) { return l.href; }).map(function (l) { return l.id; }).join(',')); st.setAttribute('data-quiz', (c.quiz || '').replace(/\D/g, '')); st.title = 'Lessons opened in this chapter. Turns green when the chapter quiz is fully answered.'; }
+    head.appendChild(st);
     body.appendChild(head);
     body.appendChild(el('p', 'sub', c.blurb));
     var list = el('div', 'lessons');

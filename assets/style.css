@@ -1259,9 +1259,16 @@ a.pill.ready:hover {
 
 .status.ready {
   border-color: transparent;
+  background: var(--warn-bg, #fff4cc);
+  color: var(--warn-fg, #7a5a00);
+  font-variant-numeric: tabular-nums;
+}
+.status.ready.complete {
   background: var(--good-bg);
   color: var(--good);
 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .status.ready:not(.complete) { background: rgba(255, 210, 63, 0.16); color: #ffd23f; } }
+:root[data-theme="dark"] .status.ready:not(.complete) { background: rgba(255, 210, 63, 0.16); color: #ffd23f; }
 
 /* ---------- pager ---------- */
 

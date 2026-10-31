@@ -79,6 +79,17 @@
       if (done.indexOf(p.getAttribute('data-id')) >= 0) p.classList.add('done');
     });
 
+    /* chapter badge: lessons opened out of total; green once the chapter quiz is fully answered */
+    var visited = getDone();
+    Array.prototype.forEach.call(document.querySelectorAll('.status[data-ids]'), function (b) {
+      var ids = b.getAttribute('data-ids').split(',');
+      var q = b.getAttribute('data-quiz'), quizDone = false;
+      try { quizDone = !!(q && localStorage.getItem('dsav-qdone-' + q)); } catch (e) { /* ignore */ }
+      var n = quizDone ? ids.length : ids.filter(function (i) { return visited.indexOf(i) >= 0; }).length;
+      b.textContent = n + ' / ' + ids.length;
+      b.classList.toggle('complete', quizDone);
+    });
+
     /* home page: headline words, progress bar, scroll reveal */
     var h1 = document.querySelector('.hero h1');
     if (h1 && !calm && !h1.dataset.split) {
