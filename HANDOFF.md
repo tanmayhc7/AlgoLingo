@@ -13,7 +13,7 @@ An interactive static site that teaches Python, then DSA, to a C programmer. Eac
 - Figma file "DSA Visualizer": Home and Lesson frames. The lesson v2 is still to do after the Starter plan call limit resets.
 
 ## Built so far (Phases 1 to 5)
-Summary: 21 chapters, 64 lessons, 21 quizzes. Phase 1 chapters 1-7 (22 lessons), Phase 2 chapters 8-11, Phase 3 chapters 12-15, Phase 4 chapters 16-18, Phase 5 chapters 19-21. Details of Phase 1 follow; later phases are described in the sections below.
+Summary: 21 chapters, 55 lessons, 21 quizzes. Phase 1 chapters 1-7 (22 lessons), Phase 2 chapters 8-11, Phase 3 chapters 12-15, Phase 4 chapters 16-18, Phase 5 chapters 19-21. Details of Phase 1 follow; later phases are described in the sections below.
 
 ### Phase 1
 22 lessons in 7 chapters: 1 Getting started (compiled vs interpreted, running Python, variables), 2 Basic types (numbers, strings), 3 Control flow (conditions, loops, errors), 4 Functions and shorthands (functions, shorthands, comprehensions), 5 Memory and arrays (array memory, lists, tuples), 6 Hashing (hashing, dicts, sets), 7 Toolbox (sorting helpers, collections, choosing a container, patterns, survival kit). Seven chapter quizzes, 5 to 7 questions each.
