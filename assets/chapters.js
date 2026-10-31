@@ -17,10 +17,12 @@
     {
       title: 'Basic types',
       quiz: 'quizzes/chapter-2.html',
-      blurb: 'Numbers, truth values and strings, and where they differ from C.',
+      blurb: 'Numbers, truth values, strings and bits, and where they differ from C.',
       lessons: [
         { id: 'numbers', title: 'Numbers, booleans and None', href: 'lessons/numbers.html' },
         { id: 'strings', title: 'Strings as sequences', href: 'lessons/strings.html' },
+        { id: 'bitwise-ops', title: 'Bitwise operators and masks', href: 'lessons/bitwise-ops.html' },
+        { id: 'bit-tricks', title: 'Bit tricks for interviews', href: 'lessons/bit-tricks.html' },
       ],
     },
     {
