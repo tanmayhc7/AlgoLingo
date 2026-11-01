@@ -44,6 +44,10 @@ CURRICULUM.md            what each lesson covers and the open decisions
 
 Copy `lessons/variables.html` and `assets/lessons/variables.js`. A lesson is plain data: for each scene, the Python and C code and a list of steps. Each step names the highlighted lines, one sentence of narration per language, and the memory changes (the op list is documented at the top of the data file). The engine handles stepping back, freeing unreferenced objects and the animation.
 
+## LeetCode Visualizer
+
+`leetcode/` holds step-through interview problems grouped by pattern, built with the same engine. Two Sum is the first one.
+
 ## Algorithm animations (Phase 5)
 
 A lesson with `mode: 'algo'` uses `assets/algo.js` (page mounts with `DSAV.mountAlgo`). Each scene supplies `input` (numbers), `pyCode`/`cCode`, and `run(T)`, which executes the algorithm in JavaScript and records frames: `T.frame(pl, cl, say, opts)` with `opts` = `cmp`, `swp`, `sorted`, `pivot`, `found`, `dim`, `min`, `mark` (position lists), `ptr` ({name: position}), `band` ([lo, hi]) and `vars`. `T.swap(i, j)` reorders; `T.cmps` and `T.swaps` are the counters. An optional `keys` object renames the legend labels. Make a new page by copying an existing algo lesson page.

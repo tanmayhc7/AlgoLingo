@@ -31,3 +31,13 @@ Goal: for the top 75 problems (medium and hard first, easy ones only where they 
 ## Open questions
 - Format of the documentation you will provide (markdown per problem?).
 - Whether C solutions are needed for every problem or only for pointer-heavy ones.
+
+## Status
+Pilot done: 1. Two Sum (`leetcode/problems/two-sum.html`, data in `assets/problems/two-sum.js` and `two-sum-depth.js`). Source files came from T's `~/Desktop/leetcode/0001-two-sum/` (`.py`, `.c`, `explained.md`, `README.md`).
+
+## How to add a problem
+1. Add `{ id: 'lc-<slug>', slug, num, title, diff, pattern }` to `PROBLEMS` in `assets/leetcode.js`.
+2. Write `assets/problems/<slug>.js` (sets `window.LESSON` with `mode: 'ds'` and `Flow.steps`, and `window.PROBLEM` with statement, examples, constraints and write-up) and `<slug>-depth.js` (`window.DEPTH`).
+3. Copy `leetcode/problems/two-sum.html`, change the title and the script names.
+4. Scenes: brute force, the insight, optimal; keep stage centres within y of about 180 (the control dock covers the lower part); use `ptr` direction `down` only.
+5. Test the page at 1280 and 390 wide, then open a PR.
