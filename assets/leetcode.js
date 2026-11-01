@@ -4,20 +4,28 @@
 (function () {
   var PATTERNS = [
     { id: 'arrays-hashing', title: 'Arrays and hashing', blurb: 'Trade memory for lookups: a dict or set turns a search into one step.', lesson: 'lessons/hashing.html' },
-    { id: 'two-pointers', title: 'Two pointers', blurb: 'Walk two indexes through a sorted or symmetric array instead of nesting loops.' },
-    { id: 'sliding-window', title: 'Sliding window', blurb: 'Keep a running window over a sequence and update it as it moves.' },
-    { id: 'stack', title: 'Stack', blurb: 'Last in, first out: matching pairs and nearest-greater problems.' },
+    { id: 'two-pointers', title: 'Two pointers', blurb: 'Walk two indexes through a sorted or symmetric array instead of nesting loops.', lesson: 'lessons/two-pointers.html' },
+    { id: 'sliding-window', title: 'Sliding window', blurb: 'Keep a running window over a sequence and update it as it moves.', lesson: 'lessons/sliding-window.html' },
+    { id: 'stack', title: 'Stack', blurb: 'Last in, first out: matching pairs and nearest-greater problems.', lesson: 'lessons/stacks.html' },
     { id: 'binary-search', title: 'Binary search', blurb: 'Halve a sorted or monotonic search space.', lesson: 'lessons/binary-search.html' },
-    { id: 'linked-list', title: 'Linked lists', blurb: 'Pointer surgery, fast and slow pointers.' },
-    { id: 'trees', title: 'Trees', blurb: 'Recursion over nodes, depth-first and breadth-first.' },
-    { id: 'heap', title: 'Heaps', blurb: 'Keep the best k items without sorting everything.' },
+    { id: 'linked-list', title: 'Linked list', blurb: 'Pointer surgery, dummy heads, fast and slow pointers.', lesson: 'lessons/linked-list-patterns.html' },
+    { id: 'trees', title: 'Trees', blurb: 'Recursion over nodes, depth-first and breadth-first.', lesson: 'lessons/binary-trees.html' },
+    { id: 'heap', title: 'Heap / priority queue', blurb: 'Keep the best k items without sorting everything.', lesson: 'lessons/heap-patterns.html' },
     { id: 'backtracking', title: 'Backtracking', blurb: 'Try, recurse, undo.' },
-    { id: 'graphs', title: 'Graphs', blurb: 'Traversal, shortest paths, connected components.' },
-    { id: 'dp', title: 'Dynamic programming', blurb: 'Overlapping subproblems with a remembered answer.' },
-    { id: 'intervals', title: 'Intervals and greedy', blurb: 'Sort, then make the locally best choice.' }
+    { id: 'tries', title: 'Tries', blurb: 'Prefix trees for words and prefixes.', lesson: 'lessons/tries.html' },
+    { id: 'graphs', title: 'Graphs', blurb: 'Traversal, shortest paths, connected components.', lesson: 'lessons/graph-basics.html' },
+    { id: 'dp-1d', title: 'Dynamic programming: 1D', blurb: 'A one-dimensional table of overlapping subproblems.', lesson: 'lessons/dp-1d.html' },
+    { id: 'dp-2d', title: 'Dynamic programming: 2D', blurb: 'A grid of subproblems over two sequences or two choices.', lesson: 'lessons/dp-2d.html' }
   ];
+  /* num is the LeetCode number; list is the position in the 100 Must-Do DSA Questions checklist */
   var PROBLEMS = [
-    { id: 'lc-two-sum', slug: 'two-sum', num: 1, title: 'Two Sum', diff: 'Easy', pattern: 'arrays-hashing' }
+    { id: 'lc-two-sum', slug: 'two-sum', num: 1, list: 1, title: 'Two Sum', diff: 'Easy', pattern: 'arrays-hashing' },
+    { id: 'lc-contains-duplicate', slug: 'contains-duplicate', num: 217, list: 2, title: 'Contains Duplicate', diff: 'Easy', pattern: 'arrays-hashing' },
+    { id: 'lc-valid-anagram', slug: 'valid-anagram', num: 242, list: 3, title: 'Valid Anagram', diff: 'Easy', pattern: 'arrays-hashing' },
+    { id: 'lc-group-anagrams', slug: 'group-anagrams', num: 49, list: 4, title: 'Group Anagrams', diff: 'Medium', pattern: 'arrays-hashing' },
+    { id: 'lc-valid-palindrome', slug: 'valid-palindrome', num: 125, list: 8, title: 'Valid Palindrome', diff: 'Easy', pattern: 'two-pointers' },
+    { id: 'lc-valid-parentheses', slug: 'valid-parentheses', num: 20, list: 19, title: 'Valid Parentheses', diff: 'Easy', pattern: 'stack' },
+    { id: 'lc-add-two-numbers', slug: 'add-two-numbers', num: 2, list: 39, title: 'Add Two Numbers', diff: 'Medium', pattern: 'linked-list' }
   ];
 
   function el(tag, cls, text) {
@@ -56,7 +64,7 @@
       list.forEach(function (p) {
         var a = el('a', 'pill ready');
         a.href = 'problems/' + p.slug + '.html';
-        a.appendChild(el('span', 'n', String(p.num)));
+        a.appendChild(el('span', 'n', '#' + p.num));
         a.appendChild(document.createTextNode(p.title + ' · ' + p.diff));
         if (seen.indexOf(p.id) >= 0) a.classList.add('done');
         lessons.appendChild(a);

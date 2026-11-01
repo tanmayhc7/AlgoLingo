@@ -36,11 +36,15 @@ One repo only: the LeetCode Visualizer is a subfolder of AlgoLingo, served at `/
 - Whether C solutions are needed for every problem or only for pointer-heavy ones.
 
 ## Status
-Pilot done: 1. Two Sum (`leetcode/problems/two-sum.html`, data in `assets/problems/two-sum.js` and `two-sum-depth.js`). Source files came from T's `~/Desktop/leetcode/0001-two-sum/` (`.py`, `.c`, `explained.md`, `README.md`).
+Source of the problem list: T's checklist "100 Must-Do DSA Questions" (13 patterns). The visualizer follows that list; a problem is built only when T's folder (`~/Desktop/leetcode/<NNNN-slug>/`) has its solution.
+
+Built (7): 1 Two Sum, 217 Contains Duplicate, 242 Valid Anagram, 49 Group Anagrams, 125 Valid Palindrome, 20 Valid Parentheses, 2 Add Two Numbers.
+Waiting on T: 347 Top K Frequent Elements (T's solution is not complete yet: no write-up or C, only a first sort-by-count version). Not on the checklist, so skipped: 9 Palindrome Number, 565 Array Nesting.
+Where the folder had no C or no explained.md (Valid Parentheses C, Group Anagrams C and write-up), the C code and write-up were written to match T's Python.
 
 ## How to add a problem
-1. Add `{ id: 'lc-<slug>', slug, num, title, diff, pattern }` to `PROBLEMS` in `assets/leetcode.js`.
+1. Add `{ id: 'lc-<slug>', slug, num, list, title, diff, pattern }` to `PROBLEMS` in `assets/leetcode.js` (`list` = number on the checklist).
 2. Write `assets/problems/<slug>.js` (sets `window.LESSON` with `mode: 'ds'` and `Flow.steps`, and `window.PROBLEM` with statement, examples, constraints and write-up) and `<slug>-depth.js` (`window.DEPTH`).
-3. Copy `leetcode/problems/two-sum.html`, change the title and the script names.
-4. Scenes: brute force, the insight, optimal; keep stage centres within y of about 180 (the control dock covers the lower part); use `ptr` direction `down` only.
+3. Copy an existing `leetcode/problems/<slug>.html`, change the title, the script names and the "Learn the pattern first" link.
+4. Scenes: brute force or baseline, the insight, the trap. Keep stage centres within y of about 180 (the control dock covers the lower part); use `ptr` direction `down` only, and leave a row free under any pointer chip (`dy: 68`).
 5. Test the page at 1280 and 390 wide, then open a PR.
