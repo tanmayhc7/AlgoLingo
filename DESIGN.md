@@ -38,7 +38,7 @@ Two lesson modes:
 - Quiz question types: `mcq`, `complete` (fill the `___` blanks), `write`, `debug`. Tests are `{expr, want}` where `want` is evaluated as a Python expression (so avoid `inf`). Rules: debug starters must FAIL the tests; complete and write starters must not pass; the model solution must score full marks.
 - Phase 1 holds Python foundations (including bit manipulation in chapter 2), Phase 2 core data structures, Phase 3 graphs, DP and analysis, Phase 4 object-oriented design, Phase 5 algorithms in motion (chapters 19 to 21, incl. prefix sums, Kadane, greedy intervals), Phase 6 advanced algorithms (22 to 27, incl. Fenwick and segment trees), Phase 7 Python for applied AI (28 to 31) Phase 8 Building with models (32 to 34) Phase 9 Advanced concepts (35 to 37) and Phase 10 Number theory (38). Phases 7 and 8 lessons are flow diagrams built with `assets/flow.js` (load it before the lesson script) and show a C analogue.
 - Known gaps still to add: number theory (sieve, gcd, modular exponentiation), graph extras (bipartite, cycle detection, SCC, bridges), grid flood-fill, randomised algorithms.
-- LeetCode Visualizer lives in this repo under `leetcode/` (one repo, one deploy, shared `assets/`); never split it into its own repo. Placeholder card and page wait for T's documentation; plan in LEETCODE_PLAN.md. Explanation docs for LeetCode problems are named `<problem_name>_explained.md`.
+- LeetCode Visualizer lives in this repo under `leetcode/` (one repo, one deploy, shared `assets/`); never split it into its own repo. Seven problems from T's 100 Must-Do DSA checklist are live; plan and how to add one in LEETCODE_PLAN.md. Explanation docs for LeetCode problems are named `<problem_name>_explained.md`.
 
 ## 5. Per-lesson workflow
 
