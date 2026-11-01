@@ -46,7 +46,7 @@ Copy `lessons/variables.html` and `assets/lessons/variables.js`. A lesson is pla
 
 ## LeetCode Visualizer
 
-`leetcode/` holds step-through interview problems grouped by pattern, built with the same engine. Two Sum is the first one.
+`leetcode/` holds step-through interview problems grouped by pattern, built with the same engine. Seven problems from the 100 Must-Do DSA Questions checklist are built (arrays and hashing, two pointers, stack, linked list).
 
 ## Algorithm animations (Phase 5)
 
