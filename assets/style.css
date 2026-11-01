@@ -2051,3 +2051,14 @@ a.phase-card:focus-visible {
   border: 1px solid var(--line); border-radius: 8px;
 }
 .notes-box:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* LeetCode Visualizer */
+.lc-tags { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 0 0 1rem; }
+.lc-tag { font: 600 .8rem/1 var(--mono, 'Spline Sans Mono', monospace); padding: .35rem .6rem; border-radius: 999px; background: var(--card-soft, rgba(127,127,127,.14)); color: var(--ink); }
+.lc-tag.lc-easy { color: var(--good, #1a7f4b); }
+.lc-tag.lc-medium { color: #b7791f; }
+.lc-tag.lc-hard { color: var(--bad, #c0392b); }
+.lc-link { font-size: .9rem; color: var(--muted); }
+.lc-ex { margin: .4rem 0; padding: .7rem .9rem; border-radius: 10px; background: var(--card-soft, rgba(127,127,127,.12)); overflow-x: auto; font: .85rem/1.5 var(--mono, 'Spline Sans Mono', monospace); }
+.lc-follow { color: var(--muted); margin-top: 1rem; }
+.card#problem h3, .card#writeup h3 { margin: 1.4rem 0 .5rem; font-size: 1.05rem; }
