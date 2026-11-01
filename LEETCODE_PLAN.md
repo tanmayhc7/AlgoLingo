@@ -6,6 +6,9 @@ Goal: for the top 75 problems (medium and hard first, easy ones only where they 
 - The documentation / write-ups for each problem (approach, complexity, edge cases). Each problem file becomes one lesson.
 - The list of 75 problems (the NeetCode 150 / Blind 75 checklist in the project memory is the starting point).
 
+## Where it lives
+One repo only: the LeetCode Visualizer is a subfolder of AlgoLingo, served at `/AlgoLingo/leetcode/`. It shares `assets/` (style, engine, flow, quiz, logo), the theme toggle and the deploy, so there is no second repo to track. Do not create a separate repo for it.
+
 ## Structure
 - `leetcode/index.html`: pattern chooser, then problem list per pattern with difficulty tags and a completed marker.
 - `leetcode/problems/<slug>.html`: one page per problem, built by the existing engine (`ds` mode for pointer and tree pictures, `algo` mode for arrays).
