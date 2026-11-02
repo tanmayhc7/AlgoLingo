@@ -2077,7 +2077,7 @@ a.gl {
 }
 a.gl:hover, a.gl:focus-visible { color: var(--accent); text-decoration-style: solid; }
 
-.gl-tools { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 20px; margin-top: 8px; }
+.gl-tools { position: sticky; top: 0; z-index: 5; background: var(--bg); padding-block: 10px; display: flex; flex-wrap: wrap; align-items: end; gap: 12px 20px; margin-top: 8px; }
 .gl-search { display: grid; gap: 6px; flex: 1 1 280px; max-width: 460px; font-size: 14px; color: var(--muted); }
 .gl-search input {
   font: inherit; font-size: 17px; color: var(--ink); background: var(--paper);
@@ -2115,3 +2115,6 @@ a.gl:hover, a.gl:focus-visible { color: var(--accent); text-decoration-style: so
   .top { flex-wrap: wrap; }
   .top-tools .tool { padding: 8px 12px; }
 }
+
+.gl-card p.gl-from { font-size: 13px; font-weight: 600; color: var(--accent); }
+.gl-jump { margin-top: 6px; }
