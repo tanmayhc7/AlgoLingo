@@ -68,8 +68,46 @@ window.DEPTH = {
       lvl: 'senior',
       q: 'Explain what `python script.py` does from the moment you press Enter.',
       a: 'The interpreter starts, initialises built-ins and `sys`, reads the file, compiles it to a code object (parse to AST, then bytecode), and executes it as the `__main__` module. Imports found along the way are located via `sys.path`, compiled if there is no valid `.pyc`, cached in `__pycache__`, and executed once, then stored in `sys.modules`. The main script itself is compiled every run and not cached.',
+      diagram: {
+        title: 'Your script',
+        main: [
+          ['Interpreter starts', 'Sets up the built-ins and `sys` (including `sys.path`, the list of folders searched for imports).'],
+          ['Read the file', '`script.py` is read as plain text.'],
+          ['Parse to an AST', 'The text becomes a tree that describes the program. Syntax errors stop here.', 'warn'],
+          ['Compile to bytecode', 'The tree becomes a code object. This happens on every run and is not cached for the main script.', 'warn'],
+          ['Run as `__main__`', 'The bytecode executes top to bottom. Each `import` it meets follows the import path below.'],
+        ],
+        branch: {
+          title: 'Import path: each `import` it meets',
+          steps: [
+            ['Already in `sys.modules`?', 'Yes: reuse it and stop. Importing the same module twice runs it only once.', 'ask'],
+            ['Find it on `sys.path`', 'The first matching file wins.'],
+            ['Valid `.pyc` in `__pycache__`?', 'Yes: load the saved bytecode. No: parse and compile it, then save the `.pyc`.', 'ask'],
+            ['Run it once', 'The module body executes top to bottom, so circular imports can see a half-finished module.', 'cache'],
+            ['Store it in `sys.modules`', 'Later imports of the same name reuse this object.', 'cache'],
+          ],
+        },
+      },
       follow: [
-        ['What breaks if two modules import each other?', 'The second import finds the first only half-executed in `sys.modules`, so names defined later in the first module do not exist yet, causing `ImportError` or `AttributeError`. Fix by moving imports into functions, restructuring shared code into a third module, or importing the module rather than names from it.'],
+        ['What breaks if two modules import each other?', 'What "half-executed" means: Python records a module in `sys.modules` the moment it starts running it, not when it finishes. Say `a.py` starts with `import b`, and `b.py` starts with `from a import hello`, where `hello` is defined further down in `a.py`. When `main.py` runs `import a`, Python registers `a` and runs it line by line. Line 1 imports `b`, so `a` is paused there while `b` runs. `b` asks for `a`, finds it already registered, and does not run it again. But `a` is only at line 1, so `hello` has not been defined yet. That unfinished `a` is the half-executed module. The second import finds the first only half-executed in `sys.modules`, so names defined later in the first module do not exist yet, causing `ImportError` or `AttributeError`. Fix by moving imports into functions, restructuring shared code into a third module, or importing the module rather than names from it.', {
+          caption: 'A circular import, one line at a time',
+          title: 'What happens',
+          main: [
+            ['`main.py` runs `import a`', 'Python registers an empty module `a` in `sys.modules`, then starts running `a.py`.'],
+            ['`a.py` line 1: `import b`', '`a` pauses here. Nothing below line 1 has run, so `hello` does not exist yet.', 'warn'],
+            ['Python registers `b` and runs `b.py`', '`b.py` line 1 is `from a import hello`.'],
+            ['`b` finds `a` already in `sys.modules`', 'It does not run `a` again, so it gets the half-finished `a`.', 'ask'],
+            ['`hello` is missing, so it fails', '`ImportError: cannot import name hello from partially initialized module a`. With `import a` and `a.hello()` at the top of `b`, the error is `AttributeError`.', 'warn'],
+          ],
+          branch: {
+            title: 'Three ways out',
+            steps: [
+              ['Import inside the function', 'Put `import a` inside the function that needs it. It runs later, after `a` has finished loading.'],
+              ['Move the shared code to a third module', '`c.py` holds what both need, and `a` and `b` both import `c`. No cycle is left.', 'cache'],
+              ['Import the module, not the names', 'Write `import a` and use `a.hello()` later, not at import time. The name is looked up when called, by which time `a` is complete.'],
+            ],
+          },
+        }],
       ],
     },
     {
@@ -77,6 +115,7 @@ window.DEPTH = {
       q: 'When is "compiled" the wrong word for C?',
       a: 'Two common cases. C code can be interpreted (Cling, tcc `-run`), and a C compiler does not always emit what you wrote: optimisation may remove, reorder or transform code that relies on undefined behaviour (signed overflow, out-of-bounds reads). So "C does what you say" is false; C does what the abstract machine allows, and the compiler assumes you never trigger UB. Python has no UB in that sense: every operation has a defined result or raises.',
       follow: [
+        ['What does UB mean here?', 'UB is undefined behaviour: code the C language gives no meaning to. The standard does not say what must happen, so anything may: a crash, a wrong answer, or code that seems to work today and breaks with the next compiler or optimisation level. Common causes are signed integer overflow (`INT_MAX + 1`), reading past the end of an array, using a pointer after `free`, dereferencing a null pointer, and reading a variable you never set. The key point is that the compiler is allowed to assume UB never happens. It uses that assumption to delete checks and reorder code, so a bug that is "just" an overflow can change code far away. Python avoids this: every operation either has a defined result or raises an exception.'],
         ['Give a concrete example.', '`for (int i = 0; i >= 0; i++)` can be compiled as an infinite loop, because signed overflow is UB and the compiler may assume `i` never becomes negative. In Python the same loop would just keep growing an int.'],
       ],
     },

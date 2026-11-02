@@ -637,9 +637,36 @@
 
     /* Interview depth: assets/depth/<lesson>.js sets window.DEPTH. Text may use `backticks` for code.
      { thesis, why:[[head,text]], edges:[[case,text]], cost:[[op,cost,note]], internals:[[head,text]],
-       qa:[{lvl:'mid'|'senior'|'staff', q, a, follow:[[q,a]]}] } */
+       qa:[{lvl:'mid'|'senior'|'staff', q, a, diagram?:{title?, main:[[label,note,kind?]], branch?:{title, steps:[[label,note,kind?]]}}, follow:[[q,a,diagram?]]}] } */
+  /* diagram kinds: 'ask' is a yes/no question, 'cache' is a cached step, 'warn' is a step that repeats every run. */
   function rich(t) {
     return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>');
+  }
+
+  /* A top-to-bottom flow of boxes joined by arrows, with an optional second flow for a repeated side path. */
+  function flowDiagram(d) {
+    function list(steps, cls) {
+      var ol = h('ol', { class: 'flow-list ' + (cls || '') });
+      steps.forEach(function (st, i) {
+        var li = h('li', { class: 'flow-step' + (st[2] ? ' flow-' + st[2] : '') });
+        li.appendChild(h('span', { class: 'flow-n', text: String(i + 1) }));
+        var body = h('div', { class: 'flow-body' });
+        body.appendChild(h('b', { html: rich(st[0]) }));
+        if (st[1]) body.appendChild(h('span', { html: rich(st[1]) }));
+        li.appendChild(body);
+        ol.appendChild(li);
+      });
+      return ol;
+    }
+    var fig = h('figure', { class: 'flow-fig' });
+    fig.appendChild(h('figcaption', { text: d.caption || 'The same thing as a diagram' }));
+    var grid = h('div', { class: 'flow-grid' });
+    grid.appendChild(h('div', { class: 'flow-col' }, [h('h4', { text: d.title || 'Main path' }), list(d.main)]));
+    if (d.branch) {
+      grid.appendChild(h('div', { class: 'flow-col flow-side' }, [h('h4', { html: rich(d.branch.title) }), list(d.branch.steps, 'side')]));
+    }
+    fig.appendChild(grid);
+    return fig;
   }
 
   function renderDepth(D) {
@@ -713,10 +740,12 @@
         var det = h('details', { class: 'qa' });
         det.appendChild(h('summary', {}, [h('span', { class: 'lvl lvl-' + (x.lvl || 'mid'), text: LV[x.lvl || 'mid'] }), h('span', { class: 'qa-q', html: rich(x.q) })]));
         det.appendChild(h('div', { class: 'qa-a', html: rich(x.a) }));
+        if (x.diagram) det.appendChild(flowDiagram(x.diagram));
         (x.follow || []).forEach(function (f) {
           var d2 = h('details', { class: 'qa follow' });
           d2.appendChild(h('summary', {}, [h('span', { class: 'lvl lvl-follow', text: 'Follow-up' }), h('span', { class: 'qa-q', html: rich(f[0]) })]));
           d2.appendChild(h('div', { class: 'qa-a', html: rich(f[1]) }));
+          if (f[2]) d2.appendChild(flowDiagram(f[2]));
           det.appendChild(d2);
         });
         return det;
