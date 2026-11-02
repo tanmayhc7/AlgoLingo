@@ -84,7 +84,7 @@
       var shown = 0;
       cards.forEach(function (c) {
         var hay = (c.e.term + ' ' + (c.e.also || []).join(' ') + ' ' + plainText(c.e.plain)).toLowerCase();
-        var on = !q || hay.indexOf(q) >= 0;
+        var on = !q || q.split(/\s+/).every(function (w) { return hay.indexOf(w) >= 0; });
         c.el.hidden = !on;
         if (on) shown++;
       });
@@ -95,14 +95,30 @@
       if (empty) empty.hidden = shown > 0;
       if (count) count.textContent = q ? shown + ' of ' + G.length + ' terms' : G.length + ' terms';
     }
-    if (search) search.addEventListener('input', filter);
+    if (search) {
+      search.addEventListener('input', filter);
+      search.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          filter();
+          var q = search.value.trim().toLowerCase();
+          var first = (byId[q.replace(/\s+/g, '-')] && document.getElementById(q.replace(/\s+/g, '-'))) || host.querySelector('.gl-card:not([hidden])');
+          if (first) first.scrollIntoView({ block: 'center' });
+        } else if (ev.key === 'Escape') {
+          search.value = '';
+          filter();
+        }
+      });
+    }
     filter();
     function mark() {
       Array.prototype.forEach.call(host.querySelectorAll('.gl-hit'), function (x) { x.classList.remove('gl-hit'); });
+      Array.prototype.forEach.call(host.querySelectorAll('.gl-from'), function (x) { x.remove(); });
       var t = location.hash && document.getElementById(location.hash.slice(1));
       if (t && t.classList.contains('gl-card')) {
         t.hidden = false;
         t.classList.add('gl-hit');
+        if (!t.querySelector('.gl-from')) t.insertBefore(h('p', { class: 'gl-from', text: 'This is the term you clicked.' }), t.firstChild);
         if (t.scrollIntoView) t.scrollIntoView();
       }
     }
@@ -114,8 +130,8 @@
   /* common words that would be noisy as links */
   var SKIP_ALIAS = ['raise', 'fake', 'fakes', 'stable', 'memo', 'mask', 'annotations', 'complexity', 'sentinel',
     'probing', 'evaluation', 'extra space', 'dp', 'inheritance', 'bitwise', 'modulo', 'node', 'nodes'];
-  var BLOCKS = '.lede, #blurb, #trap-text, #predict-body, .depth-head, .depth-block, #problem, #writeup, .takeaways';
-  var NO_GO = 'a, code, pre, button, input, textarea, select, h1, h2, h3, h4, th, svg, .gl';
+  var BLOCKS = '.lede, #blurb, #trap-text, #predict-body, .depth-head, .depth-block, #problem, #writeup, .takeaways, .chapter .sub, .outline-head p, .phase-card p';
+  var NO_GO = 'a, a.phase-card *, code, pre, button, input, textarea, select, h1, h2, h3, h4, th, svg, .gl';
 
   function buildMatcher() {
     var map = {};
@@ -138,14 +154,10 @@
     };
   }
 
-  /* blocks that the lesson engine rebuilds on every scene change get their own once-per-block count */
-  var DYNAMIC = '#blurb, #trap-text, #predict-body';
-  var pageSeen = null;
-
+  /* each block links the first mention of every term it contains */
   function linkBlock(block, M) {
-    var dynamic = block.matches(DYNAMIC);
-    var seen = dynamic ? {} : pageSeen;
-    if (dynamic) Array.prototype.forEach.call(block.querySelectorAll('a.gl'), function (a) { seen[a.getAttribute('data-gl')] = true; });
+    var seen = {};
+    Array.prototype.forEach.call(block.querySelectorAll('a.gl'), function (a) { seen[a.getAttribute('data-gl')] = true; });
     var walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, null);
     var nodes = [];
     var n;
@@ -187,10 +199,6 @@
     var obs = null;
     function run() {
       if (obs) obs.disconnect();
-      pageSeen = {};
-      Array.prototype.forEach.call(document.querySelectorAll('a.gl'), function (a) {
-        if (!a.closest(DYNAMIC)) pageSeen[a.getAttribute('data-gl')] = true;
-      });
       Array.prototype.forEach.call(document.querySelectorAll(BLOCKS), function (b) { linkBlock(b, M); });
       if (obs) obs.observe(document.body, { childList: true, subtree: true, characterData: true });
     }
