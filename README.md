@@ -59,3 +59,7 @@ Each quiz is a page in `quizzes/` with its questions in `assets/quizzes/chapter-
 ## License
 
 GNU Affero General Public License v3.0 (AGPL-3.0). See [LICENSE](LICENSE). If you run a modified version of this site for others over a network, you must offer them the modified source.
+
+## Glossary
+
+`glossary.html` explains the jargon used in the lessons in plain words. Terms in lessons link to it automatically. To add a term, add an entry to `assets/glossary-data.js`.
