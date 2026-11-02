@@ -72,7 +72,7 @@ Two lesson modes:
 
 ## Glossary
 
-`glossary.html` is the back-of-the-book "Glossary": plain-language meanings for the jargon in the lessons (115 terms, A to Z, with search).
+`glossary.html` is the back-of-the-book "Glossary": plain-language meanings for the jargon in the lessons (116 terms, A to Z, with search).
 
 - Data lives in `assets/glossary-data.js` (`window.GLOSSARY`). An entry has `id`, `term`, `also[]` (other spellings that should link too), `plain`, optional `example`, `c` (the "If you know C" line), `see[]`, `learn[[label, href]]`, and `auto:false` to explain a very common word without auto-linking it.
 - `assets/glossary.js` renders the page, and on every other page links terms inside lesson text (lede, scene blurb, trap, predict, interview depth, LeetCode problem and write-up, takeaways). Each term links once per page; code, headings and existing links are skipped. It re-links after a scene change.
