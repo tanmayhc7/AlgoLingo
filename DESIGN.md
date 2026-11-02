@@ -69,3 +69,12 @@ Two lesson modes:
 - `assets/notes.js` holds `window.CHAPTER_NOTES[chapter]` (4 or 5 short points). Quiz pages load it before `quiz.js` and have a `<div id="chapter-notes">` after the questions.
 - The "Key takeaways" panel stays locked until every quiz question has been attempted (same rule as `dsav-qdone-N`). Then it shows the points and a personal notes textarea (limit `NOTE_MAX` = 1000 characters in quiz.js), saved in localStorage as `dsav-notes-N`.
 - New chapter checklist: add its entry to `assets/notes.js`.
+
+## Glossary
+
+`glossary.html` is the back-of-the-book "Glossary": plain-language meanings for the jargon in the lessons (112 terms, A to Z, with search).
+
+- Data lives in `assets/glossary-data.js` (`window.GLOSSARY`). An entry has `id`, `term`, `also[]` (other spellings that should link too), `plain`, optional `example`, `c` (the "If you know C" line), `see[]`, `learn[[label, href]]`, and `auto:false` to explain a very common word without auto-linking it.
+- `assets/glossary.js` renders the page, and on every other page links terms inside lesson text (lede, scene blurb, trap, predict, interview depth, LeetCode problem and write-up, takeaways). Each term links once per page; code, headings and existing links are skipped. It re-links after a scene change.
+- `assets/site.js` adds the header "Glossary" link and lazy-loads the two glossary files, so no page needs extra tags.
+- Rule: when a lesson introduces new jargon, add a Glossary entry in the same change. Keep entries to a few short sentences in plain words.

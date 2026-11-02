@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary · AlgoLingo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&display=swap">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="">AlgoLingo</a>
+    <button class="tool" id="theme" type="button">Dark mode</button>
+  </header>
+
+  <section class="lesson-head">
+    <p class="crumb">Back of the book</p>
+    <h1>Glossary</h1>
+    <p class="lede">Every word the lessons use that might have made you stop and wonder, in plain language. Terms in the lessons link here. Where it helps, you also get a line for C programmers and a lesson that shows the idea running.</p>
+  </section>
+
+  <div class="gl-tools">
+    <label class="gl-search"><span>Find a term</span><input id="gl-search" type="search" placeholder="e.g. duck typing, hash, bytecode" autocomplete="off"></label>
+    <span class="gl-count" id="gl-count" aria-live="polite"></span>
+  </div>
+  <nav class="gl-jump" id="gl-jump" aria-label="Jump to letter"></nav>
+
+  <div class="gl-list" id="gl-list"></div>
+  <p class="gl-empty" id="gl-empty" hidden>Nothing matches that. Try a shorter word.</p>
+</div>
+</body>
+</html>

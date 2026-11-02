@@ -3,6 +3,9 @@
   'use strict';
   var root = document.documentElement;
   var KEY = 'dsav-theme';
+  /* where the site root is, so shared pieces work from any folder depth */
+  var SRC = document.currentScript && document.currentScript.src;
+  var BASE = SRC ? SRC.replace(/assets\/site\.js[^\/]*$/, '') : '';
 
   try {
     var saved = localStorage.getItem(KEY);
@@ -16,6 +19,35 @@
     if (t) return t;
     return window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
+
+  /* Glossary link in the header, and the script that links jargon to it */
+  document.addEventListener('DOMContentLoaded', function () {
+    var top = document.querySelector('header.top');
+    var theme = document.getElementById('theme');
+    if (top && theme && BASE) {
+      var tools = document.createElement('div');
+      tools.className = 'top-tools';
+      var g = document.createElement('a');
+      g.className = 'tool';
+      g.href = BASE + 'glossary.html';
+      g.textContent = 'Glossary';
+      if (/\/glossary\.html$/.test(location.pathname)) g.setAttribute('aria-current', 'page');
+      top.insertBefore(tools, theme);
+      tools.appendChild(g);
+      tools.appendChild(theme);
+    }
+    if (BASE) {
+      window.GLOSSARY_BASE = BASE;
+      var a = document.createElement('script');
+      a.src = BASE + 'assets/glossary-data.js';
+      a.onload = function () {
+        var b = document.createElement('script');
+        b.src = BASE + 'assets/glossary.js';
+        document.body.appendChild(b);
+      };
+      document.body.appendChild(a);
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', function () {
     var btn = document.getElementById('theme');
