@@ -162,6 +162,7 @@
       lessons: [
         { id: 'classes-objects', title: 'Classes and objects', href: 'lessons/classes-objects.html' },
         { id: 'dunder-methods', title: 'Special methods', href: 'lessons/dunder-methods.html' },
+        { id: 'properties-classmethods', title: 'Properties, class methods and static methods', href: 'lessons/properties-classmethods.html' },
       ],
     },
     {
@@ -272,6 +273,7 @@
       blurb: 'Reading and writing the data real projects use: JSON and JSONL files, and cleaning and chunking text.',
       lessons: [
         { id: 'json-files', title: 'JSON and files', href: 'lessons/json-files.html' },
+        { id: 'stdlib-files-time', title: 'Standard-library toolkit: files and time', href: 'lessons/stdlib-files-time.html' },
         { id: 'text-cleaning', title: 'Regex, cleaning and chunking text', href: 'lessons/text-cleaning.html' },
       ],
     },
@@ -290,6 +292,8 @@
       blurb: 'Type hints, validating data you did not create, and context managers that guarantee cleanup.',
       lessons: [
         { id: 'type-validation', title: 'Type hints and validating data', href: 'lessons/type-validation.html' },
+        { id: 'typing-callables', title: 'Typing functions: Callable', href: 'lessons/typing-callables.html' },
+        { id: 'enums', title: 'Enums', href: 'lessons/enums.html' },
         { id: 'context-managers', title: 'Context managers: with', href: 'lessons/context-managers.html' },
       ],
     },
@@ -299,6 +303,8 @@
       blurb: 'What changes when code leaves your laptop: configuration and secrets, logging, tests, and fakes for slow or paid services.',
       lessons: [
         { id: 'config-logging', title: 'Configuration, secrets and logging', href: 'lessons/config-logging.html' },
+        { id: 'hashes-ids-secrets', title: 'Hashes, ids and secrets', href: 'lessons/hashes-ids-secrets.html' },
+        { id: 'subprocess-basics', title: 'Running commands: subprocess', href: 'lessons/subprocess-basics.html' },
         { id: 'testing-mocks', title: 'Tests and fakes for model calls', href: 'lessons/testing-mocks.html' },
       ],
     },
