@@ -661,7 +661,7 @@
     var fig = h('figure', { class: 'flow-fig' });
     fig.appendChild(h('figcaption', { text: d.caption || 'The same thing as a diagram' }));
     var grid = h('div', { class: 'flow-grid' });
-    grid.appendChild(h('div', { class: 'flow-col' }, [h('h4', { text: d.title || 'Main path' }), list(d.main)]));
+    grid.appendChild(h('div', { class: 'flow-col' }, [h('h4', { html: rich(d.title || 'Main path') }), list(d.main)]));
     if (d.branch) {
       grid.appendChild(h('div', { class: 'flow-col flow-side' }, [h('h4', { html: rich(d.branch.title) }), list(d.branch.steps, 'side')]));
     }
