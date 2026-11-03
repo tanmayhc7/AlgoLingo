@@ -40,10 +40,32 @@ window.DEPTH = {
     },
     {
       lvl: 'mid',
-      q: 'Why does this print `[1, 1]` on the second call and how do you fix it?\n`def add(x, xs=[]): xs.append(x); return xs`',
-      a: 'The default list is created once when `def` runs and stored on the function object, so every call without `xs` shares it. Fix: `def add(x, xs=None): if xs is None: xs = []; xs.append(x); return xs`. Sentinels (`None`) are the standard idiom.',
+      q: 'Why does this print `[1, 1]` on the second call, and how do you fix it?',
+      qcode: 'def add(x, xs=[]):\n    xs.append(x)\n    return xs\n\nprint(add(1))   # [1]\nprint(add(1))   # [1, 1]  <- surprise',
+      a: 'Python creates the default list once, when the `def` line runs, and stores it on the function object. It is not rebuilt on each call. So every call that does not pass its own `xs` uses that same list. The first call appends 1 to it, and the second call appends another 1 to the same list, giving `[1, 1]`. This only bites with mutable defaults (list, dict, set), because appending changes the object in place. A default such as `0` or `"abc"` is safe, because those cannot be changed in place. For C programmers it behaves like a `static` variable inside the function: one piece of storage shared by every call.',
+      acode: 'def add(x, xs=None):\n    if xs is None:\n        xs = []        # a fresh list on every call\n    xs.append(x)\n    return xs\n\nprint(add(1))   # [1]\nprint(add(1))   # [1]',
+      diagram: {
+        caption: 'Why the second call sees the first call\'s data',
+        title: 'With `xs=[]` (the bug)',
+        main: [
+          ['`def add(x, xs=[])` runs', 'Python builds the function and creates one empty list. It stores that list on the function as the default for `xs`.'],
+          ['`add(1)` is called', 'No list passed, so `xs` is that stored list. 1 is appended and it returns `[1]`.'],
+          ['`add(1)` is called again', 'No list passed, so `xs` is the same stored list, which already holds 1.', 'warn'],
+          ['Result: `[1, 1]`', 'The second call saw the first call\'s data, because both used one list.', 'warn'],
+        ],
+        branch: {
+          title: 'With `xs=None` (the fix)',
+          steps: [
+            ['`def add(x, xs=None)` runs', 'The stored default is `None`, which cannot be changed in place.'],
+            ['`add(1)` is called', '`xs` is `None`, so the `if` runs and creates a new list inside the call. It returns `[1]`.'],
+            ['`add(1)` is called again', '`xs` is `None` again, so another new list is created. It returns `[1]`.', 'cache'],
+          ],
+        },
+      },
       follow: [
-        ['Is it ever useful?', 'Yes, deliberately, as a cache or counter (`def f(x, _cache={}): ...`), but explicit `functools.lru_cache` or a module-level dict states the intent better.'],
+        ['Why is `None` safe when the empty list is not?', 'The default is still created once, but `None` cannot be changed in place, so nothing is shared that can pile up. The `[]` in the body runs on every call, because the body runs on every call, so each call gets its own new list.'],
+        ['Why check `xs is None` and not `if not xs`?', '`if not xs` is also true for an empty list the caller passed in, so the function would quietly replace the caller\'s list with a new one, and appends would not show up in the list they handed over. `is None` only replaces the "nothing was passed" case. `None` is used as a sentinel, a placeholder value that means "the caller gave me nothing".'],
+        ['Is it ever useful?', 'Yes, deliberately, as a cache or counter, but it surprises readers, so `functools.lru_cache` or a module-level dict states the intent better. Treat a mutable default as a bug unless you meant it. Linters such as `ruff` and `flake8` flag it.', null, 'def f(x, _cache={}):\n    if x not in _cache:\n        _cache[x] = expensive(x)\n    return _cache[x]', 'Intentional use: a shared cache'],
       ],
     },
     {
