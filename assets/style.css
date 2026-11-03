@@ -2146,3 +2146,6 @@ a.gl:hover, a.gl:focus-visible { color: var(--accent); text-decoration-style: so
 .qa-code .t-s { color: #ffb4cb; }
 .qa-code .t-n { color: #a9b4ff; }
 .qa-code .t-c { color: #a8afe0; font-style: italic; }
+.qa, .qa-codewrap { min-width: 0; max-width: 100%; }
+.qa-code { max-width: 100%; box-sizing: border-box; }
+.qa-a code, .qa-a a { overflow-wrap: anywhere; }
