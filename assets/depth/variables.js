@@ -78,6 +78,39 @@ window.DEPTH = {
     },
     {
       lvl: 'mid',
+      q: 'Ints are immutable, so `a = a + 1` leaves `b` alone. Why does the same idea not protect a list? Why does `y.append(3)` change `x` too?',
+      qcode: 'x = [1, 2]\ny = x            # one list, two names\ny.append(3)\nprint(x)            # [1, 2, 3]  <- x changed too',
+      a: 'The rule is the same: `y = x` copies only the pointer, so both names point at one list object. What differs is the operation. `a = a + 1` is an assignment, so it moves the name `a` to a different object and the old one is untouched. `y.append(3)` has no assignment: Python follows `y` to the list and edits that list. A list is a mutable object, and `x` points at the same one, so `x` sees the change. An int has no method that edits it, so an int can only ever be rebound. The int-style behaviour is available for lists too if you rebind (`y = y + [3]`) or copy first (`y = x.copy()`).',
+      acode: 'x = [1, 2]\n\n# 1. rebind: build a new list and move the name y to it\ny = x\ny = y + [3]\nprint(x, y)         # [1, 2] [1, 2, 3]\n\n# 2. copy first, then mutate the copy\ny = x.copy()        # or list(x), or x[:]\ny.append(3)\nprint(x, y)         # [1, 2] [1, 2, 3]\n\n# the trap: += on a list mutates in place, like append\ny = x\ny += [3]\nprint(x)            # [1, 2, 3]',
+      acodeLabel: 'Three ways it can go: rebind, copy, or the += trap',
+      diagram: {
+        caption: 'Mutating the shared list versus rebinding a name',
+        title: '`y.append(3)`: mutates, nothing moves',
+        main: [
+          ['`x = [1, 2]`', 'Python makes a list object holding 1 and 2 and points `x` at it.'],
+          ['`y = x`', 'No copy. `y` is a second label on the same list, so both names point at one object.', 'cache'],
+          ['`y.append(3)`', 'No `=`, so no name moves. Python follows `y` to the list and adds 3 to that list.', 'warn'],
+          ['`print(x)` shows `[1, 2, 3]`', '`x` points at the list that was edited, so it sees the 3. One object, two names, one change.', 'warn'],
+        ],
+        branch: {
+          title: '`y = y + [3]`: rebinds, x is safe',
+          steps: [
+            ['`y = x`', 'Same start: both names on one list `[1, 2]`.'],
+            ['`y + [3]`', 'Builds a brand-new list `[1, 2, 3]` and leaves the old list alone.'],
+            ['`y = ...`', 'The assignment moves the label `y` to the new list. `x` still points at `[1, 2]`.', 'cache'],
+          ],
+        },
+      },
+      follow: [
+        ['Why does `y += [3]` change `x`, but `a += 1` does not change `b`?', '`+=` first tries an in-place method (`__iadd__`). A list has one, and it extends the same list, so every name pointing at it sees the change. An int has none, so Python falls back to `a = a + 1`, which builds a new int and rebinds the name. Same symbol, two behaviours, decided by whether the object is mutable.'],
+        ['How would you see this in C?', 'An int is like a C `int`: a small value, and in Python it cannot be edited in place. A list is like a pointer to a `malloc`\'d array. `y = x` is `int *y = x;`, so both point at one buffer and `y[2] = 3` shows through `x`. A separate list needs a new buffer and a copy, which is what `.copy()` does.', null, 'int *x = malloc(3 * sizeof(int));\nint *y = x;          // y = x  : same buffer\ny[2] = 3;            // y.append / y[2] = 3 : x sees it\n\nint *z = malloc(3 * sizeof(int));\nmemcpy(z, x, 3 * sizeof(int));   // x.copy() : a separate buffer', 'The pointer picture'],
+        ['Why are lists mutable at all? Wouldn\'t immutable lists be safer?', 'Cost and purpose. If every `append` had to copy the whole list, building a list of n items would take O(n²). A mutable list gives amortized O(1) `append`. A list is a container you build up and edit; an int is a value you compute with. Python offers both: the tuple is the immutable sequence.'],
+        ['What is the immutable counterpart, and what does it change?', 'A tuple. `t = (1, 2)` cannot be appended to, so `t = t + (3,)` must build a new tuple and rebind `t`, just like the int case. That immutability is why a tuple can be a dict key or set member and a list cannot. Careful: a tuple that holds a list is still tied to that list, which can change.'],
+        ['What one sentence would you say in an interview?', '"Assignment never copies. Whether sharing is visible depends on two things: is the object mutable, and am I rebinding a name or mutating the object?"'],
+      ],
+    },
+    {
+      lvl: 'mid',
       q: 'Difference between `is` and `==`?',
       a: '`==` asks whether two objects have equal values (it calls `__eq__`). `is` asks whether two names point at the very same object (compares identity). Use `is` for `None`, `True`, `False` and sentinels, `==` for everything else.',
       follow: [
