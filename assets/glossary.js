@@ -133,11 +133,15 @@
   var BLOCKS = '.lede, #blurb, #trap-text, #predict-body, .depth-head, .depth-block, #problem, #writeup, .takeaways, .chapter .sub, .outline-head p, .phase-card p';
   var NO_GO = 'a, a.phase-card *, code, pre, button, input, textarea, select, h1, h2, h3, h4, th, svg, .gl';
 
+  /* an entry with pages:[...] only auto-links on those lesson pages (words like "name" mean other things elsewhere) */
+  var PAGE = (location.pathname.split('/').pop() || '').replace(/\.html$/, '');
+
   function buildMatcher() {
     var map = {};
     var names = [];
     G.forEach(function (e) {
       if (e.auto === false) return;
+      if (e.pages && e.pages.indexOf(PAGE) < 0) return;
       [e.term].concat(e.also || []).forEach(function (n) {
         var k = n.toLowerCase();
         if (SKIP_ALIAS.indexOf(k) >= 0 && k !== e.term.toLowerCase()) return;
