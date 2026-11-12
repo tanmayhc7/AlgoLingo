@@ -45,6 +45,39 @@ window.DEPTH = {
     },
     {
       lvl: 'mid',
+      q: 'What is an "object" in Python, and what does it mean that a name is "bound" to it? Why does `a = a + 1` not just change the 5 to a 6, like in C?',
+      qcode: 'a = 5\nb = a\na = a + 1\n\nprint(a, b)             # 6 5\nprint(id(a) == id(b))   # False: a now points at a different object',
+      a: 'An object is the chunk of memory Python creates to hold a value. It carries a type, a value and a reference count (how many names point at it). A name is only a label that points at an object: it has no type and holds no value. `b = a` puts a second label on the same object, and nothing is copied. `a = a + 1` builds (or finds) the int 6 and moves the label `a` to it, so `b` still points at the 5. In C terms it is `a = &six`, not `*a = 6`. The int 5 is immutable, so nobody can change it underneath `b`. If ints could be changed in place, `a += 1` would silently change `b` too, the same surprise you get with lists.',
+      acode: 'a = 5\nb = a\nprint(type(a), a.bit_length())   # the object knows its own type and has methods\nprint(a is b)                      # True: two names, one object\n\na = "hello"                        # the same name can point at a different kind of object\nprint(type(a))                     # <class \'str\'>',
+      acodeLabel: 'The names are labels; the objects know their own type',
+      diagram: {
+        caption: 'What each line does to names and objects',
+        title: 'Names and objects, line by line',
+        main: [
+          ['`a = 5`', 'Python makes an int object holding 5 and points the name `a` at it. The object has a type (`int`), a value (5) and a count of 1.'],
+          ['`b = a`', 'No copy. `b` becomes a second label on the same object, so its count goes to 2.', 'cache'],
+          ['`a = a + 1`', 'Python works out 5 + 1, finds or makes the int 6 and points `a` at it. The 5 is not edited. It is immutable, so it cannot be.'],
+          ['Now: `a` points at 6, `b` at 5', 'The 5 lost one label (count back to 1) and `b` still holds it. A change to `a` could never reach `b`.', 'cache'],
+        ],
+        branch: {
+          title: 'The same idea in C',
+          steps: [
+            ['`int a = 5;`', 'A 4-byte box named `a` holds 5. The name and the storage are the same thing.'],
+            ['`int b = a;`', 'Copies the value into a second box. Two separate boxes.'],
+            ['`a = a + 1;`', 'Overwrites the bytes in box `a`. Box `b` is untouched because it is a different box.', 'cache'],
+            ['Python equivalent', 'Pointers: `int *a = &five; int *b = a; a = &six;`. Moving the pointer, never writing through it.', 'ask'],
+          ],
+        },
+      },
+      follow: [
+        ['Why are ints immutable? Why not change the 5 to a 6 in place?', 'Four reasons. (1) Names share objects, so an in-place change would leak into every other name pointing at it. (2) Dict keys and set members are stored by hash, and a key that changed value would sit in the wrong bucket. (3) CPython shares small ints and constants (-5 to 256) between everything, so changing the shared 5 would change every 5 in the program. (4) A Python int has no fixed size (`2**1000` is fine), so growing it in place is not possible. C can overwrite in place because an `int` is always 4 bytes.'],
+        ['Is a new object created for every `a = a + 1`?', 'Not always. For `5 + 1`, the 6 already exists in the small-int cache, so `a` just points at it. For a larger result, such as `1000 + 1`, a new int object is usually created. If nothing points at the old object any more, its reference count hits zero and it is freed at once. Treat it as an implementation detail and use `==`, not `is`, to compare numbers.', null, 'a = 1000\nb = 1000\nprint(a == b)   # True, always\nprint(a is b)   # may be True or False: do not rely on it', 'Equal values are not guaranteed to be the same object'],
+        ['What does "everything is an object" buy you?', 'One rule covers every value: a name points at an object. Functions, classes and modules are objects too, so you can store them in a list, pass them to other functions or give them a second name (`g = f`). The cost is speed: each `+` goes through objects and reference counts instead of one machine instruction. That is why NumPy keeps raw C-style numbers in contiguous arrays when speed matters.'],
+        ['Where does mutability come in, then?', 'Mutability belongs to the object, not to the name. A list is a mutable object, so `b = a; a.append(1)` changes the one object that both names point at. An int is an immutable object, so `a = a + 1` can only move the label. The same line shape does different things, which is the root of the aliasing and mutable-default surprises.'],
+      ],
+    },
+    {
+      lvl: 'mid',
       q: 'Difference between `is` and `==`?',
       a: '`==` asks whether two objects have equal values (it calls `__eq__`). `is` asks whether two names point at the very same object (compares identity). Use `is` for `None`, `True`, `False` and sentinels, `==` for everything else.',
       follow: [
