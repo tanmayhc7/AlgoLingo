@@ -85,3 +85,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why `key=` instead of a comparison function",
+  "A key function runs once per item, while a comparator runs on every pair, which is about n log n calls. Computing the key once and comparing plain values is faster and simpler. Python 3 removed `cmp=` for this reason, and `functools.cmp_to_key` is the escape hatch."
+ ],
+ [
+  "Why stability matters",
+  "Equal items keep their order, so you can sort by one field and then another and the first order survives among ties. That gives multi-key sorting with no custom comparator."
+ ],
+ [
+  "Why `heapq` is a min-heap",
+  "A heap keeps only the smallest item cheaply reachable, which is all a priority queue needs, and it costs O(log n) per change instead of O(n log n) to re-sort. For a max-heap, push negated values."
+ ],
+ [
+  "Why sorting unlocks other tools",
+  "Sorted data supports binary search (O(log n)), grouping of equal items and merging. Paying O(n log n) once often makes later queries much cheaper."
+ ]
+];

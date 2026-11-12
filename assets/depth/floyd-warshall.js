@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Compute reachability (transitive closure) of a directed graph.', a: 'Use Warshall: reach[i][j] = reach[i][j] or (reach[i][k] and reach[k][j]) with the same loop order. For many queries on big graphs, condense strongly connected components first, or use bitsets to cut the cost by a word-size factor.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Floyd-Warshall exists",
+  "Running Dijkstra from every node is heavy and cannot handle negative edges. Floyd-Warshall computes all pairs at once with three nested loops, handles negative edges (but not negative cycles) and is very short to write."
+ ],
+ [
+  "Why the loop order is `k` outermost",
+  "The state is \"shortest path from i to j using only nodes `0..k` as stops\". Adding node `k` needs the answers for `k-1`, so `k` must be the outermost loop. Putting it inside gives wrong answers."
+ ],
+ [
+  "Why it is O(V³)",
+  "There are V² pairs and V possible middle nodes. That is fine for a few hundred nodes and far too slow for big graphs, which is why it is used for small dense graphs."
+ ],
+ [
+  "Why it is DP in disguise",
+  "Each cell is \"go direct, or go through k\", and it is filled in dependency order. It is a 3D recurrence compressed into a 2D table by reusing the same array."
+ ]
+];

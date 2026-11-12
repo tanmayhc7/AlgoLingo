@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Find the two numbers that appear once when all others appear twice.', a: 'XOR everything to get x ^ y. Pick any set bit of it (lowbit = d & -d); that bit separates x and y. XOR the numbers having that bit set into one accumulator and the rest into another; the two accumulators are the answers.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why `x & (x - 1)` clears the lowest set bit",
+  "Subtracting 1 turns the lowest 1 into 0 and turns every 0 below it into 1. ANDing with the original cancels that region and keeps everything above. It is one step that touches only the set bits, which is why popcount and power-of-two tests use it."
+ ],
+ [
+  "Why XOR finds the lone number",
+  "`a ^ a == 0` and `a ^ 0 == a`, and XOR does not care about order. Pairs cancel in any order and the unmatched value is left, using O(1) extra memory."
+ ],
+ [
+  "Why a power of two has exactly one set bit",
+  "Binary place values are powers of two, so `2**k` is a single 1 at position k. That makes `x & (x - 1) == 0` a power-of-two test (for x > 0). It is also why hardware likes power-of-two sizes: masking replaces the slow modulo."
+ ],
+ [
+  "Why bit tricks still matter when compilers are smart",
+  "They shrink memory (32 flags in one int), make some checks a single instruction, and encode DP states compactly (bitmask DP). The trade-off is readability, so comment them."
+ ]
+];

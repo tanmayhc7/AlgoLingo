@@ -58,3 +58,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why binary search works",
+  "In sorted data, one comparison with the middle item rules out half of what is left, whichever way it goes. Halving repeatedly reaches one item in about log2(n) steps, so a million items take about 20 comparisons."
+ ],
+ [
+  "Why the data must be sorted",
+  "The \"rule out half\" step relies on order: if the middle is too small, everything before it is too small as well. Without order there is nothing to rule out, and you are back to O(n)."
+ ],
+ [
+  "Why off-by-one errors are common",
+  "There are several valid ways to write the loop (`lo < hi`, `lo <= hi`, `mid` rounding down or up), and each pairs with specific updates. Mixing them gives an infinite loop or a skipped item, so pick one template and keep its invariant."
+ ],
+ [
+  "Why `lo + (hi - lo) // 2` appears in C and Java",
+  "In fixed-width ints, `lo + hi` can overflow. This form cannot. Python ints never overflow, so `(lo + hi) // 2` is safe there, but the habit carries over from C."
+ ]
+];

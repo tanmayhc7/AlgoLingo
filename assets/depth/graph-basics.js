@@ -74,3 +74,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why graphs exist",
+  "Networks, maps, dependencies and friendships are about relationships between things, and trees and lists cannot say that an item connects to many others in any pattern. A graph is the general shape."
+ ],
+ [
+  "Why adjacency lists are the default",
+  "Most real graphs are sparse (each node has few neighbours compared with the node count). A list of neighbours per node uses O(V + E) memory and lets you visit neighbours directly. A matrix would use O(V²) memory and most of it would be zeros."
+ ],
+ [
+  "Why an adjacency matrix is sometimes better",
+  "Checking whether edge (u, v) exists is O(1), and for dense graphs the matrix is no bigger than the lists. Floyd-Warshall also wants it."
+ ],
+ [
+  "Why many graphs are never stored",
+  "A grid, a game state or a word ladder has neighbours that can be computed (up, down, left, right). Building the graph first would waste memory, so you generate neighbours as you go."
+ ]
+];

@@ -85,3 +85,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why dicts are the workhorse",
+  "Many problems are \"have I seen this?\" or \"what goes with this key?\", and hashing answers both in O(1). A dict replaces a nested loop or repeated list search with one lookup."
+ ],
+ [
+  "Why dicts keep insertion order now",
+  "Since Python 3.7 it is part of the language. CPython's compact dict layout stores entries in an array in insertion order, with a small index table on top, which also saves memory. The order came as a side effect of a better design."
+ ],
+ [
+  "Why `d[key]` raises `KeyError`",
+  "Returning a default silently would hide typos and missing data. Python makes you choose: `d.get(k)` for an optional value, `defaultdict` for automatic defaults, or `try/except` when absence is truly an error."
+ ],
+ [
+  "Why keys are compared by equality, not identity",
+  "`d[\"ab\"]` must find a key even if the string you type is a different object from the one stored. The hash gets you to the slot, and `==` confirms the match."
+ ]
+];

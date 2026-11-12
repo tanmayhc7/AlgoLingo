@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why floats are approximate",
+  "A 64-bit float stores a binary fraction, so numbers such as 0.1 are rounded to the nearest value that fits. Hardware does this fast and every language shares the format, but results like `0.1 + 0.2 != 0.3` are expected. Compare with a tolerance (`math.isclose`)."
+ ],
+ [
+  "Why `NaN` is not equal to itself",
+  "`NaN` means \"not a number\" and represents a failed calculation. Two failed calculations are not the same result, so IEEE 754 defines `NaN != NaN`, and you test with `math.isnan`."
+ ],
+ [
+  "Why Unicode separates characters from bytes",
+  "One character can need one to four bytes in UTF-8, and different encodings use different bytes. Python keeps text (`str`) apart from bytes, and you encode or decode only at the edges (files, network)."
+ ],
+ [
+  "Why length is not what you see",
+  "A visible character may be several code points (a letter plus an accent, an emoji with a skin tone). `len` counts code points, not what a reader sees, so use normalisation or a grapheme library when it matters."
+ ]
+];

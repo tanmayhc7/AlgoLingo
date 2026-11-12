@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Euclid's algorithm works",
+  "`gcd(a, b)` equals `gcd(b, a mod b)`, because any number that divides both a and b also divides the remainder, and the reverse holds. Each step shrinks the numbers, so it ends at 0 with the answer."
+ ],
+ [
+  "Why it is fast",
+  "The remainder is less than half of `a` after two steps, so the number of steps is O(log min(a, b)). Checking every possible divisor would be far slower."
+ ],
+ [
+  "Why `lcm` is computed from `gcd`",
+  "`a * b = gcd(a, b) * lcm(a, b)`, so `lcm = a // gcd * b`. Dividing before multiplying keeps the intermediate value smaller, which also avoids overflow in C."
+ ],
+ [
+  "Why reducing fractions uses gcd",
+  "Dividing top and bottom by their gcd gives the simplest form, and two fractions are equal exactly when their reduced forms match. `fractions.Fraction` does this for you."
+ ]
+];

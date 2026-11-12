@@ -86,3 +86,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why exceptions instead of return codes",
+  "In C every call can fail and each caller must check the code, so errors get ignored. An exception cannot be ignored: it travels up the stack until someone handles it or the program stops with a traceback. The cost is invisible control flow, so you must know what can raise."
+ ],
+ [
+  "Why EAFP (\"try it, handle the failure\") is Pythonic",
+  "Checking first (does the file exist?) leaves a gap in which things change before you act. Trying and catching the error is the only race-free version. A `try` costs almost nothing when nothing is raised."
+ ],
+ [
+  "Why `finally` and `with` exist",
+  "Cleanup must run on every path, including errors. Without them each early return and exception needs hand-written cleanup, which C code does with `goto cleanup`."
+ ],
+ [
+  "Why you catch specific exceptions",
+  "A bare `except:` also swallows `KeyboardInterrupt` and your own bugs and hides the real problem. The exception class says what went wrong and who can fix it."
+ ]
+];

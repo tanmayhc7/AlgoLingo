@@ -82,3 +82,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why shorthands exist",
+  "Some loops (build a list, filter, sum) are so common that a short form makes the intent visible at a glance. The aim is reading speed, not saving keystrokes."
+ ],
+ [
+  "Why `x if c else y` puts the condition in the middle",
+  "It reads like English and keeps the expression an expression. C's `c ? x : y` does the same job in a more cryptic form."
+ ],
+ [
+  "Why unpacking exists",
+  "Moving several values in and out of structures is common, and `a, b = b, a` replaces a temporary variable. It works because the whole right side is built before anything is assigned."
+ ],
+ [
+  "Why the walrus `:=` was added",
+  "To avoid computing something twice or splitting a line just to name a value, as in `while chunk := f.read(n)`. Assignment inside expressions is a classic C bug, so Python limits where it can appear."
+ ]
+];

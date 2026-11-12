@@ -89,3 +89,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why ints never overflow",
+  "Python ints grow as large as memory allows, so results are always correct and never wrap around. That removes a whole class of silent bugs from C. The price is that an int is a variable-size object, so arithmetic is slower than one CPU instruction."
+ ],
+ [
+  "Why `/` always returns a float",
+  "In Python 2, `5 / 2` gave 2 and surprised people. Python 3 made `/` true division and added `//` for floor division, so each operator has one meaning whatever the types are."
+ ],
+ [
+  "Why `//` rounds toward minus infinity",
+  "It keeps `a == (a // b) * b + a % b` true and makes `a % b` non-negative for a positive `b`, which is what you want for wrapping indexes and clock arithmetic. C truncates toward zero, so `-7 / 2` is -3 and `-7 % 2` is -1 there."
+ ],
+ [
+  "Why floats are inexact",
+  "Floats are binary fractions in a fixed 64 bits (IEEE 754), the format every CPU implements in hardware, so they are fast and portable. Numbers such as 0.1 have no exact binary form and get rounded. Use integers (cents) or `Decimal` when exactness matters."
+ ]
+];

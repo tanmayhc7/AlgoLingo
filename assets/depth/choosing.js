@@ -82,3 +82,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why there is no best data structure",
+  "Each structure makes some operations cheap by making others expensive. A list makes index and append cheap, a set makes membership cheap, a heap makes smallest-first cheap. You choose by which operations your problem does most."
+ ],
+ [
+  "Why asking \"what operations do I need?\" comes first",
+  "The structure's cost table is fixed, so the operations you need decide the winner. If you only append and loop, a list is right. If you check membership in a loop, a set removes an O(n) step."
+ ],
+ [
+  "Why constraints pick the algorithm",
+  "A limit of 10^5 items means O(n²) is about 10^10 steps and too slow, so you need O(n log n) or better. Reading the limits tells you which structures are even allowed."
+ ],
+ [
+  "Why you start simple",
+  "A plain list or dict is correct, readable and often fast enough. Switching to a specialised structure is a measured decision, because it adds code to maintain."
+ ]
+];

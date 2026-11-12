@@ -60,3 +60,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why study the slow sorts",
+  "Bubble, selection and insertion sort are the clearest way to see what sorting is doing: compare, swap, and grow a sorted region. Their O(n²) cost makes it obvious why smarter methods are needed."
+ ],
+ [
+  "Why insertion sort still matters",
+  "It is fast on almost-sorted data (close to O(n)) and has very little overhead on tiny inputs. That is why real sorting routines use it for short runs inside faster algorithms."
+ ],
+ [
+  "Why selection sort does few swaps",
+  "It finds the minimum and swaps once per pass, so it makes at most n swaps. That matters only when writes are expensive, such as flash memory."
+ ],
+ [
+  "Why bubble sort is rarely used",
+  "It does many more swaps than the alternatives for no benefit. It is taught because it is the simplest to explain, not because it is good."
+ ]
+];

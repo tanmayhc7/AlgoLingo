@@ -69,3 +69,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why \"what does the function return?\" comes first",
+  "A tree recursion works only if each call gives its parent exactly the information the parent needs (a height, a sum, a boolean). Defining that return value first makes the rest mechanical."
+ ],
+ [
+  "Why bottom-up versus top-down matters",
+  "If the answer depends on what the subtrees contain (height, diameter), compute children first and combine. If a constraint comes from above (valid range in a BST check), pass it down as arguments. Picking the wrong direction is the usual cause of messy tree code."
+ ],
+ [
+  "Why the diameter problem needs two numbers",
+  "The best path may pass through a node without going through the root, so each call both returns its height to the parent and updates a global best. Returning one value and recording another is a common tree pattern."
+ ],
+ [
+  "Why iterative versions exist",
+  "Recursion depth equals tree height, and a skewed tree can exceed Python's limit. An explicit stack gives the same traversal with no depth limit."
+ ]
+];

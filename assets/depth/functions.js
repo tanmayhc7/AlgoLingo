@@ -90,3 +90,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why functions are objects",
+  "A function stored in a name can be passed, returned and stored, so callbacks, decorators and `key=` functions need no extra feature. C does the same with function pointers and fixed signatures."
+ ],
+ [
+  "Why arguments are passed by assignment",
+  "Copying a big object into every call would be slow, so Python passes the reference. The parameter becomes a new name for the same object, which is why mutation shows through and rebinding does not."
+ ],
+ [
+  "Why defaults are evaluated once",
+  "`def` runs once and creates the function, and the defaults are part of that. It is simple and cheap, and it is why a mutable default is shared between calls."
+ ],
+ [
+  "Why Python limits recursion depth",
+  "Every call uses a frame, and unbounded recursion would crash the process. The limit (1000 by default) turns that crash into a `RecursionError`. C simply overflows the stack."
+ ]
+];

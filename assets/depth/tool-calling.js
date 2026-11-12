@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why tool calling exists",
+  "A model can only produce text. To check an order, query a database or send an email, your code must act. The model names a tool and its arguments, your code runs it, and you return the result so the model can use it."
+ ],
+ [
+  "Why the model asks and your code acts",
+  "The model never runs anything itself, so your code is the place to check permissions, validate arguments and log what happened. That is where safety lives."
+ ],
+ [
+  "Why tool descriptions matter",
+  "The model picks a tool and fills its arguments from the name and description you wrote. Vague descriptions give wrong calls, so write them like a short, precise instruction for a new colleague."
+ ],
+ [
+  "Why arguments are untrusted",
+  "The model can produce wrong or manipulated arguments (for example from text in a web page it read). Validate them, apply limits and require confirmation before anything with side effects."
+ ]
+];

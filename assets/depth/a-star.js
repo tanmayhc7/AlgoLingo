@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'A* uses too much memory on a huge map. Options?', a: 'IDA* (depth-first with an f limit, O(depth) memory), weighted A* (f = g + w h for speed at bounded suboptimality), bidirectional search, hierarchical pathfinding, or landmark heuristics (ALT) for road networks.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why A* exists",
+  "Dijkstra explores in all directions equally. When you have one target and a hint of how far it is, A* uses that hint to try promising nodes first, so it usually expands far fewer nodes."
+ ],
+ [
+  "Why the priority is `g + h`",
+  "`g` is the known cost so far and `h` is an estimate of the cost to go. Their sum estimates the whole path through this node, and expanding the lowest estimate first aims at the goal."
+ ],
+ [
+  "Why the heuristic must not overestimate",
+  "If `h` is never larger than the true remaining cost (admissible), the first time the goal is taken from the queue its path is optimal. An overestimate can make A* skip the real shortest path."
+ ],
+ [
+  "Why a worse heuristic is still correct",
+  "`h = 0` makes A* identical to Dijkstra. A weaker heuristic only costs speed, not correctness, as long as it stays admissible."
+ ]
+];

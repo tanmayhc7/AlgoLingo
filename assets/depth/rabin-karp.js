@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'How do you defend against anti-hash tests?', a: 'Choose the modulus or base at random at run time, use a large prime (or two moduli), and always verify candidates. Fixed well-known bases with 2^64 overflow are easy to attack.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Rabin-Karp exists",
+  "Comparing the pattern against every window costs O(m) each. A hash of the window can be compared in O(1), so you only do a full comparison when the hashes match."
+ ],
+ [
+  "Why the hash is a rolling hash",
+  "Moving the window by one character removes the first character's contribution and adds the new one, updating the hash in O(1) with a bit of arithmetic. Re-hashing from scratch each time would cost O(m) and give no gain."
+ ],
+ [
+  "Why a match still needs a check",
+  "Different strings can share a hash (a collision), so equal hashes only mean \"probably equal\". Comparing the actual characters on a match makes the answer exact."
+ ],
+ [
+  "Why it is good for many patterns",
+  "You can hash several patterns into a set and check each window's hash against the set in O(1). That is how it is used for plagiarism and duplicate detection."
+ ]
+];

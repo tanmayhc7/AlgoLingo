@@ -71,3 +71,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a BST exists",
+  "An array is fast to search only when sorted, and sorted arrays are slow to insert into. A BST keeps the data ordered while allowing insert and delete in O(height), by choosing left or right at each node."
+ ],
+ [
+  "Why the left-smaller, right-larger rule",
+  "It gives each comparison a decision: everything on the other side is ruled out. That is binary search stored as a structure, and it is why an inorder walk visits values in sorted order."
+ ],
+ [
+  "Why a plain BST can degrade",
+  "Inserting sorted data makes every new node go right, creating a chain with O(n) operations. The structure has no way to correct itself, so there are balanced variants (AVL, red-black) that rotate nodes to keep the height near log n."
+ ],
+ [
+  "Why deleting a node with two children is tricky",
+  "Removing it leaves a gap that both subtrees need. The standard fix replaces it with its inorder successor (smallest in the right subtree), which keeps the ordering rule true and has at most one child, so it is easy to remove."
+ ]
+];

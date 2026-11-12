@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why tests exist",
+  "Code changes, and a test turns \"I think it still works\" into a check you can run in seconds. It allows you to refactor with confidence, which is hard to do on code with no tests."
+ ],
+ [
+  "Why mocks exist",
+  "Real calls to a model, a database or the network are slow, cost money and give different results each time. A mock stands in for them, so a test is fast, free and repeatable, and you can force failures that are hard to trigger for real."
+ ],
+ [
+  "Why you mock where the name is looked up",
+  "`patch` replaces a name in a particular module. If `app.py` did `from client import call`, you must patch `app.call`, not `client.call`, because `app` already holds its own reference. This is the same names-and-objects rule as everywhere else in Python."
+ ],
+ [
+  "Why too many mocks make tests weak",
+  "A test full of mocks mostly checks the mocks, so it passes while real behaviour breaks. Keep a few tests that use real components, and mock only the slow or paid edges."
+ ]
+];

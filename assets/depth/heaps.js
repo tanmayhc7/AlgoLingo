@@ -73,3 +73,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why heaps exist",
+  "Often you only need the smallest or largest item, not a full sort. A heap keeps the best item at the top and re-fixes itself in O(log n) after each push or pop, which is cheaper than sorting the whole data again after each change."
+ ],
+ [
+  "Why a heap is stored in an array",
+  "A heap is a complete tree (every level full except possibly the last, filled left to right), so it has no gaps. Parent and children are found by index arithmetic (`2i + 1`, `2i + 2`), so no pointers are needed and everything is cache-friendly."
+ ],
+ [
+  "Why a heap is only partly ordered",
+  "It guarantees a parent is no bigger than its children, not that siblings or cousins are in order. That weaker promise is exactly what makes updates cheap: a new item only has to move along one root-to-leaf path."
+ ],
+ [
+  "Why building a heap is O(n), not O(n log n)",
+  "Most nodes are near the bottom and can only sink a short distance. Summing those small distances over the whole tree gives O(n). `heapify` uses this."
+ ]
+];

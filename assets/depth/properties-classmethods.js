@@ -32,3 +32,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'How does a property work under the hood?', a: 'property is a descriptor, an object on the class with __get__ and __set__. When you read obj.x, Python finds x on the type, sees it defines __get__, and calls it with the instance. Functions, classmethod and staticmethod use the same descriptor mechanism to decide what gets passed as the first argument.', follow: [['Why assign through self.balance in __init__?', 'It runs the setter, so the first value is validated by the same rule as later assignments. Assigning to self._bal directly skips the check.']] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Python skips getters and setters at first",
+  "Start with a plain attribute. If you later need a check or a computed value, turn it into a `@property` with the same name and callers do not change. Java-style `getX()` is needed there because adding one later would break every caller."
+ ],
+ [
+  "Why `@property` exists",
+  "It lets code use attribute syntax while running a method, so you can validate on assignment, compute a value on demand or make something read-only without changing the public interface."
+ ],
+ [
+  "Why `@classmethod` exists",
+  "Some constructors need to build an instance from different input (`from_json`, `from_string`). A class method receives the class as `cls`, so it works for subclasses too, which a hard-coded class name would not."
+ ],
+ [
+  "Why `@staticmethod` is mostly organisation",
+  "It gets neither the instance nor the class, so it is just a function that lives in the class's namespace because it belongs with it. If nothing ties it to the class, a module-level function is usually simpler."
+ ]
+];

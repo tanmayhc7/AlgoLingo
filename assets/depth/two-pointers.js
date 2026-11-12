@@ -60,3 +60,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why two pointers exist",
+  "Checking all pairs is O(n²). If the data is sorted, or has a monotonic property, moving one pointer based on the current result lets you skip many pairs, so each pointer moves at most n steps in total."
+ ],
+ [
+  "Why moving a pointer is safe",
+  "Say the array is sorted and the left plus right sum is too big. Every other partner for the right item is at least as large as the current left item, so the right item cannot reach the target with any of them and can be discarded. Each move is justified by an argument that something cannot be the answer."
+ ],
+ [
+  "Why it uses O(1) extra space",
+  "The pointers are just indexes. A hash map would do many of the same jobs but needs O(n) memory, which is the usual follow-up question."
+ ],
+ [
+  "Why it is just pointer arithmetic",
+  "In C you would write it with two `int *` pointers. Python indexes play the same role, which is why the pattern is easy to carry between the languages."
+ ]
+];

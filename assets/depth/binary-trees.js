@@ -68,3 +68,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why trees exist",
+  "Many things are naturally hierarchical (files, org charts, expressions), and a tree stores that shape directly. A balanced tree also gives O(log n) search because each step discards half of what is left."
+ ],
+ [
+  "Why each node has at most two children",
+  "Two is the smallest branching that still halves the search space, and it keeps the node simple (left, right). It also maps to a binary decision at each step, such as less than or greater than."
+ ],
+ [
+  "Why recursion fits trees so well",
+  "A tree is a node plus two smaller trees, and a recursive function mirrors that exactly: solve the left, solve the right, combine. The base case is the empty tree (`None`)."
+ ],
+ [
+  "Why tree height matters, not size",
+  "Search, insert and recursion depth follow the length of the longest path. A balanced tree of a million nodes is about 20 deep, but one built from sorted input is a million deep, a linked list in disguise."
+ ]
+];

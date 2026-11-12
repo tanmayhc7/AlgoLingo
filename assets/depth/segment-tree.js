@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Segment tree, Fenwick tree or sqrt decomposition?', a: 'Fenwick for sum/xor with point updates; segment tree for min/max/gcd, range updates and richer queries; sqrt decomposition when the operation is awkward to merge but O(sqrt n) per operation is acceptable. Offline problems may be solvable with sorting and a Fenwick tree instead.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a segment tree exists",
+  "Range queries with updates need more than prefix sums. A segment tree stores the combined answer for blocks of the array in a tree, so a query combines O(log n) blocks and an update changes O(log n) nodes."
+ ],
+ [
+  "Why any associative operation works",
+  "Each node combines its two children with the same function, so it can be sum, min, max, gcd, anything where the grouping does not change the result. That generality is its main advantage over a Fenwick tree."
+ ],
+ [
+  "Why lazy propagation exists",
+  "A range update touching n items would cost O(n) if done item by item. Lazy propagation stores \"pending\" updates at a node and pushes them down only when needed, so a range update is O(log n)."
+ ],
+ [
+  "Why the tree is stored in an array",
+  "Like a heap, the shape is fixed (children of node `i` are `2i` and `2i+1`), so index arithmetic replaces pointers. The array is usually sized at 4n to be safe for any n."
+ ]
+];

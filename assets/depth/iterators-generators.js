@@ -59,3 +59,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why iterators exist",
+  "`for` needs one rule for any source: lists, files, sockets, your own classes. The iterator protocol is that rule: ask for the next item until `StopIteration`. It lets the loop work without knowing what it is walking over."
+ ],
+ [
+  "Why generators exist",
+  "Writing an iterator class by hand needs a class and state management. A function with `yield` does the same job, and Python saves and restores its position for you each time it is resumed."
+ ],
+ [
+  "Why laziness saves memory",
+  "A generator produces one item at a time and forgets it, so a billion-line file or an endless sequence uses constant memory. A list would build everything first."
+ ],
+ [
+  "Why generators can be used only once",
+  "The generator keeps its place, and once it is used up there is nothing to reset. If you need to walk the data twice, build a list or create a new generator."
+ ]
+];

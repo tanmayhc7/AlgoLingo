@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why this voting algorithm exists",
+  "Finding an item that appears more than n/2 times with a hash map costs O(n) memory. Boyer-Moore finds the candidate in one pass and O(1) memory by cancelling pairs of different items."
+ ],
+ [
+  "Why cancelling pairs works",
+  "If an item is a strict majority, it outnumbers all the others combined, so removing pairs of two different items cannot remove it entirely. Whatever remains is the only possible majority."
+ ],
+ [
+  "Why you need a second pass",
+  "The algorithm always returns some candidate, even when no majority exists. Counting the candidate in a second pass confirms whether it really occurs more than n/2 times."
+ ],
+ [
+  "Why it suits streams",
+  "It keeps only a candidate and a counter, so it works on data you see once and cannot store. The generalisation to elements above n/k uses k-1 counters."
+ ]
+];

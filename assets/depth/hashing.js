@@ -80,3 +80,27 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why hashing exists",
+  "Searching a list is O(n). A hash function turns a key into a number, and that number picks a slot in an array, so the key can be found in O(1) on average with no searching. It trades extra memory for speed."
+ ],
+ [
+  "Why equal keys must have equal hashes",
+  "Lookup goes to the slot given by the hash and then compares keys. If two equal keys hashed differently, they would land in different slots and the second would never be found. That is the hash-equality contract."
+ ],
+ [
+  "Why collisions are expected",
+  "There are far more possible keys than slots, so different keys sometimes land in the same slot (the pigeonhole principle). Tables handle this with probing or chaining. The design goal is to keep collisions rare, not to make them impossible."
+ ],
+ [
+  "Why the table resizes as it fills",
+  "A nearly full table has many collisions and slow lookups. Resizing at a load factor (CPython keeps the table about two-thirds full at most) keeps the average O(1), and the occasional rebuild is spread over many inserts (amortised)."
+ ],
+ [
+  "Why hash values of strings change between runs",
+  "Python randomises string hashes at startup so an attacker cannot craft keys that all collide and slow a server to a crawl. Never store a Python `hash()` value and expect it to match later."
+ ]
+];

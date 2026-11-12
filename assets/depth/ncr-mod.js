@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why binomials need a modulus",
+  "`n choose r` grows enormously, so counting problems ask for the answer modulo a prime such as 10^9 + 7. Working modulo keeps every number small enough to handle."
+ ],
+ [
+  "Why you cannot simply divide",
+  "Division does not carry through a modulus like normal division. Instead you multiply by a modular inverse, which exists when the modulus is prime (Fermat's little theorem gives `a^(p-2)` as the inverse of `a`)."
+ ],
+ [
+  "Why you precompute factorials",
+  "`n choose r = n! / (r! (n-r)!)`. Computing all factorials and inverse factorials once costs O(n), and then each query is O(1), which pays off with many queries."
+ ],
+ [
+  "Why Pascal's triangle is the alternative",
+  "`C(n, r) = C(n-1, r-1) + C(n-1, r)` needs only addition, so it works with any modulus, but it takes O(n·r) time and memory. Use it when the modulus is not prime or n is small."
+ ]
+];

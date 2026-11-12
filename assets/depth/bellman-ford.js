@@ -61,3 +61,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Bellman-Ford exists",
+  "Dijkstra fails with negative edges. Bellman-Ford handles them by relaxing every edge repeatedly instead of trusting a greedy order, at the cost of O(V·E)."
+ ],
+ [
+  "Why it repeats V-1 rounds",
+  "A shortest path without cycles has at most V-1 edges. After round k, every shortest path using at most k edges is correct, so V-1 rounds are enough."
+ ],
+ [
+  "Why one extra round detects a negative cycle",
+  "If a further round still improves a distance, a path with V edges is shorter than any with fewer, which only happens when a negative cycle can be walked repeatedly to get ever cheaper."
+ ],
+ [
+  "Why it matters beyond roads",
+  "Currency arbitrage and difference constraints turn into negative-cycle questions, and some routing protocols use the same idea, because it works with only local information."
+ ]
+];

@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why embeddings exist",
+  "Keyword search misses meaning: \"cancel my plan\" and \"stop my subscription\" share no words. An embedding turns text into a vector so that similar meanings sit close together, and you search by closeness."
+ ],
+ [
+  "Why retrieval gives grounded answers",
+  "A model only knows its training data and what is in the prompt. Retrieving the relevant passages and putting them in the prompt lets it answer from your documents, and you can show where each answer came from."
+ ],
+ [
+  "Why chunking affects quality",
+  "Whole documents are too big and too mixed to match a question. Splitting into focused chunks, with some overlap, lets the search find the right passage, but chunks that are too small lose context."
+ ],
+ [
+  "Why retrieval is cheaper than retraining",
+  "Updating knowledge means adding documents to an index, which takes minutes and can be undone, whereas training a model on new data is slow and expensive and cannot forget a document on request."
+ ]
+];

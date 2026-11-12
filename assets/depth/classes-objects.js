@@ -59,3 +59,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why classes exist",
+  "Data and the operations that belong to it keep drifting apart in a large program. A class bundles them, so related code lives in one place and a new type can be used like a built-in. C does this with a struct and functions that take a pointer to it."
+ ],
+ [
+  "Why `self` is written out",
+  "Python does not hide the object being worked on. A method is just a function whose first argument is the instance, so `obj.method()` is the same as `Class.method(obj)`. It keeps the rule simple and works with the language's \"everything is an object\" model, and C's explicit `struct *` parameter is the same idea."
+ ],
+ [
+  "Why instance state and class state are separate",
+  "Each object needs its own data (`self.balance`), but some things belong to all instances (a counter, a shared default). Attributes are looked up on the instance first and then on the class, which also explains how methods are found."
+ ],
+ [
+  "Why aliasing causes bugs",
+  "Assigning an object to another name does not copy it, so two names can change the same object. That is the same rule as for lists, and it is why you copy deliberately and avoid mutable class-level defaults."
+ ]
+];

@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why configuration lives outside the code",
+  "The same program runs in development, testing and production with different settings (URLs, keys, limits). Reading them from environment variables or a file means you change behaviour without editing and redeploying code."
+ ],
+ [
+  "Why secrets are never in the repository",
+  "Anything committed stays in history, even after deletion, and the repository reaches many people and tools. Secrets come from the environment or a secrets manager at run time."
+ ],
+ [
+  "Why logging replaces `print`",
+  "Logs have levels (debug, info, warning, error), timestamps and destinations, and they can be turned up or down without changing code. `print` gives one undifferentiated stream."
+ ],
+ [
+  "Why you log context, not secrets",
+  "A log line needs enough to trace an event (request id, user id, what failed) but logs are widely readable and stored for a long time. Never write keys, passwords or full personal data."
+ ]
+];

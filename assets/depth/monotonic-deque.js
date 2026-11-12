@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a monotonic deque exists",
+  "A sliding-window maximum by scanning each window costs O(n·k). A deque that keeps candidates in decreasing order always has the current maximum at the front, so each step is O(1) amortised."
+ ],
+ [
+  "Why smaller items are discarded from the back",
+  "If a new item is larger than an older item, the older one can never be the maximum again, because the new one stays in the window at least as long. Dropping it loses nothing."
+ ],
+ [
+  "Why items also leave from the front",
+  "The oldest candidate may slide out of the window, so you remove it when its index falls out of range. That is why the deque stores indexes, not just values."
+ ],
+ [
+  "Why it is O(n) overall",
+  "Each index is pushed once and popped at most once, so the total work over all windows is at most 2n."
+ ]
+];

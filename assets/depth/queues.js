@@ -85,3 +85,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a queue exists",
+  "Some work must be handled in the order it arrived (print jobs, requests, BFS levels). First-in, first-out is fairness: nobody waits forever. It is also what makes BFS find the shortest path, because closer nodes are processed first."
+ ],
+ [
+  "Why `list.pop(0)` is the wrong queue",
+  "Removing from the front of an array shifts every other item, which is O(n) per pop. `collections.deque` removes from the front in O(1), so use it."
+ ],
+ [
+  "Why a circular buffer is the classic fixed-size queue",
+  "Instead of shifting items, two indexes (head and tail) wrap around a fixed array. No allocation and no copying are needed, which is why ring buffers appear in drivers, audio and network code."
+ ],
+ [
+  "Why queues decouple producers from consumers",
+  "The producer can keep adding while the consumer works at its own pace, with the queue absorbing bursts. That is the idea behind job queues and message brokers. The price is that the queue can grow without bound, so real systems limit its size."
+ ]
+];

@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why `async` exists",
+  "Waiting for the network or disk leaves a thread idle. With threads, thousands of waiting requests means thousands of threads with stacks. With `async`, one thread switches between tasks at each `await`, which suits workloads that mostly wait."
+ ],
+ [
+  "Why it does not speed up computation",
+  "Only one task runs at a time and switching happens only at `await`. A task that crunches numbers blocks everything else, so CPU-heavy work belongs in processes or native code."
+ ],
+ [
+  "Why you limit concurrency",
+  "Starting a thousand requests at once hits rate limits and exhausts connections. A semaphore caps how many run together, which keeps you inside the provider's limits."
+ ],
+ [
+  "Why you need to await everything",
+  "Calling an async function only creates a coroutine, and it does nothing until awaited or scheduled. Forgetting `await` is a common bug and gives a \"never awaited\" warning."
+ ]
+];

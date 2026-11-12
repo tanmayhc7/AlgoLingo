@@ -79,3 +79,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why tuples exist when lists exist",
+  "A tuple says \"this is a fixed group of values\", such as a point or a row. Python can then store it more compactly, share it safely and use it as a dict key. A list says \"this is a collection that will change\"."
+ ],
+ [
+  "Why tuples can be dict keys and lists cannot",
+  "A dict stores keys by their hash, so a key must not change after insertion. A tuple of immutable items is hashable, and a list is not because its hash would change when its contents change."
+ ],
+ [
+  "Why immutability is only shallow",
+  "A tuple holds pointers, and it never changes which objects it points at. If one of those objects is a list, the list can still change. Making every level immutable would require copying everything."
+ ],
+ [
+  "Why unpacking and multiple returns use tuples",
+  "`return a, b` builds a tuple and `x, y = f()` takes it apart. That gives functions several return values without a special feature, where C needs an output pointer or a struct."
+ ]
+];

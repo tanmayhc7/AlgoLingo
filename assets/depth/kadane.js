@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Maximum sum of a circular array.', a: 'Either the best run does not wrap (plain Kadane) or it wraps, in which case it is total minus the minimum-sum run (Kadane on the negated array). Take the larger, but if every element is negative return the plain Kadane result.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Kadane's algorithm exists",
+  "The maximum subarray can be found by checking every pair in O(n²), but one pass suffices. At each position the best subarray ending here is either this item alone or this item added to the best one ending before it."
+ ],
+ [
+  "Why you drop a negative running sum",
+  "A negative prefix can only make later sums smaller, so starting fresh at the current item is always at least as good. That is the whole greedy step."
+ ],
+ [
+  "Why it counts as DP",
+  "The answer at each position depends only on the previous position's answer. It is a one-variable DP with O(1) space, as in dp-1d."
+ ],
+ [
+  "Why all-negative input needs care",
+  "If you start the best at 0, an array of negatives wrongly returns 0 for an empty subarray. Starting from the first element returns the largest single item, which is usually what the problem means."
+ ]
+];

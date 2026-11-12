@@ -89,3 +89,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why strings are immutable",
+  "Strings are hashed (as dict keys), shared and passed everywhere, and immutability means none of that needs defensive copies. The cost is that building a string with repeated `+=` can copy each time, so collect pieces and use `''.join(parts)`."
+ ],
+ [
+  "Why Python 3 strings are Unicode",
+  "The world writes in far more than 128 characters, and Python 2's byte strings caused years of encoding bugs. A `str` is now a sequence of characters, and `bytes` is a separate type you only meet at the edges (files, network). C's `char *` is just bytes, with the encoding left to you."
+ ],
+ [
+  "Why there is no separate char type",
+  "A single character is a string of length 1, so indexing, slicing and methods work the same everywhere. That keeps the language smaller."
+ ],
+ [
+  "Why slicing copies",
+  "`s[a:b]` returns a new string, which is safe because the original can never change. It costs O(length of the slice). Languages that share storage between slices have to worry about a tiny slice keeping a huge original alive."
+ ]
+];

@@ -67,3 +67,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why 1D DP exists",
+  "When each answer depends on a few earlier answers in a line (stairs, house robber, coin change), you can fill a single row from left to right, so each value is built from values that are already known."
+ ],
+ [
+  "Why DP beats greedy when choices interact",
+  "Greedy commits to the best-looking choice now and never revisits it. If a locally best choice blocks a better total later, greedy is wrong. DP compares the options at every step and keeps the best for each state."
+ ],
+ [
+  "Why the fill order is the dependency order",
+  "A cell can be computed only after the cells it depends on. In 1D that means going left to right (or in whatever order the recurrence points), which is why the loop direction matters."
+ ],
+ [
+  "Why space often drops to O(1)",
+  "If a cell depends only on the last one or two cells, older values are never read again, so a couple of variables replace the table."
+ ]
+];

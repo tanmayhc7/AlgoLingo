@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'How do you make quickselect worst-case linear?', a: 'Use median of medians to choose the pivot (groups of five, take the median of the group medians). It guarantees a constant fraction is discarded each round, giving O(n) worst case, though with a large constant; most code uses a random pivot instead.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why you do not sort to find the k-th largest",
+  "Sorting does extra work to order everything you do not care about. A heap of size k finds the answer in O(n log k) time and O(k) space, and quickselect finds it in O(n) on average."
+ ],
+ [
+  "Why a min-heap of size k holds the k largest",
+  "The smallest of the k best sits on top, so a new item is compared against it. If the new item is bigger, it replaces the top, so the heap always holds the best k so far."
+ ],
+ [
+  "Why quickselect is only average O(n)",
+  "It partitions like quicksort but recurses into one side only. Good pivots halve the work, but bad pivots can give O(n²), which random pivots make unlikely."
+ ],
+ [
+  "Why this suits streams and big data",
+  "A heap of size k never needs the whole input in memory, so it works on data that is bigger than RAM or arrives one item at a time."
+ ]
+];

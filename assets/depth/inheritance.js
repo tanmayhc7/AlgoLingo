@@ -61,3 +61,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why inheritance exists",
+  "Several types can share behaviour and still differ in details. A subclass reuses the parent's code and overrides what is different, so a function written for the parent works on any child (polymorphism)."
+ ],
+ [
+  "Why method lookup follows the MRO",
+  "Python looks for a method on the class, then its parents in a fixed order (the method resolution order, from C3 linearisation). That gives one predictable answer even with multiple inheritance, and `super()` follows the same order."
+ ],
+ [
+  "Why inheritance is often the wrong tool",
+  "A subclass is tied to the parent's internals, so a change in the parent can break every child. It also says \"is a\", which many relationships are not. This is why guidance says to favour composition."
+ ],
+ [
+  "Why `super()` instead of naming the parent",
+  "Naming the parent hard-codes the chain, which breaks when classes are combined later. `super()` hands control to the next class in the MRO, so cooperative multiple inheritance works."
+ ]
+];

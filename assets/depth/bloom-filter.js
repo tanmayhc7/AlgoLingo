@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a Bloom filter exists",
+  "Checking whether an item is in a huge set may need disk or network access. A Bloom filter uses a few bits per item to answer \"definitely not present\" or \"possibly present\" in O(1) and with no access to the data."
+ ],
+ [
+  "Why it has false positives but no false negatives",
+  "Adding an item sets several bits. If any of those bits is 0 on a check, the item was never added, so \"no\" is always right. If all are 1, other items may have set them, so \"yes\" can be wrong."
+ ],
+ [
+  "Why you cannot delete from one",
+  "A bit may be shared by several items, so clearing it could make other items disappear. A counting Bloom filter keeps small counters instead of bits to allow deletes, at the cost of space."
+ ],
+ [
+  "Why it saves work in real systems",
+  "Databases check one before reading disk, and browsers or caches use them to skip lookups. A rare false positive costs one extra check, while every true negative saves an expensive one."
+ ]
+];

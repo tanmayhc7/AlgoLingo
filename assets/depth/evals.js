@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why evals exist",
+  "Model output is variable, and it is easy to be convinced by a few good examples. A fixed set of test cases with a clear score gives evidence about quality and lets you compare two versions fairly."
+ ],
+ [
+  "Why you build the set from real failures",
+  "Cases that went wrong in production show what matters to your users. Each fixed bug becomes a permanent test, so it cannot quietly return."
+ ],
+ [
+  "Why you re-run them on every change",
+  "A new prompt, model or retrieval setting can improve one thing and break another. Running the same set each time turns regressions into numbers before users see them."
+ ],
+ [
+  "Why graders are checked too",
+  "When a model grades answers, it has its own biases and errors. Comparing its scores with a small set of human judgements tells you whether the automatic score can be trusted."
+ ]
+];

@@ -88,3 +88,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why reversing is the basic move",
+  "Reversal only flips each node's `next`, in one pass and O(1) extra memory, which an array cannot do without swapping across the whole range. Many problems (palindrome check, reordering) are reversal plus something else."
+ ],
+ [
+  "Why fast and slow pointers work",
+  "A fast pointer moves two steps per slow pointer's one. When fast reaches the end, slow is at the middle, so you find the middle in one pass with no length. If the list has a cycle, fast eventually catches slow from behind, because the gap shrinks by one each step."
+ ],
+ [
+  "Why a dummy head node helps",
+  "The first node has no predecessor, so inserting or deleting at the head is a special case in every algorithm. A dummy node in front makes every real node have a predecessor, so one code path handles all cases."
+ ],
+ [
+  "Why these tricks avoid extra memory",
+  "A hash set of visited nodes solves the cycle problem in O(n) space. Two pointers solve it in O(1) space, which is why interviewers ask for it."
+ ]
+];

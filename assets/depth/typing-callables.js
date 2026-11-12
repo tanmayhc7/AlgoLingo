@@ -33,3 +33,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'What does int | None mean for a caller?', a: 'The result may be None, so the caller must check before using it. Type checkers flag r + 1 on such a value, which prevents the TypeError. Prefer raising an exception, or returning an empty value, when "missing" is not a normal case.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why `Callable` exists",
+  "Functions are values, so a function can take another function as an argument. `Callable[[int], str]` says what that function takes and returns, so tools and readers can check it."
+ ],
+ [
+  "Why accept wide and return narrow",
+  "A parameter typed `Iterable` accepts lists, tuples and generators, so callers have freedom. A return typed as the exact result (`list[int]`) tells callers what they can rely on."
+ ],
+ [
+  "Why `Optional` forces a decision",
+  "A value that may be `None` must be checked before use, or it causes `AttributeError` at run time. Marking it in the type lets a checker point at every place that forgot."
+ ],
+ [
+  "Why hints do not change behaviour",
+  "Python ignores annotations at run time. They are for people and tools, which is why wrong hints still run and why a type checker is a separate step."
+ ]
+];

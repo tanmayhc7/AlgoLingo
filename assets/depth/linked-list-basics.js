@@ -84,3 +84,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why linked lists exist",
+  "Inserting or removing in the middle of an array shifts everything after it. A linked list stores each item with a pointer to the next, so once you hold a node, adding or removing next to it only changes pointers, which is O(1). The price is that you can no longer jump to item `i`."
+ ],
+ [
+  "Why indexing is O(n)",
+  "Nodes can be anywhere in memory, so the only way to find the third item is to follow pointers from the head. There is no arithmetic shortcut like an array's `start + i * size`."
+ ],
+ [
+  "Why linked lists are slower than arrays in practice",
+  "Each node is a separate allocation with a pointer's worth of overhead, and following pointers jumps around memory, which defeats the CPU cache. Arrays often win even where linked lists look better on paper."
+ ],
+ [
+  "Why the order of pointer updates matters",
+  "You have one pointer to each neighbour, and overwriting it before saving it loses the rest of the list for good. In C that also leaks memory because you can no longer `free` the nodes. Saving `next` first is the habit that avoids both."
+ ]
+];

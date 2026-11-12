@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Search for many patterns at once.', a: 'Aho-Corasick: build a trie of the patterns and add failure links (the KMP idea generalised), then scan the text once in O(n + total pattern length + matches). Alternatives: Rabin-Karp with a hash set for equal-length patterns.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why KMP exists",
+  "The naive search restarts from the next position after a mismatch and re-reads characters it has already seen, giving O(n·m) in the worst case. KMP uses what it learned from the matched part to never move backwards in the text, so it runs in O(n + m)."
+ ],
+ [
+  "Why the failure table (LPS) exists",
+  "It stores, for each prefix of the pattern, the length of its longest proper prefix that is also a suffix. After a mismatch, that length tells you how much of the pattern still matches, so you can resume instead of starting over."
+ ],
+ [
+  "Why the text pointer never goes back",
+  "The mismatch happened after matching some characters, and the table tells you which part of that match is still useful. The remaining text has not been read yet, so nothing needs re-reading."
+ ],
+ [
+  "Why it suits streaming",
+  "Because it never rewinds, KMP can process text one character at a time from a stream and still find all matches."
+ ]
+];

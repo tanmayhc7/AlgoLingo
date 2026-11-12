@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Find the maximum gap between consecutive values in a sorted version of the array, in O(n).', a: 'Use bucket sort with n - 1 buckets of equal width. The maximum gap is at least (max - min) / (n - 1), so it never lies inside one bucket: only compare the min of each bucket with the max of the previous non-empty bucket.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why you can beat n log n",
+  "The n log n limit applies to sorting by comparing items. If keys are small integers, you can sort without comparing, by counting how many times each value occurs, which takes O(n + k) for keys in range `k`."
+ ],
+ [
+  "Why counting sort needs a small key range",
+  "It uses an array indexed by key. A range of a million is fine, a range of 10^18 would not fit in memory, so it only suits data with a limited set of values."
+ ],
+ [
+  "Why radix sort sorts digit by digit",
+  "A large range is split into small digits, and each pass uses counting sort on one digit. After the last pass the numbers are sorted, in O(d·(n + base)) for d digits."
+ ],
+ [
+  "Why stability is required in radix sort",
+  "Each pass must keep the order from the earlier passes among equal digits. A non-stable pass would undo that work and give a wrong result."
+ ]
+];

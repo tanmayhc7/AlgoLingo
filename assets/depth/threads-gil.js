@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why the GIL exists",
+  "CPython tracks object lifetimes with reference counts, and updating them from two threads at once would corrupt memory. One global lock makes that safe and simple, and it made C extensions easy to write."
+ ],
+ [
+  "Why threads still help with I/O",
+  "A thread releases the lock while it waits for the network or disk, so other threads run during the wait. For programs that mostly wait, threads give real speed-ups."
+ ],
+ [
+  "Why CPU-heavy work uses processes",
+  "Threads take turns on one interpreter, so computation does not run in parallel. Separate processes each have their own interpreter and lock, at the cost of copying data between them."
+ ],
+ [
+  "Why race conditions still happen with a GIL",
+  "The lock protects the interpreter's own state, not your logic. `count += 1` is several steps, and a thread switch in the middle loses an update, so shared data still needs a `Lock` or a queue."
+ ]
+];

@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why bitmask DP exists",
+  "Some problems need to remember which items from a small set are used (visited cities, assigned tasks). A bitmask stores that subset in one integer, so subsets become array indexes and the state can be a table entry."
+ ],
+ [
+  "Why it is limited to small n",
+  "There are 2^n subsets, so 20 items give about a million states and 30 give a billion. The method is exact, but exponential, which is why n is usually at most about 20."
+ ],
+ [
+  "Why bit operations do the bookkeeping",
+  "`mask | (1 << i)` adds an item, `mask & (1 << i)` tests one and `mask ^ (1 << i)` removes one. Each takes one step, and the whole subset moves as one value."
+ ],
+ [
+  "Why it beats brute force on problems like the travelling salesman",
+  "Brute force tries n! orders. DP over subsets reuses the best cost for each (visited set, last city), giving O(2^n · n²), far smaller than n! for n around 20."
+ ]
+];

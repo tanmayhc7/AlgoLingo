@@ -71,3 +71,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why BFS finds shortest paths in unweighted graphs",
+  "BFS visits nodes in rings: everything one step away, then two steps, and so on, because the queue is first-in, first-out. The first time it reaches a node is therefore along a shortest path."
+ ],
+ [
+  "Why DFS uses a stack (or recursion)",
+  "DFS goes as deep as possible before backing up, so it needs to remember where to return to, which is last-in, first-out. That makes it good for exploring structure: cycles, components, connectivity and ordering."
+ ],
+ [
+  "Why you need a visited set",
+  "A graph can have cycles, and without a record of visited nodes the walk would loop forever or repeat work. The set also guarantees each node and edge is processed once, giving O(V + E)."
+ ],
+ [
+  "Why multi-source BFS works",
+  "Put all sources in the queue at distance 0. The rings then grow from all of them at once, so each node gets the distance to its nearest source in one pass."
+ ]
+];

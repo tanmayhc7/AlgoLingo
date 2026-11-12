@@ -88,3 +88,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why comprehensions exist",
+  "\"Loop and build a list\" is so common that its own expression form makes the code shorter and states exactly what it does. It also usually runs faster than the same loop with `append`, because the looping happens inside the interpreter."
+ ],
+ [
+  "Why a comprehension has its own scope",
+  "Otherwise the loop variable would leak into the surrounding function. Python 3 gives each comprehension its own scope to keep code clean."
+ ],
+ [
+  "Why generator expressions use `()`",
+  "Same syntax, but items are produced on demand instead of building the whole list. Use one when you walk the result once, as in `sum(x * x for x in data)`."
+ ],
+ [
+  "Why dict and set comprehensions look the same",
+  "\"Build a container from a loop\" is not special to lists, so the syntax carries over with `{}`."
+ ]
+];

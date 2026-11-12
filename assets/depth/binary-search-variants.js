@@ -58,3 +58,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why you can binary search an answer, not just a list",
+  "If a yes/no test is monotonic (false, false, ..., true, true), you can search the boundary even when no sorted array exists. \"Smallest capacity that ships all packages in D days\" is such a question."
+ ],
+ [
+  "Why the feasibility check is the heart of it",
+  "The search itself is mechanical. The work is writing `can_do(x)` and being sure that once it is true it stays true for larger x. If it is not monotonic, binary search does not apply."
+ ],
+ [
+  "Why first and last occurrence are separate searches",
+  "A plain search stops at any match, and with duplicates it may be any of them. To find a boundary, keep going toward it after a match instead of returning."
+ ],
+ [
+  "Why rotated arrays still work",
+  "After a rotation, one half of the range is always sorted. You compare against that half to decide which side holds the target, which keeps the halving idea."
+ ]
+];

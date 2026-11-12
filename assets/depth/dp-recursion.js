@@ -69,3 +69,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why plain recursion blows up",
+  "Problems like Fibonacci split into overlapping subproblems, so the same call is made again and again and the number of calls grows exponentially. The slowness is repeated work, not recursion itself."
+ ],
+ [
+  "Why remembering answers fixes it",
+  "If a subproblem has the same answer every time it is asked, store it the first time (memoisation). Each distinct subproblem is then computed once, so the cost becomes the number of states times the work per state."
+ ],
+ [
+  "Why the state is the design",
+  "The state is the smallest set of values that fully describes a subproblem, such as `(index, remaining)`. If the state leaves something out, answers get reused wrongly. If it holds extra, the table gets huge. Choosing it is the hard part."
+ ],
+ [
+  "Why top-down and bottom-up both exist",
+  "Top-down (recursion plus cache) only computes the states that are needed and is quick to write. Bottom-up (a loop filling a table) avoids recursion limits and call overhead and makes space savings easier. They compute the same answers."
+ ]
+];

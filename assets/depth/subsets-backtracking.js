@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'How would you add pruning to combination sum?', a: 'Sort the candidates, and stop a loop as soon as candidate > remaining, since all later ones are larger. Also pass the start index so combinations are not generated in several orders.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why backtracking exists",
+  "Some problems ask for all arrangements that satisfy rules (subsets, permutations, puzzles). There is no formula, so you build a candidate one choice at a time and undo the last choice when it leads nowhere. It is a systematic way to explore a decision tree."
+ ],
+ [
+  "Why you undo a choice after the recursive call",
+  "The path and any shared state are reused for the next branch, so the choice must be removed (`path.pop()`) to restore the state before trying the alternative. Forgetting this leaks one branch's choices into the next."
+ ],
+ [
+  "Why the cost is exponential",
+  "There really are 2^n subsets and n! permutations, and the output alone has that size. No algorithm can list them faster than their count, so the work is in not doing more than that."
+ ],
+ [
+  "Why pruning matters",
+  "If a partial choice already breaks a rule, no completion of it can work, so you stop that branch immediately. Good pruning turns an impossible search into a feasible one, though the worst case stays exponential."
+ ]
+];

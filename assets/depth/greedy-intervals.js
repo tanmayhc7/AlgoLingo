@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Jump game: can you reach the last index given maximum jump lengths?', a: 'Greedy: keep the furthest reachable index. For each i, if i is beyond it, return False; otherwise reach = max(reach, i + a[i]). O(n) time, O(1) space; no DP table needed.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why greedy works on intervals",
+  "Sorting by the right order makes the locally best choice safe. For \"most meetings in one room\", always pick the one that ends earliest, because it leaves the most room for the rest."
+ ],
+ [
+  "Why sorting is the first step",
+  "Once intervals are in order, overlaps are only between neighbours, so one pass can merge or count them. The sort is O(n log n) and the pass is O(n)."
+ ],
+ [
+  "Why a greedy answer needs a proof",
+  "Greedy gives a quick, simple answer, but it is correct only if the local choice can be shown never to hurt the final result (an exchange argument). A plausible-looking rule with the wrong sort key fails on counter-examples."
+ ],
+ [
+  "Why it differs from DP",
+  "DP tries the options at each step and keeps the best. Greedy trusts one option and moves on, which is faster and simpler but only valid when that trust is justified."
+ ]
+];
