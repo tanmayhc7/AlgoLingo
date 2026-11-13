@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why self-balancing trees exist",
+  "A plain BST can become a chain, so operations degrade to O(n). Keeping the height near log n guarantees O(log n) for search, insert and delete whatever the input order."
+ ],
+ [
+  "Why the rule is \"heights differ by at most one\"",
+  "It is strict enough to keep the height at most about 1.44 log n, and loose enough that a fix after each insert or delete needs only a few local steps."
+ ],
+ [
+  "Why rotations restore balance",
+  "A rotation changes which node is the parent while keeping the in-order sequence, so the search property stays true. Only the nodes on the path back to the root need checking."
+ ],
+ [
+  "Why AVL and red-black trees both exist",
+  "AVL is more strictly balanced, so lookups are a little faster. Red-black allows more slack, so inserts and deletes need fewer rotations. Libraries often pick red-black for write-heavy use."
+ ]
+];

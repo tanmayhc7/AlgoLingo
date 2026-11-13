@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why structured output is needed",
+  "Code needs fields it can read, and free text is hard to parse reliably. Asking for JSON that matches a schema turns the model's answer into data you can validate and pass to the next step."
+ ],
+ [
+  "Why you still validate even with a schema",
+  "Models can return a missing field, the wrong type or an extra comment around the JSON, even when asked not to. Parsing and validating (for example with Pydantic) at the boundary catches that and gives a clear error."
+ ],
+ [
+  "Why retries repair bad output",
+  "Sending the validation error back and asking again often fixes the problem, because the model can see exactly what was wrong. Cap the attempts so a stubborn failure does not loop forever."
+ ],
+ [
+  "Why a schema belongs in your prompt and your code",
+  "The prompt tells the model what to produce, and the code checks what it did produce. Keeping both generated from one definition stops them drifting apart."
+ ]
+];

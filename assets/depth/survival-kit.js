@@ -84,3 +84,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a few built-ins carry so much weight",
+  "`enumerate`, `zip`, `sorted`, `sum`, `any`, `all`, `min`, `max` replace hand-written loops that are easy to get wrong. They run in C inside the interpreter, so they are also faster than the loop you would write."
+ ],
+ [
+  "Why traps are asked on purpose",
+  "Mutable defaults, shared lists (`[[0]*n]*m`), late-binding closures and `is` versus `==` all come from the same model: names pointing at objects. Interviewers use them to test whether you hold that model or only the syntax."
+ ],
+ [
+  "Why you must know the cost of built-ins",
+  "`x in list` is O(n), `list.insert(0, x)` is O(n) and `s += t` in a loop can be O(n²). The code looks the same as the cheap version, so the cost has to be in your head."
+ ],
+ [
+  "Why the standard library is part of the answer",
+  "`collections`, `heapq`, `bisect` and `itertools` give correct, tested building blocks, and using them shows you know what exists. Writing your own is justified only when you need something they do not offer."
+ ]
+];

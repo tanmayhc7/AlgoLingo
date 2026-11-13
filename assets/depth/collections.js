@@ -83,3 +83,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why `deque` exists",
+  "A list is cheap at the end and slow at the front (everything shifts). A `deque` is a linked set of blocks, so adding and removing at both ends is O(1). It is the right tool for queues, and the cost is O(n) indexing in the middle."
+ ],
+ [
+  "Why `Counter` and `defaultdict` exist",
+  "Counting and grouping are so frequent that the \"if key not in d\" boilerplate got its own types. They say what you mean and avoid the repeated lookups of a hand-written version."
+ ],
+ [
+  "Why `namedtuple` exists",
+  "A plain tuple is light but you must remember that `p[1]` means the y value. `namedtuple` adds names (`p.y`) while keeping the tuple's size and speed, and unlike a class it is immutable and hashable."
+ ],
+ [
+  "Why `OrderedDict` and similar types are rarer now",
+  "Plain dicts keep order, so the main reason for `OrderedDict` went away. It remains for order-aware equality and for `move_to_end`."
+ ]
+];

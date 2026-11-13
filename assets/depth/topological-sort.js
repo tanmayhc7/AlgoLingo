@@ -70,3 +70,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why topological order exists",
+  "Tasks with dependencies (build steps, course prerequisites) must happen in an order where each thing comes after what it needs. A topological order is exactly that, and it exists for any directed graph without cycles."
+ ],
+ [
+  "Why a cycle means no order",
+  "If A needs B and B needs A, neither can go first. Detecting a cycle and detecting that no valid order exists are the same question, which is why Kahn's algorithm reports it for free (some nodes never reach in-degree 0)."
+ ],
+ [
+  "Why the order is not unique",
+  "Tasks with no dependency between them can go in either order, so several orders are valid. If a problem needs one specific order, it adds tie-break rules (for example smallest first, using a heap)."
+ ],
+ [
+  "Why it unlocks DP on graphs",
+  "Once nodes are in dependency order, each node's answer can be computed after all the nodes it depends on are done. That is how longest paths and counting paths on a DAG work in O(V + E)."
+ ]
+];

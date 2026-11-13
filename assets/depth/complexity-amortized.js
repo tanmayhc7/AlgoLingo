@@ -68,3 +68,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why amortised analysis exists",
+  "An operation like `append` is usually O(1) but sometimes O(n) when the array must grow. Quoting the worst case for every call would make dynamic arrays look bad. Amortised cost averages over a whole sequence of operations and says what you actually pay per call."
+ ],
+ [
+  "Why doubling (geometric growth) gives O(1)",
+  "If capacity doubles each time, the copy costs form 1 + 2 + 4 + ... + n, which sums to less than 2n across n appends. So each append costs a small constant on average. Growing by a fixed amount instead would make the total quadratic."
+ ],
+ [
+  "Why a guarantee differs from luck",
+  "Amortised O(1) is a guarantee over a sequence, not a promise for each call, so one `append` can still be slow. Hash tables have an average-case O(1) that depends on a good hash. Real-time systems need to know which one they are relying on."
+ ],
+ [
+  "Why space is a design constraint too",
+  "Memory is finite and cache is small, so an algorithm that is fast but needs O(n²) memory may not run at all. Many classic tricks trade one for the other, such as memoising (more memory, less time) or recomputing (less memory, more time)."
+ ]
+];

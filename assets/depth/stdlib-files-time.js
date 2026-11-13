@@ -33,3 +33,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Why is adding 86400 seconds not the same as adding one day?', a: 'Across a daylight saving change a local day is 23 or 25 hours. timedelta(days=1) added to an aware datetime in a real time zone keeps the wall-clock time; add seconds only when you mean elapsed time.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why `with open(...)` exists",
+  "A file left open can hold a lock or lose buffered data, and the close must run even when an error occurs. `with` guarantees the close, where C code needs `fclose` on every path."
+ ],
+ [
+  "Why `pathlib` replaced string paths",
+  "Joining paths with `+` breaks across operating systems (`/` versus `\\`). `Path` objects know the rules, so `Path('a') / 'b'` works everywhere and carries useful methods."
+ ],
+ [
+  "Why you pass files or paths into functions",
+  "A function that opens a hard-coded path is hard to test. If it takes a path (or a file object) as an argument, tests can pass a temporary file, which is why temporary directories are common in test suites."
+ ],
+ [
+  "Why you store time in UTC",
+  "Local time has daylight-saving jumps and differing zones, so the same local time can mean two moments or none. UTC has none of that. Convert to local time only when showing it to a person."
+ ]
+];

@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Why does i & -i give the lowest set bit?', a: 'In two\'s complement -i = ~i + 1. Flipping all bits then adding one carries through the trailing zeros and stops at the lowest set bit, so below and including that bit the two numbers agree and above it they are complements. ANDing leaves only that bit.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a Fenwick tree exists",
+  "Prefix sums answer range queries in O(1) but updating one value means rebuilding O(n) totals. A Fenwick tree makes both query and update O(log n), which is the right trade-off when data changes."
+ ],
+ [
+  "Why it uses the lowest set bit",
+  "Each position stores the sum of a block whose length is the lowest set bit of its index. `i & -i` isolates that bit, so moving up or down the structure is a few bit operations with no pointers."
+ ],
+ [
+  "Why it is an array, not a tree of nodes",
+  "The \"tree\" is implied by index arithmetic, so there is no memory for pointers and the code is about ten lines. That is why it is common in contests and in real counting code."
+ ],
+ [
+  "Why it is less general than a segment tree",
+  "It naturally supports operations that can be undone by subtraction (sums, counts). Operations like minimum have no inverse, so they need a segment tree."
+ ]
+];

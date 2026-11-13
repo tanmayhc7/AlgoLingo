@@ -84,3 +84,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why patterns exist",
+  "Most problems are the same few shapes in disguise (window, two pointers, stack, heap, graph walk). A pattern is a known way to remove one layer of repeated work, so recognising it saves you from deriving a solution from scratch."
+ ],
+ [
+  "Why each pattern removes a nested loop",
+  "A brute force checks all pairs, which is O(n²). A pattern keeps just enough state (a window sum, a hash map, a stack of candidates) so each item is handled once, giving O(n) or O(n log n)."
+ ],
+ [
+  "Why invariants make patterns correct",
+  "A pattern works because something stays true at every step, such as \"the window never has duplicates\" or \"the stack is decreasing\". Naming the invariant is how you prove it and how you find the bug when it fails."
+ ],
+ [
+  "Why edge cases cluster by pattern",
+  "Empty input, one item, all equal, and ends of the range are where each pattern's assumptions break. Checking those five cases first catches most failures."
+ ]
+];

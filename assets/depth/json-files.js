@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why JSON became the default",
+  "It is a small, text-based format that every language can read and write, and it maps directly onto lists, dicts, strings, numbers and booleans. That makes it the common language between services."
+ ],
+ [
+  "Why JSON has no dates or comments",
+  "The format deliberately has few types so it stays simple and parsers behave the same everywhere. Dates travel as strings (ISO 8601) and you convert them yourself."
+ ],
+ [
+  "Why large files are read line by line",
+  "Loading a whole file into memory fails when it is larger than RAM. A format with one JSON object per line (JSON Lines) can be processed a line at a time, using constant memory."
+ ],
+ [
+  "Why a bad record should not crash the run",
+  "Real data is messy. Catching the error per record and logging it lets the rest of the job finish and leaves a trail of what to fix, instead of losing hours of work to one bad line."
+ ]
+];

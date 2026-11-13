@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Design a permissions system using bits.', a: 'Give each permission one bit (READ = 1, WRITE = 2, EXEC = 4) in an unsigned integer. Combine with |, check with (p & WRITE) == WRITE, revoke with & ~WRITE. It is compact and fast but limited by word width and hard to extend and debug; for many flags use a bitset, or a set of enum values if clarity matters more than size.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why these operators exist",
+  "Hardware works in bits. Flags, masks, packed fields and hardware registers all need direct access to individual bits, and a single `&`, `|` or `<<` maps to one CPU instruction. They come straight from C, where they are everyday tools."
+ ],
+ [
+  "Why `~x` is `-x - 1` in Python",
+  "Python ints have no fixed width, so there is no top bit to flip. Negative numbers behave as if they had endless leading 1s (two's complement extended forever), and `~` gives the matching result. In C, `~x` flips the 32 bits of an `int`."
+ ],
+ [
+  "Why `>>` keeps a negative number negative",
+  "An arithmetic shift copies the sign bit, so `-8 >> 1` is `-4`, the same as floor-dividing by 2. That matches how signed shifts work in hardware."
+ ],
+ [
+  "Why you mask to imitate C ints",
+  "Python never wraps, so to mimic a 32-bit value you AND with `0xFFFFFFFF`. This is the standard trick when porting C bit logic or hash functions."
+ ]
+];

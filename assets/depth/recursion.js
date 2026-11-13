@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why recursion exists",
+  "Some data is self-similar (trees, nested folders, expressions), and a function that calls itself matches the shape of the data. A loop would make you manage the stack by hand."
+ ],
+ [
+  "Why every recursion needs a base case",
+  "Each call must move toward something it can answer directly. Without that, calls pile up until the stack runs out."
+ ],
+ [
+  "Why Python does not optimise tail calls",
+  "CPython keeps every call visible in the stack so tracebacks stay readable. Use a loop for deep linear recursion."
+ ],
+ [
+  "Why memoising turns exponential into linear",
+  "Plain recursion solves the same subproblems again and again. Storing each answer the first time means each subproblem is paid for once, which is the bridge to dynamic programming."
+ ]
+];

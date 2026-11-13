@@ -24,7 +24,9 @@ Read this first when continuing the project. It records the decisions made so fa
 1. **Lede:** what it is, why it matters, how it relates to C.
 2. **Scenes:** each has a title, blurb, a **trap** note (the mistake C programmers make), Python code, C code, a **predict** question (3 options, one correct, with a `why`), and the stepped picture.
 3. **Built-ins table** (`builtins`): the Python names and idioms used, one line each.
-4. **Interview depth** (`assets/depth/<id>.js`): thesis, why it matters, edge cases, cost, internals, and a Q&A at junior, mid and senior level with follow-ups.
+4. **Interview depth** (`assets/depth/<id>.js`): thesis, **why it is built this way** (`DEPTH.design`), how to reason about it, edge cases, cost, internals, and a Q&A at mid, senior and staff level with follow-ups.
+
+   Rule for every lesson: explain *why*, not only *what*. `design` has 3 to 5 entries that answer: why does this exist (what problem forced it), why this design and not the alternative, what does it cost or when does it break, and the hardware, history or C reason. Entries that only say "common in interviews" belong in `why`, not `design`. A new lesson is not finished without a `design` block.
 5. **Chapter quiz** covering all lessons in the chapter.
 
 Two lesson modes:
@@ -72,7 +74,7 @@ Two lesson modes:
 
 ## Glossary
 
-`glossary.html` is the back-of-the-book "Glossary": plain-language meanings for the jargon in the lessons (130 terms, A to Z, with search).
+`glossary.html` is the back-of-the-book "Glossary": plain-language meanings for the jargon in the lessons (131 terms, A to Z, with search).
 
 - Data lives in `assets/glossary-data.js` (`window.GLOSSARY`). An entry has `id`, `term`, `also[]` (other spellings that should link too), `plain`, optional `example`, `c` (the "If you know C" line), `see[]`, `learn[[label, href]]`, and `auto:false` to explain a very common word without auto-linking it.
 - `assets/glossary.js` renders the page, and on every other page links terms inside lesson text (lede, scene blurb, trap, predict, interview depth, LeetCode problem and write-up, takeaways). Each term links once per page; code, headings and existing links are skipped. It re-links after a scene change.

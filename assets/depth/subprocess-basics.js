@@ -33,3 +33,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'A subprocess call sometimes hangs the whole service. What do you do?', a: 'Set a timeout so it raises TimeoutExpired, kill and clean up, log the command and partial output, and retry or fail the request. If the output is large, stream it rather than capture it, and make sure stdout and stderr are both read to avoid a full pipe blocking the child.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why you pass a list, not a string",
+  "A list gives the program its arguments exactly as written, with no shell in between, so spaces and quotes in the data cannot change the command. A string run through a shell is parsed as code, which is how shell injection happens."
+ ],
+ [
+  "Why `check=True` and exit codes",
+  "A command that fails returns a non-zero exit code, and by default Python carries on as if it had worked. `check=True` raises an error, so failures are loud, as with `set -e` in a shell script. Without it, a half-run pipeline can look like success."
+ ],
+ [
+  "Why you set a timeout",
+  "A child process can wait forever for input or a network reply and would hang your program with it. A timeout turns a stuck child into an exception you can handle, and the child can then be killed."
+ ],
+ [
+  "Why capturing output is explicit",
+  "Pipes have limited buffers, so a child writing a lot while nobody reads can block. `capture_output=True` reads it for you, and for huge output you stream it instead of holding it in memory."
+ ]
+];

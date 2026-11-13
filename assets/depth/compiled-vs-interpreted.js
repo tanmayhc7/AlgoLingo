@@ -121,3 +121,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why interpreters exist at all",
+  "Compiling needs a known target machine and a separate build step. An interpreter reads the program as it runs, so the same source works on any machine that has the interpreter, and you can try an idea in seconds. Python chose fast feedback and portability over raw speed."
+ ],
+ [
+  "Why CPython compiles to bytecode first",
+  "Re-reading the text of every line on every loop pass would be very slow. CPython compiles your source once into compact bytecode (the `.pyc` files) and a virtual machine runs that. Bytecode is not machine code, which is why it stays portable."
+ ],
+ [
+  "Why every operation checks types at run time",
+  "A Python name has no fixed type, so `a + b` must look at what `a` and `b` are each time it runs. That freedom (duck typing, patching, `eval`) is the point of the language, and the checking is its price. A C compiler pays that cost once, at build time."
+ ],
+ [
+  "Why the speed gap shrinks but never closes",
+  "Newer CPython caches the result of those checks for hot code, and JITs add machine code. Both only work while types stay stable, because the language promises that anything could change at any moment."
+ ]
+];

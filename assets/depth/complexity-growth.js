@@ -70,3 +70,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why we use Big O",
+  "Exact running times depend on the machine, language and input. Big O describes how the cost grows as the input grows, which is the part that survives a faster computer. It lets you compare two algorithms before writing either."
+ ],
+ [
+  "Why constants and small terms are dropped",
+  "At large n the fastest-growing term dominates, so `3n² + 10n + 7` behaves like `n²`. A bigger machine multiplies all costs equally, but it cannot change which curve is steeper."
+ ],
+ [
+  "Why the constraints tell you the target",
+  "A computer does roughly 10^8 to 10^9 simple operations per second. With n = 10^5, O(n²) is 10^10 and too slow, while O(n log n) is about 1.7 million and fine. Reading the limit tells you which complexity is needed."
+ ],
+ [
+  "Why growth beats constants, except when it does not",
+  "For small n, a simple O(n²) with a tiny constant can beat a fancy O(n log n). Real libraries switch algorithms by size (Timsort uses insertion sort on short runs). Big O is a guide for large inputs, not a law for small ones."
+ ]
+];

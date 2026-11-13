@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why cleaning comes first in language pipelines",
+  "Models and search treat text literally, so extra whitespace, odd Unicode and stray markup change results and waste tokens. Cleaning gives the later steps consistent input."
+ ],
+ [
+  "Why you normalise Unicode",
+  "The same visible character can be stored in several ways (an accented letter as one code point or as a base plus a combining mark). Normalising (NFC or NFKC) makes equal text compare equal."
+ ],
+ [
+  "Why you must keep the original",
+  "A cleaning step is a guess about what matters, and it can be wrong for some inputs. Keeping the raw text lets you redo the cleaning and trace odd results back to the source."
+ ],
+ [
+  "Why customer text is messy",
+  "Real text comes from emails, PDFs, chat and forms with signatures, quoted replies, encodings and typos. Pipelines tuned on tidy samples fail there, so test on real examples."
+ ]
+];

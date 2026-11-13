@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why k-d trees exist",
+  "Points in several dimensions have no single sorted order, so a plain BST does not fit. A k-d tree splits space with one coordinate at a time, so nearby points end up in the same region and search can ignore far-away regions."
+ ],
+ [
+  "Why the split axis alternates",
+  "Cycling through the dimensions (x, then y, then x, and so on) keeps the regions compact in every direction. Always splitting on one axis would give long thin slabs that prune badly."
+ ],
+ [
+  "Why nearest-neighbour search prunes",
+  "If the closest point found so far is nearer than the splitting line, nothing on the other side can beat it, so that whole side is skipped. The saving comes from that distance check."
+ ],
+ [
+  "Why it gets weaker in high dimensions",
+  "With many dimensions, almost every split line is close to the query, so little can be pruned and search drifts toward O(n). That is why approximate methods are used for high-dimensional embeddings."
+ ]
+];

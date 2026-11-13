@@ -58,3 +58,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why n log n is the target",
+  "Any sort that works by comparing items needs at least about n log n comparisons in the worst case, because n items can be ordered in n! ways and each comparison gives at most one bit of information. Merge sort and heap sort reach that limit."
+ ],
+ [
+  "Why merge sort and quicksort are both used",
+  "Merge sort is stable and has a guaranteed O(n log n), but it needs O(n) extra space. Quicksort sorts in place and has excellent cache behaviour but has an O(n²) worst case with bad pivots, which random or median pivots make rare."
+ ],
+ [
+  "Why Python uses Timsort",
+  "Real data often contains runs that are already sorted. Timsort finds those runs and merges them, so it is O(n) on sorted input and O(n log n) in general, and it is stable."
+ ],
+ [
+  "Why partition and merge appear everywhere",
+  "Partitioning (splitting by a pivot) is the core of quickselect and the Dutch flag problem. Merging two sorted lists is the core of merge sort and of combining sorted data from different sources."
+ ]
+];

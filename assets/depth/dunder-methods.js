@@ -57,3 +57,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why special methods exist",
+  "Python lets your own classes behave like built-ins. `len(x)` calls `x.__len__()`, `a + b` calls `a.__add__(b)`, and `for` calls `__iter__`. The language defines the protocol, and you opt in by providing the method."
+ ],
+ [
+  "Why they have double underscores",
+  "The names are reserved for Python's own use, so they cannot clash with your method names. You rarely call them directly; you use the operator or function that calls them."
+ ],
+ [
+  "Why `__eq__` and `__hash__` go together",
+  "Equal objects must have equal hashes, or dicts and sets will lose them. If you define `__eq__` without `__hash__`, Python sets `__hash__` to `None` and makes the object unhashable, to avoid breaking that rule silently."
+ ],
+ [
+  "Why `__repr__` is worth writing",
+  "It is what you see in the debugger, in logs and in tracebacks. A clear repr (`Point(x=1, y=2)`) saves time every time something goes wrong, and it should ideally look like code that rebuilds the object."
+ ]
+];

@@ -77,3 +77,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Python uses truthiness",
+  "One rule lets `if items:` replace `if len(items) > 0` for every type: empty means false. It reads naturally and keeps code short. The risk is that `0`, `\"\"`, `[]` and `None` are all false, so write `is None` when you mean \"missing\"."
+ ],
+ [
+  "Why `and` and `or` return operands, not booleans",
+  "Short-circuiting has to hand back whichever value decided the result, so `name or \"guest\"` works as a default. A C `||` returns only 0 or 1."
+ ],
+ [
+  "Why there was no `switch` for so long",
+  "An `if/elif` chain or a dict of functions covered the need, and C's `switch` has fall-through bugs. Python 3.10 added `match`, which matches on structure, not only on values."
+ ],
+ [
+  "Why chained comparisons work (`a < b < c`)",
+  "It matches how maths is written and evaluates `b` once. In C, `a < b < c` compiles but means `(a < b) < c`, which is almost never what you meant."
+ ]
+];

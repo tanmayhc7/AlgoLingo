@@ -59,3 +59,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why decorators exist",
+  "Functions are objects, so one function can take another and return a wrapped version. A decorator names that pattern, so logging, timing, caching and permission checks can be added without changing the function body. `@cache` above a function is shorthand for `f = cache(f)`."
+ ],
+ [
+  "Why decorators rely on closures",
+  "The wrapper function needs to remember the original function after the decorator has returned. A closure keeps that reference alive, which is why decorators work at all."
+ ],
+ [
+  "Why `functools.wraps` is used",
+  "A plain wrapper hides the original's name and docstring, which confuses debuggers and help text. `wraps` copies them onto the wrapper."
+ ],
+ [
+  "Why dataclasses exist",
+  "Classes that only hold data need the same `__init__`, `__repr__` and `__eq__` every time. `@dataclass` generates them from type-annotated fields, so you write the fields once and avoid errors from hand-written boilerplate."
+ ]
+];

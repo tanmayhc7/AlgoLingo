@@ -90,3 +90,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Python's `for` walks items, not counters",
+  "Looking at each item is what you want most of the time, and counters are where off-by-one bugs live. The loop asks the iterable for its next item, so one syntax works for lists, files, dicts and generators. C's `for (i = 0; i < n; i++)` makes you manage the index."
+ ],
+ [
+  "Why `range` is lazy",
+  "`range(10**9)` does not build a billion numbers. It computes each one when asked and uses constant memory, which suits something you walk once."
+ ],
+ [
+  "Why `for ... else` exists",
+  "Searching is common, and \"if the loop ended without `break`, do this\" otherwise needs a flag variable. The feature is unusual, which is why many people avoid it."
+ ],
+ [
+  "Why changing a list while looping over it breaks",
+  "The loop keeps a hidden position. Removing an item shifts the rest left, so the next item is skipped. Lists do not track their iterators, so loop over a copy or build a new list."
+ ]
+];

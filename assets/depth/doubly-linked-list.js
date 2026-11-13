@@ -83,3 +83,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a node has a `prev` pointer too",
+  "In a singly linked list, removing a node requires its predecessor, and finding that costs O(n). With `prev`, a node can unlink itself in O(1). The price is one more pointer per node and more updates per change."
+ ],
+ [
+  "Why sentinels (dummy head and tail) are used",
+  "Without them, adding or removing at either end needs special cases for an empty list. With two permanent dummy nodes, every real node always has both neighbours and the code has one path."
+ ],
+ [
+  "Why an LRU cache pairs a dict with a doubly linked list",
+  "The dict finds an entry in O(1), and the list keeps the order of use with O(1) move-to-front and O(1) removal of the oldest. Neither structure can do both jobs alone. That combination is how real caches work."
+ ],
+ [
+  "Why you might not need one in Python",
+  "`collections.OrderedDict` and `deque` already provide these operations in C. Writing the list yourself is for learning the pointer discipline or for when you need custom behaviour."
+ ]
+];

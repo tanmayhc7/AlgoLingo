@@ -92,3 +92,27 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why arrays sit side by side in memory",
+  "Memory is addressed by number, so if items are the same size and adjacent, item `i` is at `start + i * size`, one multiply and one add. That gives O(1) indexing without searching. It also matches how CPUs read memory."
+ ],
+ [
+  "Why contiguous memory is fast in practice",
+  "A CPU loads memory in cache lines (typically 64 bytes) and prefetches ahead when it sees a sequential walk. Walking an array uses every byte it loads, while chasing scattered pointers wastes most of each load. This is why arrays beat linked lists in practice, not just in theory."
+ ],
+ [
+  "Why a Python list holds pointers",
+  "Items in a list can be different types and sizes, so the list stores equal-size pointers and each pointer leads to an object. That keeps indexing O(1) for anything. The cost is an extra hop per item and poorer cache use than a C `int[]`, which is why NumPy stores raw values."
+ ],
+ [
+  "Why inserting in the middle is O(n)",
+  "The items must stay adjacent, so everything after the insert point has to shift one slot. That is the cost of keeping the layout that makes indexing fast."
+ ],
+ [
+  "Why growth is geometric",
+  "Growing by one slot per append would copy the whole array every time (O(n²) overall). Over-allocating by a fraction (CPython grows by about 12.5%) means copies are rare and the average cost per append stays O(1). The price is some spare, unused memory."
+ ]
+];

@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why skip lists exist",
+  "A sorted linked list has O(n) search. Adding extra \"express\" levels that skip ahead lets a search drop down levels and reach the target in O(log n) expected steps, without the rotation logic of a balanced tree."
+ ],
+ [
+  "Why randomness gives balance",
+  "Each new item is promoted to the next level with probability 1/2, so about half of the items are on each higher level. The structure stays balanced on average, whatever order you insert in, with no rebalancing code."
+ ],
+ [
+  "Why they suit concurrent code",
+  "An insert only changes a few pointers near one position, which is easier to make lock-free than a tree rotation that affects a whole subtree. That is why some databases and caches use skip lists."
+ ],
+ [
+  "Why they cost more memory than a plain list",
+  "Each item has several forward pointers on average (about two with probability 1/2), so you trade some space for speed."
+ ]
+];

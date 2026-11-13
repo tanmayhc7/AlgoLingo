@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why validate data from outside",
+  "A model or an API can return anything, including missing fields or the wrong type. Python's type hints are not checked at run time, so without validation a bad value travels deep into the code and fails far from the cause."
+ ],
+ [
+  "Why type hints are still worth writing",
+  "They document intent, let tools such as editors and `mypy` catch mistakes before the code runs, and make refactoring safer. They cost nothing at run time."
+ ],
+ [
+  "Why models like Pydantic exist",
+  "They turn a data shape into one declaration that validates input, converts types and reports exactly which field is wrong. Hand-written checks are longer and miss cases."
+ ],
+ [
+  "Why you fail early",
+  "A clear error at the boundary (\"field `age` must be an int\") is cheaper to debug than a `TypeError` in the middle of later processing."
+ ]
+];

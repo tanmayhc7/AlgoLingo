@@ -86,3 +86,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a stack exists",
+  "Many tasks are nested: the last thing opened must be the first thing closed (brackets, function calls, undo). A stack enforces last-in, first-out and nothing else, so it is simple to build and push and pop are both O(1). That narrow interface is the point."
+ ],
+ [
+  "Why the call stack is a stack",
+  "A function must return to its caller when it finishes, and calls nest, so the most recent call is always the next to finish. Hardware makes this cheap: a stack frame is just a move of the stack pointer. This is also why deep recursion runs out of stack space."
+ ],
+ [
+  "Why a Python list works as a stack",
+  "`append` and `pop` at the end are amortised O(1), because the end is the cheap side of an array. You do not need a special class."
+ ],
+ [
+  "Why the monotonic stack is O(n)",
+  "Each item is pushed once and popped at most once, so the total work is at most 2n even though there is a loop inside a loop. Items that can never be the answer are discarded as soon as a better one arrives."
+ ]
+];

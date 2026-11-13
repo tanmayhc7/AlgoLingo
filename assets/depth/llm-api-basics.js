@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why you send the whole conversation each time",
+  "The model has no memory between calls. Each request carries the messages it should consider, so a chat is you resending history. That also means cost and delay grow with the length of the conversation."
+ ],
+ [
+  "Why tokens, not characters, set limits and cost",
+  "The model reads and writes tokens, pieces of words, so the context window, the maximum output and the price are all counted in tokens. A long document may use far more than you expect, and non-English text often uses more tokens per word."
+ ],
+ [
+  "Why `temperature` exists",
+  "The model produces a probability for each next token. Temperature changes how sharply it favours the likely ones: low gives steadier, more repeatable output (good for extraction), higher gives more varied output (good for brainstorming). Even at zero, output is not guaranteed to be identical."
+ ],
+ [
+  "Why you handle errors and rate limits",
+  "APIs are shared services with limits, outages and slow responses. Retrying with backoff, timeouts and clear handling of 429 and 5xx responses is what keeps an app working when the provider is under load."
+ ]
+];

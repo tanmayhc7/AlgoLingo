@@ -68,3 +68,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why two dimensions",
+  "Some problems have two things changing together (positions in two strings, item and capacity, row and column). One index cannot describe the subproblem, so the state is a pair and the table is a grid."
+ ],
+ [
+  "Why cells depend on their neighbours",
+  "In edit distance or LCS, the answer for `(i, j)` comes from `(i-1, j)`, `(i, j-1)` and `(i-1, j-1)`: the cases of dropping a character from either string or both. The grid layout makes each recurrence a lookup of three neighbours."
+ ],
+ [
+  "Why you can rebuild the answer by walking back",
+  "The table stores values, not choices. Starting from the final cell and asking \"which neighbour gave this value?\" recovers the actual path or subsequence. If you need the solution and not only its score, keep the full table."
+ ],
+ [
+  "Why it shrinks to one row",
+  "Each row only reads the row above, so you can overwrite one row in place. You lose the ability to walk back, which is the trade-off."
+ ]
+];

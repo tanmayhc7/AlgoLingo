@@ -61,3 +61,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why minimum spanning trees exist",
+  "To connect all points (cities, computers) with the least total cost, you need connectivity with no loops. A tree on V nodes has V-1 edges and no cycles, so the cheapest such tree is the answer."
+ ],
+ [
+  "Why both Kruskal and Prim are correct",
+  "They rely on the cut property: for any split of the nodes into two groups, the cheapest edge crossing the split belongs to some MST. Kruskal picks the cheapest edge that joins two components, and Prim grows one component by its cheapest crossing edge."
+ ],
+ [
+  "Why Kruskal uses union-find",
+  "Adding an edge is only safe if it joins two different components, so it needs fast \"are these connected?\" checks and merges. Union-find gives both in near-constant time."
+ ],
+ [
+  "Why a different MST may be equally good",
+  "If edges have equal weights, several trees can share the same minimum total. Rely on the total cost, not on which edges are chosen."
+ ]
+];

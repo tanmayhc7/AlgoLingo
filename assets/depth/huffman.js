@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Huffman coding exists",
+  "Fixed-length codes spend the same bits on common and rare symbols. Giving short codes to frequent symbols and long ones to rare symbols reduces the total size, and Huffman's method produces the best such code."
+ ],
+ [
+  "Why the two rarest are merged first",
+  "The least frequent symbols belong deepest in the tree, with the longest codes. Merging the two smallest nodes repeatedly, using a min-heap, builds the tree from the bottom up, and an exchange argument shows this is optimal."
+ ],
+ [
+  "Why the codes are prefix-free",
+  "Symbols live only at leaves, so no code is the start of another. A decoder can read bits left to right and know exactly where each symbol ends, with no separators."
+ ],
+ [
+  "Why real compressors build on it",
+  "Formats such as DEFLATE (zip, gzip, PNG) combine Huffman coding with other steps that find repeated patterns first. Huffman handles the leftover uneven symbol frequencies."
+ ]
+];

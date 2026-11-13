@@ -33,3 +33,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'What happens if two members have the same value?', a: 'The second becomes an alias for the first, not a separate member. Iteration skips aliases. Decorate with @enum.unique to make duplicates an error.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why enums exist",
+  "Strings like `\"pending\"` and `\"Pending\"` look alike and a typo passes silently. An enum defines the valid choices in one place, so a wrong name raises an error immediately."
+ ],
+ [
+  "Why enums beat integer constants",
+  "`status == 2` says nothing, and `2` is a valid int even when no status has that number. `Status.SHIPPED` names the meaning, prints clearly and cannot be confused with an unrelated number."
+ ],
+ [
+  "Why members are singletons",
+  "Each member is one object, so comparing with `is` or `==` is safe and fast. It is also why you can use members as dict keys."
+ ],
+ [
+  "Why `Enum` is not an int by default",
+  "Mixing a status with arithmetic is nearly always a bug, so plain `Enum` refuses it. `IntEnum` exists when you need the number behaviour, for example to match a C library."
+ ]
+];

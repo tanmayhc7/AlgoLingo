@@ -86,3 +86,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why there is no required `main` function",
+  "A script is just statements run from top to bottom, so nothing special is needed to start. This lets one file work as a script and as an importable module, and the `__main__` check tells the two cases apart. C needs `main` because the linker must know the single entry point of a compiled program."
+ ],
+ [
+  "Why indentation is syntax",
+  "The layout you see becomes the structure the computer uses, so code cannot look right and mean something else. It also removes braces and the arguments over where to put them. The cost is that mixing tabs and spaces is an error, not a style choice."
+ ],
+ [
+  "Why `print` is a function",
+  "Python 3 made it a function so it can take arguments (`sep`, `end`, `file`) and can be passed around or replaced. In Python 2 it was a statement with special syntax and none of that flexibility."
+ ],
+ [
+  "Why importing runs the file",
+  "`import x` really runs `x.py` once and caches the result in `sys.modules`. That is why top-level code in a module executes on import. C's `#include` only pastes text and runs nothing."
+ ]
+];

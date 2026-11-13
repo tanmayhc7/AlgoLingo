@@ -71,3 +71,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why tries exist",
+  "A hash set can answer \"is this exact word here?\" but not \"which words start with `ca`?\". A trie stores words letter by letter along a path, so every prefix is a node and prefix questions are a short walk."
+ ],
+ [
+  "Why lookup cost depends on word length, not word count",
+  "You follow one edge per letter, so finding a word of length L takes O(L) whether the trie holds ten words or ten million. A balanced tree of strings needs O(L log n), because each comparison reads up to L letters."
+ ],
+ [
+  "Why shared prefixes save space",
+  "Words that start the same share the same first nodes (`car`, `card`, `care` share `c-a-r`). The saving is large for natural language and URLs, though each node costs a dict or array of children, so tries can still use more memory than a plain set of strings."
+ ],
+ [
+  "Why a trie gives sorted output for free",
+  "Walking children in alphabetical order lists words in lexicographic order, which is what autocomplete needs."
+ ]
+];

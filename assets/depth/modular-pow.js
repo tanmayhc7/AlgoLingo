@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why modular exponentiation exists",
+  "`a**b` for large b has millions of digits, but many problems (cryptography, counting) only need the answer modulo m. Reducing after each multiplication keeps numbers small."
+ ],
+ [
+  "Why squaring gives O(log b)",
+  "Using `a^b = (a^(b/2))²` halves the exponent at each step, so about log2(b) multiplications are enough, where repeated multiplication would need b of them."
+ ],
+ [
+  "Why you can reduce at every step",
+  "`(x * y) mod m = ((x mod m) * (y mod m)) mod m`, so the remainder at each stage gives the same final answer. In C this also avoids overflow of fixed-width ints."
+ ],
+ [
+  "Why Python's `pow(a, b, m)` is the right tool",
+  "It does this in C, handles huge exponents and, with an exponent of -1 (3.8+), computes modular inverses. Writing it by hand is for understanding."
+ ]
+];

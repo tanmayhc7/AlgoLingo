@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why this problem exists",
+  "It sorts three kinds of values (0, 1, 2) in one pass and O(1) space, which a general sort cannot beat. It is the idea behind three-way partitioning in quicksort, which handles many equal keys well."
+ ],
+ [
+  "Why three pointers are used",
+  "One marks the end of the 0s, one marks the start of the 2s, and one scans the unknown middle. The invariant is that everything before `low` is 0, everything after `high` is 2, and the region between is known to be 1s or not yet checked."
+ ],
+ [
+  "Why `mid` does not move after swapping with `high`",
+  "The item swapped in from the end has not been looked at yet, so it must be checked before moving on. After swapping with `low`, the item that arrives is already known to be 1, so `mid` can advance."
+ ],
+ [
+  "Why it matters for quicksort",
+  "With many duplicates, a two-way partition leaves large equal blocks to sort again and can degrade. A three-way partition places all equal items in their final position in one pass."
+ ]
+];

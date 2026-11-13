@@ -69,3 +69,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why top-k with a heap of size k",
+  "To find the k largest, keep a min-heap of the k best so far. The smallest of them sits on top and can be compared with each new item in O(log k), so the whole pass is O(n log k) with O(k) memory instead of sorting everything."
+ ],
+ [
+  "Why you use the opposite kind of heap",
+  "For the k largest you need to quickly find and evict the weakest of your current best, which is the minimum. That is why a min-heap serves the largest-k problem."
+ ],
+ [
+  "Why a heap suits streaming data",
+  "You can process one item at a time, never hold the whole input, and ask for the answer at any moment. A full sort needs everything in memory first."
+ ],
+ [
+  "Why two heaps give a running median",
+  "A max-heap holds the smaller half and a min-heap holds the larger half, so the median is at one or both tops. Keeping their sizes balanced makes each insert O(log n) and each median query O(1)."
+ ]
+];

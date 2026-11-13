@@ -58,3 +58,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why a window exists",
+  "Recomputing every subarray from scratch is O(n·k) or worse. A window keeps running state (a sum, a count map) and updates it by adding the item that enters and removing the item that leaves, so each step costs O(1)."
+ ],
+ [
+  "Why each item enters and leaves at most once",
+  "The left and right edges only move forward, so together they travel at most 2n steps. That is why the total is O(n) even though there is a loop inside a loop."
+ ],
+ [
+  "Why the window can grow or shrink",
+  "For \"longest\" problems, extend the right edge and shrink the left only when the window breaks the rule. For fixed-size problems, both edges move together. The rule that defines \"valid\" decides the shape."
+ ],
+ [
+  "Why it needs a monotonic property",
+  "Shrinking the window must never make a broken window valid in the wrong direction. With negative numbers in a \"sum at most k\" problem this fails, and prefix sums with a hash map are used instead."
+ ]
+];

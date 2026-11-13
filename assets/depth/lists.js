@@ -87,3 +87,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why `append` is cheap and `insert(0, x)` is not",
+  "Items live in one block, so adding at the end only needs the next free slot, while adding at the front moves every item. The structure is tuned for stack-like use at the end."
+ ],
+ [
+  "Why `sort()` returns `None`",
+  "Python marks methods that change an object in place by returning `None`, so you cannot mistake them for copies. That is why `x = x.sort()` throws your list away. `sorted(x)` is the version that returns a new list."
+ ],
+ [
+  "Why sorting is stable",
+  "Items with equal keys keep their original order, which lets you sort by several keys in turns (sort by the second key first, then the first). CPython uses Timsort, which is stable and very fast on data that is already partly ordered."
+ ],
+ [
+  "Why slicing makes a shallow copy",
+  "`a[:]` copies the list of pointers, not the objects they point at. Copying everything would be much slower and is rarely needed, so deep copies are something you ask for with `copy.deepcopy`."
+ ]
+];

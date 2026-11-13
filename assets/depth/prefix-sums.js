@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'Updates and queries are interleaved. What do you use?', a: 'Neither prefix nor difference arrays alone: a Fenwick tree (point update, prefix query) or a segment tree (also min, max, lazy range updates), both O(log n). Sqrt decomposition is a simpler middle ground.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why prefix sums exist",
+  "A range sum over `[l, r]` costs O(r - l) each time. Precomputing running totals once (O(n)) lets every later range query be one subtraction, `P[r+1] - P[l]`, in O(1). You pay once to make many queries cheap."
+ ],
+ [
+  "Why the array has an extra leading zero",
+  "`P[0] = 0` means \"sum of nothing\", so a range that starts at index 0 needs no special case. Without it, the formula breaks on the first element."
+ ],
+ [
+  "Why a hash map finds subarrays with sum k",
+  "A subarray sum is the difference of two prefix sums. For each prefix, ask whether `prefix - k` has been seen before. That turns a search for pairs into a lookup, and it works with negative numbers where a sliding window does not."
+ ],
+ [
+  "Why it extends to 2D",
+  "A rectangle sum is built from four corner prefix values by inclusion and exclusion. The same precompute-then-subtract idea works in any number of dimensions."
+ ]
+];

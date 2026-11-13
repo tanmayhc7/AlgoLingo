@@ -107,3 +107,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why modules exist",
+  "One big file is hard to read, reuse and test. A module groups related code under a name, so you import it where you need it and each file has a single purpose."
+ ],
+ [
+  "Why `if __name__ == \"__main__\"` is used",
+  "When a file is run directly Python sets `__name__` to `\"__main__\"`, and when it is imported it is the module's name. The check lets one file serve as both a script and a library, without running the script part on import."
+ ],
+ [
+  "Why use `argparse`",
+  "Hand-written argument parsing is long and misses cases. `argparse` gives you types, defaults, error messages and `--help` from a short declaration, so your script behaves like standard tools."
+ ],
+ [
+  "Why scripts return exit codes",
+  "Other programs and shells decide what to do next from the exit status: 0 means success and non-zero means failure. A script that always exits 0 hides failures from pipelines and schedulers."
+ ]
+];

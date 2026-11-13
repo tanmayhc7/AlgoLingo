@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why the sieve exists",
+  "Testing each number for primality by trial division is slow when you need all primes up to n. The sieve crosses out multiples of each prime, so what is left must be prime, and it finishes in about O(n log log n) time."
+ ],
+ [
+  "Why you start crossing out at `p * p`",
+  "Any smaller multiple `p * k` with `k < p` has a smaller prime factor and was already removed by it. Starting at `p²` avoids redoing that work."
+ ],
+ [
+  "Why you only need to go up to the square root",
+  "A composite number n has a factor no larger than the square root of n, so once you have crossed out multiples of every prime up to that point, everything composite is gone."
+ ],
+ [
+  "Why a bytearray is used",
+  "The sieve needs one flag per number, and a `bytearray` or bit array stores that compactly and runs the crossing-out with slice assignment in C. A list of Python booleans would use many times the memory."
+ ]
+];

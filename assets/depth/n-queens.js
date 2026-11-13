@@ -36,3 +36,23 @@ window.DEPTH = {
     { lvl: 'senior', q: 'How is Sudoku similar?', a: 'Same template: pick the empty cell with the fewest options, try each digit allowed by row, column and box sets, recurse, and undo. Choosing the most constrained cell first is the pruning heuristic.', follow: [] },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why N-Queens is the standard example",
+  "It is small to state, has a clear rule (no two queens share a row, column or diagonal) and shows both the search and the pruning. Trying all placements is hopeless, but placing one queen per row and rejecting conflicts early is not."
+ ],
+ [
+  "Why one queen per row",
+  "The rule forbids two queens in a row, so every solution has exactly one per row. Choosing a column per row cuts the search from \"any cells\" to n choices per level."
+ ],
+ [
+  "Why sets (or bitmasks) make the checks O(1)",
+  "A queen's column and its two diagonals (`r - c` and `r + c` are constant along a diagonal) can be kept in sets. Checking a new queen is then three lookups instead of a scan of the board."
+ ],
+ [
+  "Why symmetry can halve the work",
+  "Every solution has a mirror image, so you can search only half the first-row columns and double the count. It is an optimisation, not required for correctness."
+ ]
+];

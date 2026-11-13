@@ -73,3 +73,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why Dijkstra exists",
+  "BFS only counts edges, so it fails when edges have different costs (distance, time, price). Dijkstra finds the cheapest path from one source to all nodes with non-negative weights."
+ ],
+ [
+  "Why the greedy step is correct",
+  "The unvisited node with the smallest known distance cannot be improved later, because any other route to it must pass through nodes that are at least as far away and add a non-negative cost. So it can be finalised immediately."
+ ],
+ [
+  "Why negative weights break it",
+  "A later, longer-looking route could become cheaper through a negative edge, so a finalised distance can be wrong. That is the case Bellman-Ford handles."
+ ],
+ [
+  "Why a heap is used",
+  "Each step needs the unvisited node with the smallest distance. A binary heap gives that in O(log n), making the algorithm O((V + E) log V) instead of O(V²) with a plain scan."
+ ]
+];

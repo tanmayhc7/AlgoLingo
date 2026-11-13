@@ -59,3 +59,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why composition exists",
+  "Instead of being a thing, an object has a thing. A `Car` holds an `Engine` and calls it. The parts stay independent, so you can swap one without touching the rest."
+ ],
+ [
+  "Why it gives looser coupling",
+  "The outer class depends on the part's public interface only, not on how the part is built. With inheritance the child depends on the parent's internals."
+ ],
+ [
+  "Why it makes testing easier",
+  "You can pass in a fake part (a stub database, a fake clock) and test the outer class alone. A subclass cannot swap out its parent that easily."
+ ],
+ [
+  "Why it avoids a class explosion",
+  "With inheritance, combining three independent features needs a subclass for every combination. With composition you pick the pieces you need, so the number of classes grows with features, not with combinations."
+ ]
+];

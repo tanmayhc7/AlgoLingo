@@ -86,3 +86,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why LIS exists",
+  "It is a clean example of a DP problem with a smarter solution: the O(n²) table says \"best length ending at i\", and a second approach reaches O(n log n) with binary search."
+ ],
+ [
+  "Why the `tails` array is sorted",
+  "`tails[k]` holds the smallest possible ending value of an increasing subsequence of length k+1. A smaller tail is always at least as good for extending later, and these tails increase with k, so the array stays sorted."
+ ],
+ [
+  "Why binary search finds the place to update",
+  "A new number either extends the longest subsequence (append) or replaces the first tail that is not smaller, which keeps every tail as small as possible. Finding that spot in a sorted array is a binary search."
+ ],
+ [
+  "Why `tails` is not the subsequence itself",
+  "It tracks the best possible endings, not one real sequence, so its contents can mix elements from different candidates. Only its length is the answer. To rebuild a real subsequence, keep parent links."
+ ]
+];

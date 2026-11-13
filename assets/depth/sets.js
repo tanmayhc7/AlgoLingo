@@ -81,3 +81,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why sets exist",
+  "A set is a dict with keys and no values. Many questions are only \"is it in there?\" and \"what is shared?\", and a set answers them in O(1) and states that intent. A list needs O(n) for the same question."
+ ],
+ [
+  "Why items must be hashable",
+  "A set is a hash table, so it needs a stable hash for each item. That is why you can put tuples in a set but not lists, and why `frozenset` exists for sets of sets."
+ ],
+ [
+  "Why sets have no order and no indexing",
+  "The position of an item depends on its hash, not on when you added it. Promising an order would cost memory or speed, and `set` exists for membership, not for sequences. Use a `dict` when you need order."
+ ],
+ [
+  "Why operators like `&`, `|`, `-` exist",
+  "They mirror the maths of set algebra, so code reads like the problem (`a & b` for items in both). They are also done in one fast loop inside the interpreter."
+ ]
+];

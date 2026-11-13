@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why an agent is a loop",
+  "Real tasks need several steps, and the result of one step decides the next. The loop is: ask the model, run any tool it requests, add the result to the conversation and ask again, until it gives a final answer."
+ ],
+ [
+  "Why you need a step limit",
+  "A model can keep calling tools without making progress, and each turn costs money and time. A maximum number of steps (and a token or cost budget) stops runaway loops."
+ ],
+ [
+  "Why every step is logged",
+  "When an agent does something odd, the trace of messages, tool calls and results is the only way to see why. It is also the basis for evaluating and improving the agent."
+ ],
+ [
+  "Why failures are returned as data",
+  "If a tool fails, passing the error text back lets the model try something else. Raising an exception and crashing the loop throws away that chance, though persistent failures still need a limit."
+ ]
+];

@@ -69,3 +69,23 @@ window.DEPTH = {
     },
   ],
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why union-find exists",
+  "Questions like \"are these two connected?\" while connections keep being added are slow if you re-run a graph search each time. Union-find answers both merging and checking in near-constant time."
+ ],
+ [
+  "Why each set is stored as a tree of parent links",
+  "Each item points to a parent, and the root is the set's name. `find` follows parents to the root and `union` links one root to another, so merging is one pointer change, not a copy."
+ ],
+ [
+  "Why path compression and union by size are used",
+  "Without them the trees can become long chains and `find` becomes O(n). Compression flattens the path after each `find`, and union by size keeps trees shallow. Together they give an amortised cost of about O(α(n)), the inverse Ackermann function, which is below 5 for any practical n."
+ ],
+ [
+  "Why it cannot split sets",
+  "The structure only records merges. Removing a connection would need to know which links were responsible, which parent pointers do not store. For deletions you need offline tricks or different structures."
+ ]
+];

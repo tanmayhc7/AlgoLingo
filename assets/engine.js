@@ -636,7 +636,7 @@
   /* ---------- lesson page ---------- */
 
     /* Interview depth: assets/depth/<lesson>.js sets window.DEPTH. Text may use `backticks` for code.
-     { thesis, why:[[head,text]], edges:[[case,text]], cost:[[op,cost,note]], internals:[[head,text]],
+     { thesis, design:[[head,text]] (why it is built this way), why:[[head,text]], edges:[[case,text]], cost:[[op,cost,note]], internals:[[head,text]],
        qa:[{lvl:'mid'|'senior'|'staff', q, a, diagram?:{title?, main:[[label,note,kind?]], branch?:{title, steps:[[label,note,kind?]]}}, qcode?: 'code shown under the question', acode?: 'code shown under the answer', acodeLabel?, follow:[[q,a,diagram?,code?,codeLabel?]]}] } */
   /* diagram kinds: 'ask' is a yes/no question, 'cache' is a cached step, 'warn' is a step that repeats every run. */
   function rich(t) {
@@ -716,6 +716,11 @@
       return h('div', { class: 'table-wrap' }, [tbl]);
     }
 
+    if (D.design && D.design.length) {
+      block('Why it is built this way', D.design.map(function (w) {
+        return h('div', { class: 'why' }, [h('h4', { text: w[0] }), h('p', { html: rich(w[1]) })]);
+      }));
+    }
     if (D.why && D.why.length) {
       block('How to reason about it', D.why.map(function (w) {
         return h('div', { class: 'why' }, [h('h4', { text: w[0] }), h('p', { html: rich(w[1]) })]);

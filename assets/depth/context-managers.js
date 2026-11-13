@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why context managers exist",
+  "Some resources need cleanup however the block ends (files, locks, connections). `with` runs the exit code on normal exit, `return` and exceptions, so cleanup cannot be forgotten. C needs matching `close` calls on every path."
+ ],
+ [
+  "Why `__enter__` and `__exit__`",
+  "The protocol is two methods: set up and tear down. `__exit__` receives the exception details and can choose to suppress it, which is how `suppress` and transactions work."
+ ],
+ [
+  "Why `@contextmanager` is convenient",
+  "A generator with one `yield` is shorter than a class with two methods. The code before `yield` is setup and the code after it (in `finally`) is cleanup."
+ ],
+ [
+  "Why not just use `finally`",
+  "`try/finally` works but spreads setup and cleanup across a call site, and it is easy to omit. A context manager packages them once and gives callers a one-line, hard-to-misuse interface."
+ ]
+];

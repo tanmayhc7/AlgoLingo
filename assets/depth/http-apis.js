@@ -113,3 +113,23 @@ window.DEPTH = {
     }
   ]
 };
+
+/* design-why */
+window.DEPTH.design = [
+ [
+  "Why HTTP is the common interface",
+  "It is simple (a method, a URL, headers, a body, a status code), works through firewalls and proxies, and every language has a client. That makes it the default way services talk to each other."
+ ],
+ [
+  "Why status codes matter",
+  "They tell the caller what to do: 4xx means the request was wrong and retrying will not help, 5xx means the server had a problem and a retry may. Treating them all as failure gives wrong retry behaviour."
+ ],
+ [
+  "Why timeouts are mandatory",
+  "By default a request can wait forever, and a hung call ties up a thread or a worker. A timeout turns an unknown wait into a failure you can handle."
+ ],
+ [
+  "Why retries use backoff and idempotency",
+  "Retrying instantly turns a small outage into a flood. Waiting longer each time (with some randomness) spreads load, and a retried request must be safe to repeat, so write operations need an idempotency key."
+ ]
+];
