@@ -2175,3 +2175,8 @@ a.gl:hover, a.gl:focus-visible { color: var(--accent); text-decoration-style: so
 .pg-json { width: 100%; box-sizing: border-box; font-family: var(--font-code); font-size: 12px; margin-top: 8px; }
 .pg-how { margin: 24px 0; }
 .pg-how ol { padding-left: 20px; display: grid; gap: 6px; }
+
+/* predict answers that stay answered */
+.scene-tab.predicted::after { content: " \2713"; opacity: 0.6; font-weight: 700; }
+.scene-tab.predicted-ok::after { color: var(--ok, #1f9d63); opacity: 1; }
+.predict-again { margin-top: 10px; }

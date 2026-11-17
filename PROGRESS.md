@@ -19,6 +19,7 @@ AlgoLingo saves progress in the browser. This file is the same progress as plain
   "lessons":  { "variables": { "chapter": 1, "title": "Variables and names", "done": true, "date": "2026-11-12" } },
   "quizzes":  { "1": { "title": "Getting started", "done": true, "correct": 5, "total": 6, "date": "2026-11-12" } },
   "problems": { "lc-two-sum": { "number": 1, "title": "Two Sum", "difficulty": "Easy", "pattern": "arrays-hashing", "done": true, "date": "2026-11-14" } },
+  "predictions": { "variables/names": { "choice": 1, "correct": true } },
   "notes":    { "1": "my own notes for chapter 1" },
   "log":      [ { "date": "2026-11-17", "note": "Finished heaps, started graphs" } ]
 }
@@ -29,6 +30,7 @@ AlgoLingo saves progress in the browser. This file is the same progress as plain
 - A chapter counts as finished on the site when its quiz is done, so marking a quiz done also ticks every lesson in that chapter.
 - `correct` and `total` on a quiz are optional. If both are given, the quiz page shows that score.
 - `title`, `chapter`, `number`, `difficulty` and `pattern` are there so a person or LLM can match entries to a checklist. The site ignores them.
+- `predictions` holds your answers to the "Predict, then check" questions, keyed `<lesson id>/<scene id>`. The browser writes them; an LLM should leave them alone. They stay answered after a reload, and a scene tab shows a tick.
 - `notes` and `log` are free text. `log` is for the day-to-day: the site keeps it but does not show it yet.
 
 ## For an LLM

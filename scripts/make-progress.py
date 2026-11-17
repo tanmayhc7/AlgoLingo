@@ -21,7 +21,7 @@ out = {
     'version': 1,
     'updated': datetime.date.today().isoformat(),
     'instructions': 'To mark something done, set its "done" to true and add "date" (YYYY-MM-DD). Keep the ids and keys as they are. Add free notes to "log". Full format: PROGRESS.md.',
-    'lessons': {}, 'quizzes': {}, 'problems': {}, 'notes': old.get('notes', {}), 'log': old.get('log', []),
+    'lessons': {}, 'quizzes': {}, 'problems': {}, 'predictions': old.get('predictions', {}), 'notes': old.get('notes', {}), 'log': old.get('log', []),
 }
 
 blocks = re.split(r"\n    \{\n      title:", ch)[1:]
