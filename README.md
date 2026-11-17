@@ -63,3 +63,7 @@ GNU Affero General Public License v3.0 (AGPL-3.0). See [LICENSE](LICENSE). If yo
 ## Glossary
 
 `glossary.html` explains the jargon used in the lessons in plain words. Terms in lessons link to it automatically. To add a term, add an entry to `assets/glossary-data.js`.
+
+## Progress as a file
+
+Progress is saved in the browser, and `progress.html` downloads it as `algolingo_progress.json` (and imports it back). A copy of that file in the repo is read on every page, so a person or an LLM can mark things done by editing it. Format and workflow: [PROGRESS.md](PROGRESS.md).

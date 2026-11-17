@@ -82,3 +82,7 @@ Two lesson modes:
 - Rule: when a lesson introduces new jargon, add a Glossary entry in the same change. Keep entries to a few short sentences in plain words.
 
 Page-scoped entries: a glossary entry may carry `pages: ['variables', ...]` (lesson file names without `.html`). It then auto-links only on those lesson pages. Used by `object` and `name`, because those words mean other things in other lessons (tool names, node names, file names).
+
+## Progress file
+
+`assets/progress.js` turns localStorage progress into `algolingo_progress.json` and back (snapshot/apply), merges the repo copy on every page (add-only, one reload per tab session), and draws `progress.html`. Keys: `dsav-visited` (lesson and problem ids), `dsav-qdone-N` (`'1'`, or `'file'` when the file marked it done), `dsav-qmeta-N` (score), `dsav-dates` (first-done day per id and `quiz-N`). `scripts/make-progress.py` regenerates the id list. Format: PROGRESS.md. New lessons and problems need a run of that script.

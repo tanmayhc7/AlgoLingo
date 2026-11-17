@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress · AlgoLingo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&display=swap">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js"></script>
+<script src="assets/chapters.js"></script>
+<script src="assets/leetcode.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="">AlgoLingo</a>
+    <button class="tool" id="theme" type="button">Dark mode</button>
+  </header>
+
+  <section class="lesson-head">
+    <p class="crumb">Your progress</p>
+    <h1>Progress</h1>
+    <p class="lede">Your progress is saved in this browser. Download it as <code>algolingo_progress.json</code> to keep it in the repo, hand it to an LLM, or move it to another device. A copy of that file in the repo is read on every page, so edits to it show up here.</p>
+  </section>
+
+  <div id="pg-root"></div>
+
+  <section class="card pg-how">
+    <h2>How the file works</h2>
+    <ol>
+      <li><strong>Browser to file:</strong> press <em>Download</em>, and save it as <code>algolingo_progress.json</code> at the top of the repo.</li>
+      <li><strong>File to browser:</strong> every page reads that file and adds anything marked <code>"done": true</code>. Open it on another device, or after an LLM edits it, and the ticks appear.</li>
+      <li><strong>LLM:</strong> point it at the file and your own checklist, and ask it to set <code>"done": true</code> and a <code>"date"</code> for whatever is finished. The format is in <code>PROGRESS.md</code>.</li>
+      <li><strong>Undo:</strong> a file only adds progress. To make a device match the file exactly, import it with <em>Replace</em>.</li>
+    </ol>
+  </section>
+</div>
+</body>
+</html>

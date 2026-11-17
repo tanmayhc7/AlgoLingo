@@ -2149,3 +2149,29 @@ a.gl:hover, a.gl:focus-visible { color: var(--accent); text-decoration-style: so
 .qa, .qa-codewrap { min-width: 0; max-width: 100%; }
 .qa-code { max-width: 100%; box-sizing: border-box; }
 .qa-a code, .qa-a a { overflow-wrap: anywhere; }
+
+/* ---------- progress page ---------- */
+.pg-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 8px 0 18px; }
+.pg-tile { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; min-width: 0; }
+.pg-big { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
+.pg-label { color: var(--muted, inherit); font-size: 14px; margin-top: 2px; }
+.pg-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 8px; }
+.pg-actions select, .pg-actions input[type=file] { max-width: 100%; min-width: 0; font: inherit; }
+.pg-import { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 14px; }
+.pg-msg { min-height: 1.4em; margin: 4px 0 14px; font-size: 14px; }
+.pg-chapters { display: grid; gap: 12px; margin-top: 8px; }
+.pg-chapter { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 14px 18px; min-width: 0; }
+.pg-chapter h3 { display: flex; align-items: center; gap: 10px; font-size: 17px; margin: 0 0 8px; flex-wrap: wrap; }
+.pg-num { display: inline-grid; place-items: center; min-width: 26px; height: 26px; border-radius: 50%; background: var(--line); font-size: 13px; }
+.pg-count { margin-left: auto; font-size: 13px; opacity: 0.75; }
+.pg-count.full { color: var(--ok, #1f9d63); opacity: 1; font-weight: 700; }
+.pg-lessons { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.pg-lessons li { font-size: 14px; min-width: 0; overflow-wrap: anywhere; }
+.pg-lessons li::before { content: "\25CB"; margin-right: 6px; opacity: 0.5; }
+.pg-lessons li.done::before { content: "\2713"; color: var(--ok, #1f9d63); opacity: 1; font-weight: 700; }
+.pg-quiz { margin: 8px 0 0; font-size: 13px; opacity: 0.85; }
+.pg-quiz.done { color: var(--ok, #1f9d63); opacity: 1; }
+.pg-raw { margin: 18px 0; }
+.pg-json { width: 100%; box-sizing: border-box; font-family: var(--font-code); font-size: 12px; margin-top: 8px; }
+.pg-how { margin: 24px 0; }
+.pg-how ol { padding-left: 20px; display: grid; gap: 6px; }
