@@ -34,9 +34,19 @@
       if (/\/glossary\.html$/.test(location.pathname)) g.setAttribute('aria-current', 'page');
       top.insertBefore(tools, theme);
       tools.appendChild(g);
+      var pr = document.createElement('a');
+      pr.className = 'tool';
+      pr.href = BASE + 'progress.html';
+      pr.textContent = 'Progress';
+      if (/\/progress\.html$/.test(location.pathname)) pr.setAttribute('aria-current', 'page');
+      tools.appendChild(pr);
       tools.appendChild(theme);
     }
     if (BASE) {
+      window.SITE_BASE = BASE;
+      var pj = document.createElement('script');
+      pj.src = BASE + 'assets/progress.js';
+      document.body.appendChild(pj);
       window.GLOSSARY_BASE = BASE;
       var a = document.createElement('script');
       a.src = BASE + 'assets/glossary-data.js';
@@ -78,6 +88,12 @@
     if (d.indexOf(id) < 0) {
       d.push(id);
       try { localStorage.setItem(DONE, JSON.stringify(d)); } catch (e) { /* ignore */ }
+      /* remember the day, so the progress file can say when */
+      try {
+        var t = new Date(), ds = JSON.parse(localStorage.getItem('dsav-dates') || '{}') || {};
+        ds[id] = t.getFullYear() + '-' + ('0' + (t.getMonth() + 1)).slice(-2) + '-' + ('0' + t.getDate()).slice(-2);
+        localStorage.setItem('dsav-dates', JSON.stringify(ds));
+      } catch (e) { /* ignore */ }
     }
   }
   var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;

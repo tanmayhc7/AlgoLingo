@@ -118,8 +118,20 @@ def _check(code, tests_json):
       return typeof done[k] === 'boolean' && +k < total;
     }).length;
     try {
-      if (answered >= total) localStorage.setItem('dsav-qdone-' + storeKey.replace('dsav-quiz-', ''), '1');
-      else localStorage.removeItem('dsav-qdone-' + storeKey.replace('dsav-quiz-', ''));
+      var qn = storeKey.replace('dsav-quiz-', '');
+      if (answered >= total) {
+        localStorage.setItem('dsav-qdone-' + qn, '1');
+        localStorage.setItem('dsav-qmeta-' + qn, JSON.stringify({ correct: n, total: total }));
+        var t = new Date(), ds = JSON.parse(localStorage.getItem('dsav-dates') || '{}') || {};
+        if (!ds['quiz-' + qn]) {
+          ds['quiz-' + qn] = t.getFullYear() + '-' + ('0' + (t.getMonth() + 1)).slice(-2) + '-' + ('0' + t.getDate()).slice(-2);
+          localStorage.setItem('dsav-dates', JSON.stringify(ds));
+        }
+      } else if (localStorage.getItem('dsav-qdone-' + qn) !== 'file') {
+        /* 'file' means progress.json marked this quiz done: keep it until the answers say otherwise */
+        localStorage.removeItem('dsav-qdone-' + qn);
+        localStorage.removeItem('dsav-qmeta-' + qn);
+      }
     } catch (e) {}
     document.getElementById('score').textContent = n + ' of ' + total + ' correct';
     var bar = document.getElementById('bar');

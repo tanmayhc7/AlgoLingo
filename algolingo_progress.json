@@ -1,0 +1,765 @@
+{
+  "app": "AlgoLingo",
+  "version": 1,
+  "updated": "2026-11-17",
+  "instructions": "To mark something done, set its \"done\" to true and add \"date\" (YYYY-MM-DD). Keep the ids and keys as they are. Add free notes to \"log\". Full format: PROGRESS.md.",
+  "lessons": {
+    "compiled-vs-interpreted": {
+      "chapter": 1,
+      "title": "Compiled versus interpreted: how C and Python run",
+      "done": false
+    },
+    "running-python": {
+      "chapter": 1,
+      "title": "Running Python programs",
+      "done": false
+    },
+    "variables": {
+      "chapter": 1,
+      "title": "Variables and names",
+      "done": false
+    },
+    "numbers": {
+      "chapter": 2,
+      "title": "Numbers, booleans and None",
+      "done": false
+    },
+    "strings": {
+      "chapter": 2,
+      "title": "Strings as sequences",
+      "done": false
+    },
+    "bitwise-ops": {
+      "chapter": 2,
+      "title": "Bitwise operators and masks",
+      "done": false
+    },
+    "bit-tricks": {
+      "chapter": 2,
+      "title": "Bit tricks for interviews",
+      "done": false
+    },
+    "conditions": {
+      "chapter": 3,
+      "title": "Conditions",
+      "done": false
+    },
+    "loops": {
+      "chapter": 3,
+      "title": "Loops",
+      "done": false
+    },
+    "errors": {
+      "chapter": 3,
+      "title": "Errors and tracebacks",
+      "done": false
+    },
+    "functions": {
+      "chapter": 4,
+      "title": "Functions",
+      "done": false
+    },
+    "recursion": {
+      "chapter": 4,
+      "title": "Recursion: the call stack, base cases and limits",
+      "done": false
+    },
+    "shorthands": {
+      "chapter": 4,
+      "title": "Shorthands and idioms",
+      "done": false
+    },
+    "comprehensions": {
+      "chapter": 4,
+      "title": "Comprehensions",
+      "done": false
+    },
+    "array-memory": {
+      "chapter": 5,
+      "title": "How memory holds an array",
+      "done": false
+    },
+    "lists": {
+      "chapter": 5,
+      "title": "Lists",
+      "done": false
+    },
+    "tuples": {
+      "chapter": 5,
+      "title": "Tuples",
+      "done": false
+    },
+    "hashing": {
+      "chapter": 6,
+      "title": "Hashing",
+      "done": false
+    },
+    "dicts": {
+      "chapter": 6,
+      "title": "Dicts",
+      "done": false
+    },
+    "sets": {
+      "chapter": 6,
+      "title": "Sets",
+      "done": false
+    },
+    "sorting-helpers": {
+      "chapter": 7,
+      "title": "Sorting and searching helpers",
+      "done": false
+    },
+    "collections": {
+      "chapter": 7,
+      "title": "collections and friends",
+      "done": false
+    },
+    "choosing": {
+      "chapter": 7,
+      "title": "Choosing a container",
+      "done": false
+    },
+    "patterns": {
+      "chapter": 7,
+      "title": "Patterns you will reuse",
+      "done": false
+    },
+    "survival-kit": {
+      "chapter": 7,
+      "title": "Python survival kit for coding problems",
+      "done": false
+    },
+    "linked-list-basics": {
+      "chapter": 8,
+      "title": "Linked list basics",
+      "done": false
+    },
+    "linked-list-patterns": {
+      "chapter": 8,
+      "title": "Reverse, fast and slow, dummy head",
+      "done": false
+    },
+    "doubly-linked-list": {
+      "chapter": 8,
+      "title": "Doubly linked lists and LRU",
+      "done": false
+    },
+    "stacks": {
+      "chapter": 9,
+      "title": "Stacks",
+      "done": false
+    },
+    "queues": {
+      "chapter": 9,
+      "title": "Queues",
+      "done": false
+    },
+    "binary-trees": {
+      "chapter": 10,
+      "title": "Binary trees and traversals",
+      "done": false
+    },
+    "bst": {
+      "chapter": 10,
+      "title": "Binary search trees",
+      "done": false
+    },
+    "tree-patterns": {
+      "chapter": 10,
+      "title": "Tree recursion patterns",
+      "done": false
+    },
+    "heaps": {
+      "chapter": 11,
+      "title": "Heaps",
+      "done": false
+    },
+    "heap-patterns": {
+      "chapter": 11,
+      "title": "Heap patterns",
+      "done": false
+    },
+    "tries": {
+      "chapter": 11,
+      "title": "Tries",
+      "done": false
+    },
+    "graph-basics": {
+      "chapter": 12,
+      "title": "Graphs and adjacency lists",
+      "done": false
+    },
+    "graph-traversal": {
+      "chapter": 12,
+      "title": "BFS, DFS and components",
+      "done": false
+    },
+    "topological-sort": {
+      "chapter": 12,
+      "title": "Topological sort",
+      "done": false
+    },
+    "dijkstra": {
+      "chapter": 13,
+      "title": "Shortest paths with Dijkstra",
+      "done": false
+    },
+    "union-find": {
+      "chapter": 13,
+      "title": "Union-find",
+      "done": false
+    },
+    "dp-recursion": {
+      "chapter": 14,
+      "title": "From recursion to memoisation",
+      "done": false
+    },
+    "dp-1d": {
+      "chapter": 14,
+      "title": "One-dimensional tables",
+      "done": false
+    },
+    "dp-2d": {
+      "chapter": 14,
+      "title": "Two-dimensional tables",
+      "done": false
+    },
+    "complexity-growth": {
+      "chapter": 15,
+      "title": "Counting steps and growth rates",
+      "done": false
+    },
+    "complexity-amortized": {
+      "chapter": 15,
+      "title": "Amortised cost and space",
+      "done": false
+    },
+    "classes-objects": {
+      "chapter": 16,
+      "title": "Classes and objects",
+      "done": false
+    },
+    "dunder-methods": {
+      "chapter": 16,
+      "title": "Special methods",
+      "done": false
+    },
+    "properties-classmethods": {
+      "chapter": 16,
+      "title": "Properties, class methods and static methods",
+      "done": false
+    },
+    "inheritance": {
+      "chapter": 17,
+      "title": "Inheritance and method resolution",
+      "done": false
+    },
+    "composition": {
+      "chapter": 17,
+      "title": "Composition and delegation",
+      "done": false
+    },
+    "iterators-generators": {
+      "chapter": 18,
+      "title": "Iterators and generators",
+      "done": false
+    },
+    "decorators-dataclasses": {
+      "chapter": 18,
+      "title": "Decorators and dataclasses",
+      "done": false
+    },
+    "sorting-simple": {
+      "chapter": 19,
+      "title": "Simple sorts: bubble, selection, insertion",
+      "done": false
+    },
+    "sorting-fast": {
+      "chapter": 19,
+      "title": "Fast sorts: merge sort and quicksort",
+      "done": false
+    },
+    "binary-search": {
+      "chapter": 20,
+      "title": "Binary search",
+      "done": false
+    },
+    "binary-search-variants": {
+      "chapter": 20,
+      "title": "Binary search beyond sorted arrays",
+      "done": false
+    },
+    "two-pointers": {
+      "chapter": 21,
+      "title": "Two pointers",
+      "done": false
+    },
+    "sliding-window": {
+      "chapter": 21,
+      "title": "Sliding window",
+      "done": false
+    },
+    "prefix-sums": {
+      "chapter": 21,
+      "title": "Prefix sums and difference arrays",
+      "done": false
+    },
+    "kadane": {
+      "chapter": 21,
+      "title": "Kadane: maximum subarray",
+      "done": false
+    },
+    "greedy-intervals": {
+      "chapter": 21,
+      "title": "Greedy choices and intervals",
+      "done": false
+    },
+    "mst": {
+      "chapter": 22,
+      "title": "Minimum spanning trees",
+      "done": false
+    },
+    "bellman-ford": {
+      "chapter": 22,
+      "title": "Bellman-Ford and negative edges",
+      "done": false
+    },
+    "floyd-warshall": {
+      "chapter": 23,
+      "title": "Floyd-Warshall: all pairs",
+      "done": false
+    },
+    "a-star": {
+      "chapter": 23,
+      "title": "A* search",
+      "done": false
+    },
+    "heap-select": {
+      "chapter": 24,
+      "title": "Heap sort and quickselect",
+      "done": false
+    },
+    "counting-radix": {
+      "chapter": 24,
+      "title": "Counting and radix sort",
+      "done": false
+    },
+    "kmp": {
+      "chapter": 25,
+      "title": "KMP string matching",
+      "done": false
+    },
+    "rabin-karp": {
+      "chapter": 25,
+      "title": "Rabin-Karp rolling hash",
+      "done": false
+    },
+    "subsets-backtracking": {
+      "chapter": 26,
+      "title": "Backtracking: subsets",
+      "done": false
+    },
+    "n-queens": {
+      "chapter": 26,
+      "title": "N-Queens and pruning",
+      "done": false
+    },
+    "fenwick": {
+      "chapter": 27,
+      "title": "Fenwick tree (binary indexed tree)",
+      "done": false
+    },
+    "segment-tree": {
+      "chapter": 27,
+      "title": "Segment tree",
+      "done": false
+    },
+    "json-files": {
+      "chapter": 28,
+      "title": "JSON and files",
+      "done": false
+    },
+    "stdlib-files-time": {
+      "chapter": 28,
+      "title": "Standard-library toolkit: files and time",
+      "done": false
+    },
+    "text-cleaning": {
+      "chapter": 28,
+      "title": "Regex, cleaning and chunking text",
+      "done": false
+    },
+    "http-apis": {
+      "chapter": 29,
+      "title": "HTTP APIs: status codes, retries and pagination",
+      "done": false
+    },
+    "async-concurrency": {
+      "chapter": 29,
+      "title": "asyncio: many calls at once",
+      "done": false
+    },
+    "type-validation": {
+      "chapter": 30,
+      "title": "Type hints and validating data",
+      "done": false
+    },
+    "typing-callables": {
+      "chapter": 30,
+      "title": "Typing functions: Callable",
+      "done": false
+    },
+    "enums": {
+      "chapter": 30,
+      "title": "Enums",
+      "done": false
+    },
+    "context-managers": {
+      "chapter": 30,
+      "title": "Context managers: with",
+      "done": false
+    },
+    "config-logging": {
+      "chapter": 31,
+      "title": "Configuration, secrets and logging",
+      "done": false
+    },
+    "hashes-ids-secrets": {
+      "chapter": 31,
+      "title": "Hashes, ids and secrets",
+      "done": false
+    },
+    "subprocess-basics": {
+      "chapter": 31,
+      "title": "Running commands: subprocess",
+      "done": false
+    },
+    "testing-mocks": {
+      "chapter": 31,
+      "title": "Tests and fakes for model calls",
+      "done": false
+    },
+    "llm-api-basics": {
+      "chapter": 32,
+      "title": "Calling a model: messages, tokens and cost",
+      "done": false
+    },
+    "structured-output": {
+      "chapter": 32,
+      "title": "Structured output: parse, validate, retry",
+      "done": false
+    },
+    "tool-calling": {
+      "chapter": 33,
+      "title": "Tool calling",
+      "done": false
+    },
+    "agent-loop": {
+      "chapter": 33,
+      "title": "The agent loop and its guardrails",
+      "done": false
+    },
+    "embeddings-retrieval": {
+      "chapter": 34,
+      "title": "Embeddings, similarity and retrieval",
+      "done": false
+    },
+    "evals": {
+      "chapter": 34,
+      "title": "Evaluating a model-based feature",
+      "done": false
+    },
+    "avl-tree": {
+      "chapter": 35,
+      "title": "AVL trees: self-balancing",
+      "done": false
+    },
+    "skip-list": {
+      "chapter": 35,
+      "title": "Skip lists",
+      "done": false
+    },
+    "bloom-filter": {
+      "chapter": 35,
+      "title": "Bloom filters",
+      "done": false
+    },
+    "kd-tree": {
+      "chapter": 35,
+      "title": "k-D trees",
+      "done": false
+    },
+    "threads-gil": {
+      "chapter": 36,
+      "title": "Threads, processes and the GIL",
+      "done": false
+    },
+    "floats-unicode": {
+      "chapter": 36,
+      "title": "Floats, Unicode and byte order",
+      "done": false
+    },
+    "modules-cli": {
+      "chapter": 36,
+      "title": "Modules, paths and command-line scripts",
+      "done": false
+    },
+    "lis": {
+      "chapter": 37,
+      "title": "Longest increasing subsequence",
+      "done": false
+    },
+    "monotonic-deque": {
+      "chapter": 37,
+      "title": "Monotonic deque: sliding window maximum",
+      "done": false
+    },
+    "dutch-flag": {
+      "chapter": 37,
+      "title": "Dutch flag and three-way partition",
+      "done": false
+    },
+    "boyer-moore": {
+      "chapter": 37,
+      "title": "Boyer-Moore majority vote",
+      "done": false
+    },
+    "bitmask-dp": {
+      "chapter": 37,
+      "title": "Bitmask dynamic programming",
+      "done": false
+    },
+    "huffman": {
+      "chapter": 37,
+      "title": "Huffman coding: greedy compression",
+      "done": false
+    },
+    "gcd-lcm": {
+      "chapter": 38,
+      "title": "gcd and lcm: Euclid's algorithm",
+      "done": false
+    },
+    "sieve": {
+      "chapter": 38,
+      "title": "Primes and the sieve of Eratosthenes",
+      "done": false
+    },
+    "modular-pow": {
+      "chapter": 38,
+      "title": "Modular arithmetic and fast exponentiation",
+      "done": false
+    },
+    "ncr-mod": {
+      "chapter": 38,
+      "title": "Combinations and modular inverses",
+      "done": false
+    }
+  },
+  "quizzes": {
+    "1": {
+      "title": "Getting started",
+      "done": false
+    },
+    "2": {
+      "title": "Basic types",
+      "done": false
+    },
+    "3": {
+      "title": "Control flow",
+      "done": false
+    },
+    "4": {
+      "title": "Functions and shorthands",
+      "done": false
+    },
+    "5": {
+      "title": "Memory and arrays",
+      "done": false
+    },
+    "6": {
+      "title": "Hashing",
+      "done": false
+    },
+    "7": {
+      "title": "Toolbox",
+      "done": false
+    },
+    "8": {
+      "title": "Linked lists",
+      "done": false
+    },
+    "9": {
+      "title": "Stacks and queues",
+      "done": false
+    },
+    "10": {
+      "title": "Trees",
+      "done": false
+    },
+    "11": {
+      "title": "Heaps and tries",
+      "done": false
+    },
+    "12": {
+      "title": "Graphs",
+      "done": false
+    },
+    "13": {
+      "title": "Shortest paths and connectivity",
+      "done": false
+    },
+    "14": {
+      "title": "Dynamic programming",
+      "done": false
+    },
+    "15": {
+      "title": "Complexity analysis",
+      "done": false
+    },
+    "16": {
+      "title": "Classes and objects",
+      "done": false
+    },
+    "17": {
+      "title": "Inheritance and composition",
+      "done": false
+    },
+    "18": {
+      "title": "Iterators, generators and decorators",
+      "done": false
+    },
+    "19": {
+      "title": "Sorting",
+      "done": false
+    },
+    "20": {
+      "title": "Binary search",
+      "done": false
+    },
+    "21": {
+      "title": "Array techniques",
+      "done": false
+    },
+    "22": {
+      "title": "Spanning trees and negative edges",
+      "done": false
+    },
+    "23": {
+      "title": "All pairs and guided search",
+      "done": false
+    },
+    "24": {
+      "title": "Heaps, selection and counting",
+      "done": false
+    },
+    "25": {
+      "title": "String matching",
+      "done": false
+    },
+    "26": {
+      "title": "Backtracking",
+      "done": false
+    },
+    "27": {
+      "title": "Range queries",
+      "done": false
+    },
+    "28": {
+      "title": "Data in and out",
+      "done": false
+    },
+    "29": {
+      "title": "Talking to services",
+      "done": false
+    },
+    "30": {
+      "title": "Typed, safe code",
+      "done": false
+    },
+    "31": {
+      "title": "Shipping code",
+      "done": false
+    },
+    "32": {
+      "title": "Calling a model",
+      "done": false
+    },
+    "33": {
+      "title": "Tools and agents",
+      "done": false
+    },
+    "34": {
+      "title": "Retrieval and evaluation",
+      "done": false
+    },
+    "35": {
+      "title": "Advanced structures",
+      "done": false
+    },
+    "36": {
+      "title": "Python and the machine",
+      "done": false
+    },
+    "37": {
+      "title": "Classic patterns",
+      "done": false
+    },
+    "38": {
+      "title": "Number theory",
+      "done": false
+    }
+  },
+  "problems": {
+    "lc-two-sum": {
+      "number": 1,
+      "title": "Two Sum",
+      "difficulty": "Easy",
+      "pattern": "arrays-hashing",
+      "done": false
+    },
+    "lc-contains-duplicate": {
+      "number": 217,
+      "title": "Contains Duplicate",
+      "difficulty": "Easy",
+      "pattern": "arrays-hashing",
+      "done": false
+    },
+    "lc-valid-anagram": {
+      "number": 242,
+      "title": "Valid Anagram",
+      "difficulty": "Easy",
+      "pattern": "arrays-hashing",
+      "done": false
+    },
+    "lc-group-anagrams": {
+      "number": 49,
+      "title": "Group Anagrams",
+      "difficulty": "Medium",
+      "pattern": "arrays-hashing",
+      "done": false
+    },
+    "lc-valid-palindrome": {
+      "number": 125,
+      "title": "Valid Palindrome",
+      "difficulty": "Easy",
+      "pattern": "two-pointers",
+      "done": false
+    },
+    "lc-valid-parentheses": {
+      "number": 20,
+      "title": "Valid Parentheses",
+      "difficulty": "Easy",
+      "pattern": "stack",
+      "done": false
+    },
+    "lc-add-two-numbers": {
+      "number": 2,
+      "title": "Add Two Numbers",
+      "difficulty": "Medium",
+      "pattern": "linked-list",
+      "done": false
+    }
+  },
+  "notes": {},
+  "log": []
+}
