@@ -36,6 +36,7 @@
       lessons: {},
       quizzes: {},
       problems: {},
+      predictions: lj('dsav-predict', {}) || {},
       notes: {},
       log: [],
     };
@@ -123,6 +124,18 @@
     });
     lset(DATES, JSON.stringify(dates));
 
+    /* predict-question answers: "<lesson>/<scene>": { choice, correct } */
+    if (isObj(f.predictions)) {
+      var pr = replace ? {} : (lj('dsav-predict', {}) || {});
+      Object.keys(f.predictions).forEach(function (k) {
+        var r = f.predictions[k];
+        if (!isObj(r) || typeof r.choice !== 'number') return;
+        if (!pr[k]) changes++;
+        if (replace || !pr[k]) pr[k] = { choice: r.choice, correct: r.correct === true };
+      });
+      lset('dsav-predict', JSON.stringify(pr));
+    }
+
     Object.keys(f.notes || {}).forEach(function (n) {
       if (typeof f.notes[n] === 'string' && f.notes[n] && (replace || !ls('dsav-notes-' + n))) {
         if (ls('dsav-notes-' + n) !== f.notes[n]) { lset('dsav-notes-' + n, f.notes[n]); changes++; }
@@ -170,12 +183,14 @@
     root.textContent = '';
     var s = snapshot();
     var L = Object.keys(s.lessons), Q = Object.keys(s.quizzes), P = Object.keys(s.problems);
+    var PR = Object.keys(s.predictions || {}), PRok = PR.filter(function (k) { return s.predictions[k].correct; }).length;
     function count(map, keys) { return keys.filter(function (k) { return map[k].done; }).length; }
 
     var tiles = h('div', { class: 'pg-tiles' }, [
       tile('Lessons', count(s.lessons, L), L.length),
       tile('Chapter quizzes', count(s.quizzes, Q), Q.length),
       tile('LeetCode problems', count(s.problems, P), P.length),
+      h('div', { class: 'pg-tile' }, [h('div', { class: 'pg-big', text: PRok + ' / ' + PR.length }), h('div', { class: 'pg-label', text: 'Predict questions right / answered' })]),
     ]);
     root.appendChild(tiles);
 

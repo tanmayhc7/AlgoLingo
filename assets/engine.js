@@ -1263,27 +1263,61 @@
       );
     });
 
+    /* a predict answer is remembered per lesson and scene, so it stays answered after a reload */
+    var PKEY = 'dsav-predict';
+    function pAll() {
+      try { return JSON.parse(localStorage.getItem(PKEY) || '{}') || {}; } catch (e) { return {}; }
+    }
+    function pKey(sc) { return ((window.LESSON && window.LESSON.id) || 'lesson') + '/' + sc.id; }
+    function pSave(sc, rec) {
+      var all = pAll();
+      if (rec) all[pKey(sc)] = rec; else delete all[pKey(sc)];
+      try { localStorage.setItem(PKEY, JSON.stringify(all)); } catch (e) { /* ignore */ }
+      markTab(sc);
+    }
+    function markTab(sc) {
+      var t = document.getElementById('tab-' + sc.id), rec = pAll()[pKey(sc)];
+      if (!t) return;
+      t.classList.toggle('predicted', !!rec);
+      t.classList.toggle('predicted-ok', !!(rec && rec.correct));
+      t.title = rec ? (rec.correct ? 'Predict question answered correctly' : 'Predict question answered') : '';
+    }
+    scenes.forEach(markTab);
+
     function renderPredict(sc) {
       var box = $('predict-body');
       box.textContent = '';
       box.appendChild(h('p', { class: 'q', html: sc.predict.q }));
       var why = h('p', { class: 'why', hidden: 'hidden' });
+      var again = h('button', { class: 'tool predict-again', type: 'button', text: 'Try again', hidden: 'hidden' });
       var row = h('div', { class: 'choices' });
+      function show(n) {
+        [].forEach.call(row.children, function (c, k) {
+          c.disabled = true;
+          if (k === sc.predict.answer) c.classList.add('right');
+        });
+        if (n !== sc.predict.answer) row.children[n].classList.add('wrong');
+        why.hidden = false;
+        why.textContent = (n === sc.predict.answer ? 'Right. ' : 'Not quite. ') + sc.predict.why + ' (Saved: this one stays answered.)';
+        again.hidden = false;
+      }
       sc.predict.options.forEach(function (o, n) {
         var b = h('button', { class: 'choice', type: 'button', text: o });
         b.addEventListener('click', function () {
-          [].forEach.call(row.children, function (c, k) {
-            c.disabled = true;
-            if (k === sc.predict.answer) c.classList.add('right');
-          });
-          if (n !== sc.predict.answer) b.classList.add('wrong');
-          why.hidden = false;
-          why.textContent = (n === sc.predict.answer ? 'Right. ' : 'Not quite. ') + sc.predict.why;
+          pSave(sc, { choice: n, correct: n === sc.predict.answer });
+          show(n);
         });
         row.appendChild(b);
       });
+      again.addEventListener('click', function () {
+        pSave(sc, null);
+        renderPredict(sc);
+      });
       box.appendChild(row);
       box.appendChild(why);
+      box.appendChild(again);
+      var saved = pAll()[pKey(sc)];
+      if (saved && typeof saved.choice === 'number' && saved.choice >= 0 && saved.choice < sc.predict.options.length) show(saved.choice);
     }
 
     function select(id) {
