@@ -131,6 +131,8 @@
   var SKIP_ALIAS = ['raise', 'fake', 'fakes', 'stable', 'memo', 'mask', 'annotations', 'complexity', 'sentinel',
     'probing', 'evaluation', 'extra space', 'dp', 'inheritance', 'bitwise', 'modulo', 'node', 'nodes'];
   var BLOCKS = '.lede, #blurb, #trap-text, #predict-body, .depth-head, .depth-block, #problem, #writeup, .takeaways, .chapter .sub, .outline-head p, .phase-card p';
+  /* table cells that explain a built-in: link only terms flagged tables:true (a few terms, not every word) */
+  var TABLE_BLOCKS = '#builtins td:last-child';
   var NO_GO = 'a, a.phase-card *, code, pre, button, input, textarea, select, h1, h2, h3, h4, th, svg, .gl';
 
   /* an entry with pages:[...] only auto-links on those lesson pages (words like "name" mean other things elsewhere) */
@@ -159,7 +161,7 @@
   }
 
   /* each block links the first mention of every term it contains */
-  function linkBlock(block, M) {
+  function linkBlock(block, M, tablesOnly) {
     var seen = {};
     Array.prototype.forEach.call(block.querySelectorAll('a.gl'), function (a) { seen[a.getAttribute('data-gl')] = true; });
     var walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, null);
@@ -177,7 +179,7 @@
       var out = null, last = 0, m;
       while ((m = M.re.exec(text))) {
         var e = M.map[m[2].toLowerCase()];
-        if (!e || seen[e.id]) continue;
+        if (!e || seen[e.id] || (tablesOnly && !e.tables)) continue;
         seen[e.id] = true;
         if (!out) out = document.createDocumentFragment();
         var start = m.index + m[1].length;
@@ -204,6 +206,7 @@
     function run() {
       if (obs) obs.disconnect();
       Array.prototype.forEach.call(document.querySelectorAll(BLOCKS), function (b) { linkBlock(b, M); });
+      Array.prototype.forEach.call(document.querySelectorAll(TABLE_BLOCKS), function (b) { linkBlock(b, M, true); });
       if (obs) obs.observe(document.body, { childList: true, subtree: true, characterData: true });
     }
     obs = new MutationObserver(function () {
