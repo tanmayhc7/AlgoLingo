@@ -506,7 +506,8 @@
     e.body.textContent = '';
 
     var label = r.type + ' ' + (r.kind === 'ptr' ? '*' : '') + r.name + (r.kind === 'arr' ? '[' + r.vals.length + ']' : '');
-    svgEl('text', { class: 'c-label', x: 0, y: 12 }, e.body).textContent = label;
+    var labelEl = svgEl('text', { class: 'c-label', x: 0, y: 12 }, e.body);
+    labelEl.textContent = label;
 
     var width;
     if (r.kind === 'arr') {
@@ -533,7 +534,11 @@
       width = 118;
     }
     if (r.region && r.region !== 'stack') {
-      svgEl('text', { class: 'c-region r-' + r.region, x: width, y: 12, 'text-anchor': 'end' }, e.body).textContent = r.region;
+      /* start the tag after the label, so a narrow block (a 2-int array) never overlaps it */
+      var lw = 0;
+      try { lw = labelEl.getComputedTextLength(); } catch (err) { lw = 0; }
+      if (!lw) lw = label.length * 7.4;
+      svgEl('text', { class: 'c-region r-' + r.region, x: Math.max(lw + 12, 0), y: 12 }, e.body).textContent = r.region;
     }
     e.width = width;
     if (changed) restart(e.body, 'bump');
